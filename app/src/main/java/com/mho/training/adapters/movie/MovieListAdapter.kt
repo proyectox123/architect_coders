@@ -1,4 +1,4 @@
-package com.mho.training.features
+package com.mho.training.adapters.movie
 
 import android.view.View
 import android.view.ViewGroup
@@ -11,29 +11,23 @@ import com.mho.training.utils.loadUrl
 import kotlinx.android.synthetic.main.item_movie.view.*
 
 class MovieListAdapter(private val listener: (Movie) -> Unit) :
-    RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<MovieViewHolder>() {
 
     var movies: List<Movie> by basicDiffUtil(
         emptyList(),
         areItemsTheSame = { old, new -> old.id == new.id }
     )
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val view = parent.inflate(R.layout.item_movie, false)
-        return ViewHolder(view)
+        return MovieViewHolder(view)
     }
 
     override fun getItemCount(): Int = movies.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movies[position]
         holder.bind(movie)
         holder.itemView.setOnClickListener { listener(movie) }
-    }
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(movie: Movie) {
-            itemView.ivMoviePoster.loadUrl("https://image.tmdb.org/t/p/w185/${movie.posterPath}", R.drawable.ic_movie_black_48dp)
-        }
     }
 }

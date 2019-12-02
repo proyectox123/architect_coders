@@ -3,9 +3,8 @@ package com.mho.training.features.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
 import com.mho.training.R
-import com.mho.training.features.MovieListAdapter
+import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.models.Movie
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -25,7 +24,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        movieListAdapter = MovieListAdapter { movie -> openMovieDetails(movie) }
+        movieListAdapter =
+            MovieListAdapter { movie -> openMovieDetails(movie) }
 
         rvMovieList.adapter = movieListAdapter
 
