@@ -1,0 +1,16 @@
+package com.mho.training.utils
+
+object Constants {
+
+    val BUNDLE_MOVIE_POPULAR_LIST = "BUNDLE_MOVIE_POPULAR_LIST"
+    val BUNDLE_MOVIE_TOP_RATED_LIST = "BUNDLE_MOVIE_TOP_RATED_LIST"
+    val BUNDLE_MOVIE_FAVORITE_LIST = "BUNDLE_MOVIE_FAVORITE_LIST"
+    val BUNDLE_MOVIE = "BUNDLE_MOVIE"
+    val BUNDLE_REVIEW_LIST = "BUNDLE_REVIEW_LIST"
+    val BUNDLE_TRAILER_LIST = "BUNDLE_TRAILER_LIST"
+    val BUNDLE_SORT_BY = "BUNDLE_SORT_BY"
+
+    val EXTRA_MOVIE = "com.example.android.popularmoviesstate1.EXTRA_MOVIE"
+
+    val SIMPLE_DATE_FORMAT = "yyyy-MM-dd"
+}

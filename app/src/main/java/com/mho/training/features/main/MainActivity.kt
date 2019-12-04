@@ -2,10 +2,14 @@ package com.mho.training.features.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
-import com.mho.training.models.Movie
+import com.mho.training.data.database.tables.MovieEntity
+import com.mho.training.data.remote.models.Movie
+import com.mho.training.data.remote.requests.movies.MovieListTask
+import com.mho.training.enums.MovieEnum
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -30,29 +34,38 @@ class MainActivity : AppCompatActivity() {
         rvMovieList.adapter = movieListAdapter
 
         srwMovieList.setOnRefreshListener {
-            //Refresh movie list
+            onMovieListRefresh()
         }
 
-        initData()
+        onMovieListRefresh()
     }
 
     //endregion
 
     //region Private Methods
 
-    private fun initData(){
-        val movieList = ArrayList<Movie>()
-        movieList.add(Movie(1, "Title 1", "path1"))
-        movieList.add(Movie(2, "Title 2", "path2"))
-        movieList.add(Movie(3, "Title 3", "path3"))
-        movieList.add(Movie(4, "Title 4", "path4"))
-
-        movieListAdapter.movies = movieList
-    }
-
-    private fun openMovieDetails(movie: Movie){
+    private fun openMovieDetails(movie: MovieEntity){
         Toast.makeText(this, movie.title, Toast.LENGTH_LONG).show()
     }
 
     //endregion
+
+    private fun onMovieListRefresh(){
+        MovieListTask(object: MovieListTask.OnMovieListTaskListener{
+            override fun updateMovieList(sortBy: MovieEnum, movieList: List<MovieEntity>) {
+                if (movieList.isNotEmpty()) {
+                    srwMovieList.isRefreshing = false
+                    rvMovieList.visibility = View.VISIBLE
+                    movieListAdapter.movies = movieList
+                } else {
+                    srwMovieList.isRefreshing = false
+                }
+            }
+
+            override fun showErrorTask() {
+
+            }
+
+        }).execute(MovieEnum.POPULAR)
+    }
 }
