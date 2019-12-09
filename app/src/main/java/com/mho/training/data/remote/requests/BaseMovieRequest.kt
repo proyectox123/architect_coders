@@ -2,9 +2,10 @@ package com.mho.training.data.remote.requests
 
 import android.net.Uri
 import android.util.Log
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 import java.io.IOException
-import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
@@ -28,22 +29,24 @@ abstract class BaseMovieRequest {
     }
 
     @Throws(IOException::class)
-    fun getResponseFromHttpUrl(url: URL): String? {
-        val urlConnection = url.openConnection() as HttpURLConnection
-        try {
-            val `in` = urlConnection.inputStream
+    suspend fun getResponseFromHttpUrl(url: URL): String? {
+        return withContext(Dispatchers.IO) {
+            val urlConnection = url.openConnection() as HttpURLConnection
+            try {
+                val `in` = urlConnection.inputStream
 
-            val scanner = Scanner(`in`)
-            scanner.useDelimiter("\\A")
+                val scanner = Scanner(`in`)
+                scanner.useDelimiter("\\A")
 
-            val hasInput = scanner.hasNext()
-            return if (hasInput) {
-                scanner.next()
-            } else {
-                null
+                val hasInput = scanner.hasNext()
+                if (hasInput) {
+                    scanner.next()
+                } else {
+                    null
+                }
+            } finally {
+                urlConnection.disconnect()
             }
-        } finally {
-            urlConnection.disconnect()
         }
     }
 
