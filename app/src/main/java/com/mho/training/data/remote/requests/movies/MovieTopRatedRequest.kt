@@ -25,7 +25,7 @@ class MovieTopRatedRequest : BaseMovieRequest() {
 
     //region Public Methods
 
-    suspend fun requestPopularMovieList(): List<MovieEntity>?{
+    suspend fun requestMovieList(): List<MovieEntity>?{
         try {
             val jsonMovieListResponse = getResponseFromHttpUrl(buildUrl()!!)
 

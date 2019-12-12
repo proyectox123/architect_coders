@@ -1,6 +1,8 @@
 package com.mho.training.features.main
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -9,9 +11,11 @@ import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.data.database.tables.MovieEntity
 import com.mho.training.data.remote.requests.movies.MoviePopularRequest
+import com.mho.training.data.remote.requests.movies.MovieTopRatedRequest
 import com.mho.training.features.main.MainViewModel.MainUiModel
 import com.mho.training.utils.getViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = getViewModel { MainViewModel(MoviePopularRequest()) }
+        viewModel = getViewModel { MainViewModel(MoviePopularRequest(), MovieTopRatedRequest()) }
 
         movieListAdapter = MovieListAdapter(viewModel::onMovieClicked)
 
@@ -39,9 +43,38 @@ class MainActivity : AppCompatActivity() {
         viewModel.model.observe(this, Observer(::updateMainUi))
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.movie, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+            R.id.menu_movie_most_popular -> onOptionsMovieMostPopularSelected()
+            R.id.menu_movie_highest_rated -> onOptionsMovieHighestRatedSelected()
+            R.id.menu_movie_favorites -> onOptionsMovieFavoritesSelected()
+            else -> super.onOptionsItemSelected(item)
+    }
+
     //endregion
 
     //region Private Methods
+
+    private fun onOptionsMovieMostPopularSelected(): Boolean {
+        viewModel.onMoviePopularListRefresh()
+        return true
+    }
+
+    private fun onOptionsMovieHighestRatedSelected(): Boolean {
+        viewModel.onMovieHighestRatedListRefresh()
+        return true
+    }
+
+    private fun onOptionsMovieFavoritesSelected(): Boolean {
+        viewModel.onMovieFavoriteListRefresh()
+        return true
+    }
 
     private fun updateMainUi(model: MainUiModel) = when(model){
         is MainUiModel.Loading -> loadingMovieListInfo()
