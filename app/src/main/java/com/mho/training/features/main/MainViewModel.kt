@@ -6,14 +6,15 @@ import androidx.lifecycle.ViewModel
 import com.mho.training.data.database.tables.MovieEntity
 import com.mho.training.data.remote.requests.movies.MoviePopularRequest
 import com.mho.training.data.remote.requests.movies.MovieTopRatedRequest
-import com.mho.training.enums.MovieEnum
+import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.utils.Scope
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val moviePopularRequest: MoviePopularRequest,
-                    private val movieTopRatedRequest: MovieTopRatedRequest) :
-    ViewModel(),
-    Scope by Scope.Impl(){
+class MainViewModel(
+    private val moviePopularRequest: MoviePopularRequest,
+    private val movieTopRatedRequest: MovieTopRatedRequest
+) :
+    ViewModel(), Scope by Scope.Impl() {
 
     //region Constructors
 
@@ -28,11 +29,18 @@ class MainViewModel(private val moviePopularRequest: MoviePopularRequest,
     private val _model = MutableLiveData<MainUiModel>()
     val model: LiveData<MainUiModel>
         get() {
-            if (_model.value == null) refresh()
             return _model
         }
 
-    private var movieSortByType: MovieEnum = MovieEnum.TOP_RATED
+    private val _movieCategory = MutableLiveData<MovieCategoryEnum>()
+    val movieCategory: LiveData<MovieCategoryEnum>
+        get() {
+            if (_movieCategory.value == null) {
+                _movieCategory.value = MovieCategoryEnum.TOP_RATED
+            }
+
+            return _movieCategory
+        }
 
     //endregion
 
@@ -47,23 +55,22 @@ class MainViewModel(private val moviePopularRequest: MoviePopularRequest,
 
     //region Public Methods
 
-    fun onMovieListRefresh(){
-        refresh()
+    fun onMovieListRefresh() {
+        refresh(_movieCategory.value ?: MovieCategoryEnum.TOP_RATED)
     }
 
-    fun onMoviePopularListRefresh(){
-        movieSortByType = MovieEnum.POPULAR
-        refresh()
+    fun onMovieCategory() = _movieCategory.value
+
+    fun onMoviePopularListRefresh() {
+        _movieCategory.value = MovieCategoryEnum.POPULAR
     }
 
-    fun onMovieHighestRatedListRefresh(){
-        movieSortByType = MovieEnum.TOP_RATED
-        refresh()
+    fun onMovieHighestRatedListRefresh() {
+        _movieCategory.value = MovieCategoryEnum.TOP_RATED
     }
 
-    fun onMovieFavoriteListRefresh(){
-        movieSortByType = MovieEnum.FAVORITE
-        refresh()
+    fun onMovieFavoriteListRefresh() {
+        _movieCategory.value = MovieCategoryEnum.FAVORITE
     }
 
     fun onMovieClicked(movie: MovieEntity) {
@@ -74,24 +81,18 @@ class MainViewModel(private val moviePopularRequest: MoviePopularRequest,
 
     //region Private Methods
 
-    private fun refresh() {
+    private fun refresh(movieCategory: MovieCategoryEnum) {
         launch {
             _model.value = MainUiModel.Loading
-            _model.value = when(movieSortByType){
-                MovieEnum.TOP_RATED -> {
-                    validateRequestedList(movieTopRatedRequest.requestMovieList())
-                }
-                MovieEnum.POPULAR -> {
-                    validateRequestedList(moviePopularRequest.requestMovieList())
-                }
-                MovieEnum.FAVORITE -> { //TODO Check from database
-                    validateRequestedList(null)
-                }
+            _model.value = when (movieCategory) {
+                MovieCategoryEnum.TOP_RATED -> validateRequestedList(movieTopRatedRequest.requestMovieList())
+                MovieCategoryEnum.POPULAR -> validateRequestedList(moviePopularRequest.requestMovieList())
+                MovieCategoryEnum.FAVORITE -> validateRequestedList(null) //TODO Check from database
             }
         }
     }
 
-    private fun validateRequestedList(movieList: List<MovieEntity>?) = if (movieList == null){
+    private fun validateRequestedList(movieList: List<MovieEntity>?) = if (movieList == null) {
         MainUiModel.Error
     } else {
         MainUiModel.Content(movieList)
@@ -102,10 +103,21 @@ class MainViewModel(private val moviePopularRequest: MoviePopularRequest,
     //region Inner Classes & Interfaces
 
     sealed class MainUiModel {
-        class Content(val movies: List<MovieEntity>): MainUiModel()
-        class Navigation(val movie: MovieEntity): MainUiModel()
-        object Loading: MainUiModel()
-        object Error: MainUiModel()
+        class Content(val movies: List<MovieEntity>) : MainUiModel() {
+            override fun toString() = "Content movies size -> ${movies.size}"
+        }
+
+        class Navigation(val movie: MovieEntity) : MainUiModel() {
+            override fun toString() = "Navigation movie -> ${movie.title}"
+        }
+
+        object Loading : MainUiModel() {
+            override fun toString() = "Loading"
+        }
+
+        object Error : MainUiModel() {
+            override fun toString() = "Error"
+        }
     }
 
     //endregion

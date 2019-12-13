@@ -1,6 +1,7 @@
 package com.mho.training.features.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,6 +13,7 @@ import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.data.database.tables.MovieEntity
 import com.mho.training.data.remote.requests.movies.MoviePopularRequest
 import com.mho.training.data.remote.requests.movies.MovieTopRatedRequest
+import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.main.MainViewModel.MainUiModel
 import com.mho.training.utils.getViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,6 +22,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     //region Fields
+
+    private val TAG = MainActivity::class.java.simpleName
 
     private lateinit var movieListAdapter: MovieListAdapter
     private lateinit var viewModel: MainViewModel
@@ -41,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         srwMovieList.setOnRefreshListener { viewModel.onMovieListRefresh() }
 
         viewModel.model.observe(this, Observer(::updateMainUi))
+        viewModel.movieCategory.observe(this, Observer(::updateMovieCategory))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -48,6 +53,18 @@ class MainActivity : AppCompatActivity() {
         inflater.inflate(R.menu.movie, menu)
 
         return true
+    }
+
+    override fun onMenuOpened(featureId: Int, menu: Menu): Boolean {
+        val menuItemId = when(viewModel.onMovieCategory()){
+            MovieCategoryEnum.FAVORITE -> R.id.menu_movie_favorites
+            MovieCategoryEnum.POPULAR -> R.id.menu_movie_most_popular
+            else -> R.id.menu_movie_highest_rated
+        }
+
+        menu.findItem(menuItemId)?.isChecked = true;
+
+        return super.onMenuOpened(featureId, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
@@ -76,11 +93,19 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun updateMainUi(model: MainUiModel) = when(model){
-        is MainUiModel.Loading -> loadingMovieListInfo()
-        is MainUiModel.Error -> showMovieListError()
-        is MainUiModel.Content -> showMovieListInfo(model.movies)
-        is MainUiModel.Navigation -> openMovieDetails(model.movie)
+    private fun updateMainUi(model: MainUiModel){
+        Log.d(TAG, "updateMainUi model -> $model")
+        when(model){
+            is MainUiModel.Loading -> loadingMovieListInfo()
+            is MainUiModel.Error -> showMovieListError()
+            is MainUiModel.Content -> showMovieListInfo(model.movies)
+            is MainUiModel.Navigation -> openMovieDetails(model.movie)
+        }
+    }
+
+    private fun updateMovieCategory(movieCategory: MovieCategoryEnum){
+        Log.d(TAG, "updateMovieCategory movieCategory -> $movieCategory")
+        viewModel.onMovieListRefresh()
     }
 
     //TODO Implementing data binding

@@ -1,5 +1,5 @@
 package com.mho.training.enums
 
-enum class MovieEnum {
+enum class MovieCategoryEnum {
     TOP_RATED, POPULAR, FAVORITE
 }
