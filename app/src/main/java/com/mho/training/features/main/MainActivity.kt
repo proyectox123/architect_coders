@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
-import com.mho.training.data.database.tables.MovieEntity
 import com.mho.training.data.remote.requests.movies.MoviePopularRequest
 import com.mho.training.data.remote.requests.movies.MovieTopRatedRequest
+import com.mho.training.databinding.ActivityMainBinding
 import com.mho.training.enums.MovieCategoryEnum
-import com.mho.training.features.main.MainViewModel.MainUiModel
+import com.mho.training.utils.EventObserver
 import com.mho.training.utils.getViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -38,13 +38,19 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = getViewModel { MainViewModel(MoviePopularRequest(), MovieTopRatedRequest()) }
 
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.apply {
+            viewmodel = viewModel
+            lifecycleOwner = this@MainActivity
+        }
+
         movieListAdapter = MovieListAdapter(viewModel::onMovieClicked)
 
         rvMovieList.adapter = movieListAdapter
 
         srwMovieList.setOnRefreshListener { viewModel.onMovieListRefresh() }
 
-        viewModel.model.observe(this, Observer(::updateMainUi))
+        viewModel.navigateToMovie.observe(this, EventObserver(::openMovieDetails))
         viewModel.movieCategory.observe(this, Observer(::updateMovieCategory))
     }
 
@@ -93,46 +99,13 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun updateMainUi(model: MainUiModel){
-        Log.d(TAG, "updateMainUi model -> $model")
-        when(model){
-            is MainUiModel.Loading -> loadingMovieListInfo()
-            is MainUiModel.Error -> showMovieListError()
-            is MainUiModel.Content -> showMovieListInfo(model.movies)
-            is MainUiModel.Navigation -> openMovieDetails(model.movie)
-        }
-    }
-
     private fun updateMovieCategory(movieCategory: MovieCategoryEnum){
         Log.d(TAG, "updateMovieCategory movieCategory -> $movieCategory")
         viewModel.onMovieListRefresh()
     }
 
-    //TODO Implementing data binding
-    private fun loadingMovieListInfo(){
-        srwMovieList.isRefreshing = true
-        rvMovieList.visibility = View.GONE
-        tvNoDataLabel.visibility = View.GONE
-    }
-
-    //TODO Implementing data binding
-    private fun showMovieListError(){
-        srwMovieList.isRefreshing = false
-        rvMovieList.visibility = View.GONE
-        tvNoDataLabel.visibility = View.VISIBLE
-    }
-
-    //TODO Implementing data binding
-    private fun showMovieListInfo(movies: List<MovieEntity>) {
-        srwMovieList.isRefreshing = false
-        rvMovieList.visibility = View.VISIBLE
-        tvNoDataLabel.visibility = View.GONE
-
-        movieListAdapter.movies = movies
-    }
-
-    private fun openMovieDetails(movie: MovieEntity){
-        Toast.makeText(this, movie.title, Toast.LENGTH_LONG).show()
+    private fun openMovieDetails(movieId: Int){
+        Toast.makeText(this, movieId.toString(), Toast.LENGTH_LONG).show()
     }
 
     //endregion

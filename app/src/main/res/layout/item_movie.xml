@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-            android:id="@+id/ivMoviePoster"
+    <data>
+        <variable
+                name="movie"
+                type="com.mho.training.data.database.tables.MovieEntity" />
+    </data>
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:contentDescription="@string/content_description_movie_poster_item"
-            android:src="@mipmap/ic_launcher_round" />
+            android:orientation="vertical">
 
-</LinearLayout>
+        <ImageView
+                android:id="@+id/ivMoviePoster"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:contentDescription="@string/content_description_movie_poster_item"
+                android:src="@mipmap/ic_launcher_round"
+                app:url="@{movie.posterPath}"/>
+
+    </LinearLayout>
+</layout>

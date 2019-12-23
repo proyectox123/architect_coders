@@ -7,6 +7,7 @@ import com.mho.training.data.database.tables.MovieEntity
 import com.mho.training.data.remote.requests.movies.MoviePopularRequest
 import com.mho.training.data.remote.requests.movies.MovieTopRatedRequest
 import com.mho.training.enums.MovieCategoryEnum
+import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
 import kotlinx.coroutines.launch
 
@@ -26,11 +27,26 @@ class MainViewModel(
 
     //region Fields
 
+    /*
     private val _model = MutableLiveData<MainUiModel>()
     val model: LiveData<MainUiModel>
         get() {
             return _model
         }
+
+     */
+
+    private val _movies = MutableLiveData<List<MovieEntity>>()
+    val movies: LiveData<List<MovieEntity>> get() = _movies
+
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> get() = _loading
+
+    private val _navigateToMovie = MutableLiveData<Event<Int>>()
+    val navigateToMovie: LiveData<Event<Int>> get() = _navigateToMovie
+
+    private val _error = MutableLiveData<Boolean>()
+    val error: LiveData<Boolean> get() = _error
 
     private val _movieCategory = MutableLiveData<MovieCategoryEnum>()
     val movieCategory: LiveData<MovieCategoryEnum>
@@ -74,7 +90,7 @@ class MainViewModel(
     }
 
     fun onMovieClicked(movie: MovieEntity) {
-        _model.value = MainUiModel.Navigation(movie)
+        _navigateToMovie.value = Event(movie.id)
     }
 
     //endregion
@@ -83,25 +99,37 @@ class MainViewModel(
 
     private fun refresh(movieCategory: MovieCategoryEnum) {
         launch {
-            _model.value = MainUiModel.Loading
-            _model.value = when (movieCategory) {
-                MovieCategoryEnum.TOP_RATED -> validateRequestedList(movieTopRatedRequest.requestMovieList())
-                MovieCategoryEnum.POPULAR -> validateRequestedList(moviePopularRequest.requestMovieList())
-                MovieCategoryEnum.FAVORITE -> validateRequestedList(null) //TODO Check from database
+            _loading.value = true
+            _error.value = false
+
+            val movieList: List<MovieEntity>? = when (movieCategory) {
+                MovieCategoryEnum.TOP_RATED -> movieTopRatedRequest.requestMovieList()
+                MovieCategoryEnum.POPULAR -> moviePopularRequest.requestMovieList()
+                MovieCategoryEnum.FAVORITE -> null //TODO Check from database
             }
+
+            _error.value = movieList.isNullOrEmpty()
+            _movies.value = movieList
+
+            _loading.value = false
         }
     }
 
-    private fun validateRequestedList(movieList: List<MovieEntity>?) = if (movieList == null) {
-        MainUiModel.Error
-    } else {
-        MainUiModel.Content(movieList)
+    /*
+    private fun validateRequestedList(movieList: List<MovieEntity>?){
+        if (movieList == null) {
+            MainUiModel.Error
+        } else {
+            MainUiModel.Content(movieList)
+        }
     }
+    */
 
     //endregion
 
     //region Inner Classes & Interfaces
 
+    /*
     sealed class MainUiModel {
         class Content(val movies: List<MovieEntity>) : MainUiModel() {
             override fun toString() = "Content movies size -> ${movies.size}"
@@ -119,6 +147,8 @@ class MainViewModel(
             override fun toString() = "Error"
         }
     }
+
+     */
 
     //endregion
 }
