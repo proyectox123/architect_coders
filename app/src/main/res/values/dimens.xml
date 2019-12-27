@@ -2,4 +2,7 @@
 <resources>
     <dimen name="poster_detail_width">148dp</dimen> <!-- Poster detail width original 185 -->
     <dimen name="poster_detail_height">216dp</dimen> <!-- Poster detail height original 270 -->
+
+    <dimen name="trailer_thumbnail_height">90dp</dimen>
+    <dimen name="trailer_thumbnail_width">120dp</dimen>
 </resources>

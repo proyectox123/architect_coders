@@ -8,7 +8,9 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.mho.training.R
 import com.mho.training.adapters.review.ReviewListAdapter
+import com.mho.training.adapters.trailer.TrailerListAdapter
 import com.mho.training.data.remote.models.Review
+import com.mho.training.data.remote.models.Trailer
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 
 
@@ -19,6 +21,7 @@ class MovieDetailActivity : AppCompatActivity() {
     private val TAG = MovieDetailActivity::class.java.simpleName
 
     private lateinit var reviewListAdapter: ReviewListAdapter
+    private lateinit var trailerListAdapter: TrailerListAdapter
 
     //endregion
 
@@ -29,8 +32,10 @@ class MovieDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_movie_detail)
 
         reviewListAdapter = ReviewListAdapter(::openReview)
+        trailerListAdapter = TrailerListAdapter(::openTrailer)
 
         reviewListView.adapter = reviewListAdapter
+        trailerListView.adapter = trailerListAdapter
 
         //TODO
         val dummyReviews = mutableListOf<Review>()
@@ -38,6 +43,10 @@ class MovieDetailActivity : AppCompatActivity() {
         dummyReviews.add(Review("2", "Author 2", getString(R.string.content_lorem_ipsum), "http://www.google.com.mx"))
 
         reviewListAdapter.reviews = dummyReviews
+
+        val dummyTrailers = mutableListOf<Trailer>()
+        dummyTrailers.add(Trailer("", "Trailer 1", "https://img.youtube.com/vi/aYWB3oOBk6c/default.jpg", "https://www.youtube.com/watch?v=aYWB3oOBk6c"))
+        trailerListAdapter.trailers = dummyTrailers
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -68,6 +77,14 @@ class MovieDetailActivity : AppCompatActivity() {
     private fun openReview(review: Review){
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(review.url)
+        }
+
+        startActivity(intent)
+    }
+
+    private fun openTrailer(trailer: Trailer){
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(trailer.videoPath)
         }
 
         startActivity(intent)
