@@ -16,13 +16,11 @@ class MovieListAdapter(private val listener: (MovieEntity) -> Unit) :
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        MovieViewHolder(parent.bindingInflate(R.layout.item_movie, false))
+        MovieViewHolder(parent.bindingInflate(R.layout.item_movie, false), listener)
 
     override fun getItemCount(): Int = movies.size
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = movies[position]
-        holder.dataBinding.movie = movie
-        holder.itemView.setOnClickListener { listener(movie) }
+        holder.bind(movies[position])
     }
 }

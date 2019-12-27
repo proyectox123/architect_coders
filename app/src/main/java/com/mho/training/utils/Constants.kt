@@ -10,7 +10,7 @@ object Constants {
     val BUNDLE_TRAILER_LIST = "BUNDLE_TRAILER_LIST"
     val BUNDLE_SORT_BY = "BUNDLE_SORT_BY"
 
-    val EXTRA_MOVIE = "com.example.android.popularmoviesstate1.EXTRA_MOVIE"
+    val EXTRA_MOVIE_ID = "com.example.android.popularmoviesstate1.EXTRA_MOVIE_ID"
 
     val SIMPLE_DATE_FORMAT = "yyyy-MM-dd"
 }

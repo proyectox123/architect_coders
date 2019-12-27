@@ -1,39 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/reviewContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+        <variable
+                name="review"
+                type="com.mho.training.data.remote.models.Review" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/reviewContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingEnd="4dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:paddingStart="4dp"
-            android:paddingTop="8dp"
-            android:orientation="vertical">
+            android:layout_margin="4dp">
 
-        <TextView
-                style="@style/ReviewAuthorStyle"
-                android:id="@+id/reviewAuthorTextView"
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                tools:text="Author"/>
+                android:paddingBottom="8dp"
+                android:paddingEnd="4dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingStart="4dp"
+                android:paddingTop="8dp"
+                android:orientation="vertical">
 
-        <TextView
-                style="@style/ReviewContentStyle"
-                android:id="@+id/reviewContentTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="5"
-                android:ellipsize="end"
-                tools:text="@string/content_lorem_ipsum"/>
+            <TextView
+                    style="@style/ReviewAuthorStyle"
+                    android:id="@+id/reviewAuthorTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:text="@{review.author}"
+                    tools:text="Author" />
 
-    </LinearLayout>
+            <TextView
+                    style="@style/ReviewContentStyle"
+                    android:id="@+id/reviewContentTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="5"
+                    android:ellipsize="end"
+                    android:text="@{review.content}"
+                    tools:text="@string/content_lorem_ipsum" />
 
-</android.support.v7.widget.CardView>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

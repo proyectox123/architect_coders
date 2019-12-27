@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -13,9 +12,8 @@ import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.data.MovieRepository
 import com.mho.training.databinding.ActivityMainBinding
 import com.mho.training.enums.MovieCategoryEnum
-import com.mho.training.utils.EventObserver
-import com.mho.training.utils.app
-import com.mho.training.utils.getViewModel
+import com.mho.training.features.moviedetail.MovieDetailActivity
+import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -105,7 +103,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openMovieDetails(movieId: Int){
-        Toast.makeText(this, movieId.toString(), Toast.LENGTH_LONG).show()
+        startActivity<MovieDetailActivity> {
+            putExtra(Constants.EXTRA_MOVIE_ID, movieId)
+        }
     }
 
     //endregion
