@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="poster_detail_width">148dp</dimen> <!-- Poster detail width original 185 -->
+    <dimen name="poster_detail_height">216dp</dimen> <!-- Poster detail height original 270 -->
+</resources>

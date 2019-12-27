@@ -3,17 +3,15 @@ package com.mho.training.features.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mho.training.data.MovieRepository
 import com.mho.training.data.database.tables.MovieEntity
-import com.mho.training.data.remote.requests.movies.MoviePopularRequest
-import com.mho.training.data.remote.requests.movies.MovieTopRatedRequest
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val moviePopularRequest: MoviePopularRequest,
-    private val movieTopRatedRequest: MovieTopRatedRequest
+    private val movieRepository: MovieRepository
 ) :
     ViewModel(), Scope by Scope.Impl() {
 
@@ -26,15 +24,6 @@ class MainViewModel(
     //endregion
 
     //region Fields
-
-    /*
-    private val _model = MutableLiveData<MainUiModel>()
-    val model: LiveData<MainUiModel>
-        get() {
-            return _model
-        }
-
-     */
 
     private val _movies = MutableLiveData<List<MovieEntity>>()
     val movies: LiveData<List<MovieEntity>> get() = _movies
@@ -103,9 +92,9 @@ class MainViewModel(
             _error.value = false
 
             val movieList: List<MovieEntity>? = when (movieCategory) {
-                MovieCategoryEnum.TOP_RATED -> movieTopRatedRequest.requestMovieList()
-                MovieCategoryEnum.POPULAR -> moviePopularRequest.requestMovieList()
-                MovieCategoryEnum.FAVORITE -> null //TODO Check from database
+                MovieCategoryEnum.TOP_RATED -> movieRepository.requestTopRatedMovieList()
+                MovieCategoryEnum.POPULAR -> movieRepository.requestPopularMovieList()
+                MovieCategoryEnum.FAVORITE -> movieRepository.findFavoriteMovies()
             }
 
             _error.value = movieList.isNullOrEmpty()
@@ -114,41 +103,6 @@ class MainViewModel(
             _loading.value = false
         }
     }
-
-    /*
-    private fun validateRequestedList(movieList: List<MovieEntity>?){
-        if (movieList == null) {
-            MainUiModel.Error
-        } else {
-            MainUiModel.Content(movieList)
-        }
-    }
-    */
-
-    //endregion
-
-    //region Inner Classes & Interfaces
-
-    /*
-    sealed class MainUiModel {
-        class Content(val movies: List<MovieEntity>) : MainUiModel() {
-            override fun toString() = "Content movies size -> ${movies.size}"
-        }
-
-        class Navigation(val movie: MovieEntity) : MainUiModel() {
-            override fun toString() = "Navigation movie -> ${movie.title}"
-        }
-
-        object Loading : MainUiModel() {
-            override fun toString() = "Loading"
-        }
-
-        object Error : MainUiModel() {
-            override fun toString() = "Error"
-        }
-    }
-
-     */
 
     //endregion
 }

@@ -10,11 +10,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
-import com.mho.training.data.remote.requests.movies.MoviePopularRequest
-import com.mho.training.data.remote.requests.movies.MovieTopRatedRequest
+import com.mho.training.data.MovieRepository
 import com.mho.training.databinding.ActivityMainBinding
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.utils.EventObserver
+import com.mho.training.utils.app
 import com.mho.training.utils.getViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = getViewModel { MainViewModel(MoviePopularRequest(), MovieTopRatedRequest()) }
+        viewModel = getViewModel { MainViewModel(MovieRepository(app)) }
 
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.apply {
