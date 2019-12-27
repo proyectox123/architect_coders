@@ -3,14 +3,14 @@ package com.mho.training.adapters.movie
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mho.training.R
-import com.mho.training.data.database.tables.MovieEntity
+import com.mho.training.domain.Movie
 import com.mho.training.utils.basicDiffUtil
 import com.mho.training.utils.bindingInflate
 
-class MovieListAdapter(private val listener: (MovieEntity) -> Unit) :
+class MovieListAdapter(private val listener: (Movie) -> Unit) :
     RecyclerView.Adapter<MovieViewHolder>() {
 
-    var movies: List<MovieEntity> by basicDiffUtil(
+    var movies: List<Movie> by basicDiffUtil(
         emptyList(),
         areItemsTheSame = { old, new -> old.id == new.id }
     )

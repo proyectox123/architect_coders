@@ -3,15 +3,19 @@ package com.mho.training.features.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mho.training.data.MovieRepository
-import com.mho.training.data.database.tables.MovieEntity
+import com.mho.training.domain.Movie
 import com.mho.training.enums.MovieCategoryEnum
+import com.mho.training.usecases.GetFavoriteMovieList
+import com.mho.training.usecases.GetPopularMovieList
+import com.mho.training.usecases.GetTopRatedMovieList
 import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val movieRepository: MovieRepository
+    private val getTopRatedMovieList: GetTopRatedMovieList,
+    private val getPopularMovieList: GetPopularMovieList,
+    private val getFavoriteMovieList: GetFavoriteMovieList
 ) :
     ViewModel(), Scope by Scope.Impl() {
 
@@ -25,8 +29,8 @@ class MainViewModel(
 
     //region Fields
 
-    private val _movies = MutableLiveData<List<MovieEntity>>()
-    val movies: LiveData<List<MovieEntity>> get() = _movies
+    private val _movies = MutableLiveData<List<Movie>>()
+    val movies: LiveData<List<Movie>> get() = _movies
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
@@ -78,7 +82,7 @@ class MainViewModel(
         _movieCategory.value = MovieCategoryEnum.FAVORITE
     }
 
-    fun onMovieClicked(movie: MovieEntity) {
+    fun onMovieClicked(movie: Movie) {
         _navigateToMovie.value = Event(movie.id)
     }
 
@@ -91,10 +95,10 @@ class MainViewModel(
             _loading.value = true
             _error.value = false
 
-            val movieList: List<MovieEntity>? = when (movieCategory) {
-                MovieCategoryEnum.TOP_RATED -> movieRepository.requestTopRatedMovieList()
-                MovieCategoryEnum.POPULAR -> movieRepository.requestPopularMovieList()
-                MovieCategoryEnum.FAVORITE -> movieRepository.findFavoriteMovies()
+            val movieList: List<Movie>? = when (movieCategory) {
+                MovieCategoryEnum.TOP_RATED -> getTopRatedMovieList.invoke()
+                MovieCategoryEnum.POPULAR -> getPopularMovieList.invoke()
+                MovieCategoryEnum.FAVORITE -> getFavoriteMovieList.invoke()
             }
 
             _error.value = movieList.isNullOrEmpty()

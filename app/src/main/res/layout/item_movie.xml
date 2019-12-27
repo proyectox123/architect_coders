@@ -5,7 +5,7 @@
     <data>
         <variable
                 name="movie"
-                type="com.mho.training.data.database.tables.MovieEntity" />
+                type="com.mho.training.domain.Movie" />
     </data>
 
     <LinearLayout

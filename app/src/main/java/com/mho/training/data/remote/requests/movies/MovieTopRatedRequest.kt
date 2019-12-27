@@ -1,12 +1,10 @@
 package com.mho.training.data.remote.requests.movies
 
 import android.net.Uri
-
 import com.mho.training.BuildConfig
-import com.mho.training.data.database.tables.MovieEntity
+import com.mho.training.data.remote.models.ServerMovie
 import com.mho.training.data.remote.parsers.MovieListJsonUtils
 import com.mho.training.data.remote.requests.BaseMovieRequest
-import com.mho.training.data.translators.MovieTranslator
 
 class MovieTopRatedRequest : BaseMovieRequest() {
 
@@ -25,16 +23,14 @@ class MovieTopRatedRequest : BaseMovieRequest() {
 
     //region Public Methods
 
-    suspend fun requestMovieList(): List<MovieEntity>?{
+    suspend fun requestMovieList(): List<ServerMovie>{
         try {
             val jsonMovieListResponse = getResponseFromHttpUrl(buildUrl()!!)
-
-            return MovieTranslator.translateMovieList(MovieListJsonUtils.getMovieListFromJson(jsonMovieListResponse!!))
+            return MovieListJsonUtils.getMovieListFromJson(jsonMovieListResponse!!)
         } catch (e: Exception) {
             e.printStackTrace()
+            return mutableListOf()
         }
-
-        return null
     }
 
     //endregion

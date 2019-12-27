@@ -1,6 +1,6 @@
 package com.mho.training.data.remote.parsers
 
-import com.mho.training.data.remote.models.Movie
+import com.mho.training.data.remote.models.ServerMovie
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
@@ -24,11 +24,11 @@ object MovieListJsonUtils {
     //region Public Methods
 
     @Throws(JSONException::class)
-    fun getMovieListFromJson(listJsonStr: String): List<Movie> {
+    fun getMovieListFromJson(listJsonStr: String): List<ServerMovie> {
         val listJson = JSONObject(listJsonStr)
         val resultJsonArray = listJson.getJSONArray(JSON_ARRAY_RESULTS)
 
-        return ArrayList<Movie>().apply {
+        return ArrayList<ServerMovie>().apply {
             (0 until resultJsonArray.length())
                 .asSequence()
                 .map { resultJsonArray.getJSONObject(it) }
@@ -41,7 +41,7 @@ object MovieListJsonUtils {
     //region Private Methods
 
     @Throws(JSONException::class)
-    private fun getMovieFromJsonObject(jsonObject: JSONObject): Movie {
+    private fun getMovieFromJsonObject(jsonObject: JSONObject): ServerMovie {
         val id = jsonObject.getInt(JSON_OBJECT_ID)
         val title = jsonObject.getString(JSON_OBJECT_TITLE)
         val releaseDate = jsonObject.getString(JSON_OBJECT_RELEASE_DATE)
@@ -49,7 +49,7 @@ object MovieListJsonUtils {
         val voteAverage = jsonObject.getDouble(JSON_OBJECT_VOTE_AVERAGE)
         val plotSynopsis = jsonObject.getString(JSON_OBJECT_OVERVIEW)
 
-        return Movie(id, title, releaseDate, posterPath, voteAverage, plotSynopsis)
+        return ServerMovie(id, title, releaseDate, posterPath, voteAverage, plotSynopsis)
     }
 
     //endregion

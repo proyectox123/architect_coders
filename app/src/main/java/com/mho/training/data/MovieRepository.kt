@@ -1,32 +1,28 @@
 package com.mho.training.data
 
-import com.mho.training.MoviesApp
-import com.mho.training.data.database.tables.MovieEntity
-import com.mho.training.data.remote.requests.movies.MoviePopularRequest
-import com.mho.training.data.remote.requests.movies.MovieTopRatedRequest
+import com.mho.training.data.source.LocalDataSource
+import com.mho.training.data.source.RemoteDataSource
+import com.mho.training.domain.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class MovieRepository(application: MoviesApp) {
-
-    //region Fields
-
-    private val db = application.db
-
-    //endregion
+class MovieRepository(
+    private val localDataSource: LocalDataSource,
+    private val remoteDataSource: RemoteDataSource
+) {
 
     //region Public Methods
 
-    suspend fun requestTopRatedMovieList(): List<MovieEntity> = withContext(Dispatchers.IO) {
-        MovieTopRatedRequest().requestMovieList() ?: mutableListOf()
+    suspend fun getTopRatedMovieList(): List<Movie> = withContext(Dispatchers.IO) {
+        remoteDataSource.getTopRatedMovieList()
     }
 
-    suspend fun requestPopularMovieList(): List<MovieEntity> = withContext(Dispatchers.IO) {
-        MoviePopularRequest().requestMovieList() ?: mutableListOf()
+    suspend fun getPopularMovieList(): List<Movie> = withContext(Dispatchers.IO) {
+        remoteDataSource.getPopularMovieList()
     }
 
-    suspend fun findFavoriteMovies(): List<MovieEntity> = withContext(Dispatchers.IO) {
-        db.movieDao().getAll()
+    suspend fun getFavoriteMovieList(): List<Movie> = withContext(Dispatchers.IO) {
+        localDataSource.getFavoriteMovieList()
     }
 
     //endregion

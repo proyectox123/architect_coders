@@ -6,7 +6,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mho.training.adapters.movie.MovieListAdapter
-import com.mho.training.data.database.tables.MovieEntity
+import com.mho.training.domain.Movie
 import com.mho.training.utils.loadUrl
 
 @BindingAdapter("url")
@@ -15,7 +15,7 @@ fun ImageView.bindUrl(url: String?) {
 }
 
 @BindingAdapter("items")
-fun RecyclerView.setItems(movies: List<MovieEntity>?) {
+fun RecyclerView.setItems(movies: List<Movie>?) {
     (adapter as? MovieListAdapter)?.let {
         it.movies = movies ?: emptyList()
     }

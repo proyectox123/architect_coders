@@ -10,9 +10,14 @@ import androidx.lifecycle.Observer
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.data.MovieRepository
+import com.mho.training.data.database.RoomDataSource
+import com.mho.training.data.remote.requests.MovieDataSource
 import com.mho.training.databinding.ActivityMainBinding
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.moviedetail.MovieDetailActivity
+import com.mho.training.usecases.GetFavoriteMovieList
+import com.mho.training.usecases.GetPopularMovieList
+import com.mho.training.usecases.GetTopRatedMovieList
 import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -34,7 +39,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = getViewModel { MainViewModel(MovieRepository(app)) }
+        viewModel = getViewModel {
+            MainViewModel(
+                GetTopRatedMovieList(
+                    MovieRepository(
+                        RoomDataSource(app.db),
+                        MovieDataSource()
+                    )
+                ),
+                GetPopularMovieList(
+                    MovieRepository(
+                        RoomDataSource(app.db),
+                        MovieDataSource()
+                    )
+                ),
+                GetFavoriteMovieList(
+                    MovieRepository(
+                        RoomDataSource(app.db),
+                        MovieDataSource()
+                    )
+                )
+            )
+        }
 
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.apply {
@@ -104,7 +130,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openMovieDetails(movieId: Int){
         startActivity<MovieDetailActivity> {
-            putExtra(Constants.EXTRA_MOVIE_ID, movieId)
+            putExtra(Constants.EXTRA_MOVIE, movieId)
         }
     }
 

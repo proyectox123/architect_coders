@@ -1,14 +1,14 @@
 package com.mho.training.adapters.movie
 
 import androidx.recyclerview.widget.RecyclerView
-import com.mho.training.data.database.tables.MovieEntity
 import com.mho.training.databinding.ItemMovieBinding
+import com.mho.training.domain.Movie
 
 class MovieViewHolder(private val dataBinding: ItemMovieBinding,
-                      private val listener: (MovieEntity) -> Unit) :
+                      private val listener: (Movie) -> Unit) :
     RecyclerView.ViewHolder(dataBinding.root){
 
-    fun bind(movie: MovieEntity){
+    fun bind(movie: Movie){
         dataBinding.movie = movie
         itemView.setOnClickListener { listener(movie) }
     }

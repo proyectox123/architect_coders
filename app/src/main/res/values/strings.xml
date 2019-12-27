@@ -4,7 +4,7 @@
     <!-- Main -->
     <string name="title_movie_activity">Popular Movies</string>
 
-    <!-- Movie detail -->
+    <!-- ServerMovie detail -->
     <string name="title_movie_detail_activity">Movie Detail</string>
     <string name="text_movie_detail_vote_average">Average vote: %1$s</string>
 
