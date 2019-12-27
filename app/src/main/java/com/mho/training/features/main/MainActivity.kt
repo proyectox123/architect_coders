@@ -15,9 +15,7 @@ import com.mho.training.data.remote.requests.MovieDataSource
 import com.mho.training.databinding.ActivityMainBinding
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.moviedetail.MovieDetailActivity
-import com.mho.training.usecases.GetFavoriteMovieList
-import com.mho.training.usecases.GetPopularMovieList
-import com.mho.training.usecases.GetTopRatedMovieList
+import com.mho.training.usecases.GetMovieList
 import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -41,19 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = getViewModel {
             MainViewModel(
-                GetTopRatedMovieList(
-                    MovieRepository(
-                        RoomDataSource(app.db),
-                        MovieDataSource()
-                    )
-                ),
-                GetPopularMovieList(
-                    MovieRepository(
-                        RoomDataSource(app.db),
-                        MovieDataSource()
-                    )
-                ),
-                GetFavoriteMovieList(
+                GetMovieList(
                     MovieRepository(
                         RoomDataSource(app.db),
                         MovieDataSource()

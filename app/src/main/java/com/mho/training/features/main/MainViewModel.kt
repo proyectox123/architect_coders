@@ -5,17 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mho.training.domain.Movie
 import com.mho.training.enums.MovieCategoryEnum
-import com.mho.training.usecases.GetFavoriteMovieList
-import com.mho.training.usecases.GetPopularMovieList
-import com.mho.training.usecases.GetTopRatedMovieList
+import com.mho.training.usecases.GetMovieList
 import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val getTopRatedMovieList: GetTopRatedMovieList,
-    private val getPopularMovieList: GetPopularMovieList,
-    private val getFavoriteMovieList: GetFavoriteMovieList
+    private val getMovieList: GetMovieList
 ) :
     ViewModel(), Scope by Scope.Impl() {
 
@@ -96,9 +92,9 @@ class MainViewModel(
             _error.value = false
 
             val movieList: List<Movie>? = when (movieCategory) {
-                MovieCategoryEnum.TOP_RATED -> getTopRatedMovieList.invoke()
-                MovieCategoryEnum.POPULAR -> getPopularMovieList.invoke()
-                MovieCategoryEnum.FAVORITE -> getFavoriteMovieList.invoke()
+                MovieCategoryEnum.TOP_RATED -> getMovieList.getTopRatedMovieList()
+                MovieCategoryEnum.POPULAR -> getMovieList.getPopularMovieList()
+                MovieCategoryEnum.FAVORITE -> getMovieList.getFavoriteMovieList()
             }
 
             _error.value = movieList.isNullOrEmpty()
