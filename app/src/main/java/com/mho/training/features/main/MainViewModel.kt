@@ -31,6 +31,9 @@ class MainViewModel(
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
 
+    private val _requestLocationPermission = MutableLiveData<Event<Unit>>()
+    val requestLocationPermission: LiveData<Event<Unit>> get() = _requestLocationPermission
+
     private val _navigateToMovie = MutableLiveData<Event<Int>>()
     val navigateToMovie: LiveData<Event<Int>> get() = _navigateToMovie
 
@@ -61,7 +64,7 @@ class MainViewModel(
     //region Public Methods
 
     fun onMovieListRefresh() {
-        refresh(_movieCategory.value ?: MovieCategoryEnum.TOP_RATED)
+        _requestLocationPermission.value = Event(Unit)
     }
 
     fun onMovieCategory() = _movieCategory.value
@@ -82,11 +85,21 @@ class MainViewModel(
         _navigateToMovie.value = Event(movie.id)
     }
 
+    fun onCoarsePermissionRequested(hasPermission: Boolean) {
+        if(hasPermission){
+            refresh(_movieCategory.value ?: MovieCategoryEnum.TOP_RATED)
+            return
+        }
+
+        _loading.value = false
+        _error.value = true
+    }
+
     //endregion
 
     //region Private Methods
 
-    private fun refresh(movieCategory: MovieCategoryEnum) {
+    private fun refresh(movieCategory: MovieCategoryEnum){
         launch {
             _loading.value = true
             _error.value = false

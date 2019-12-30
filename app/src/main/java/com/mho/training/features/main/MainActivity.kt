@@ -10,11 +10,14 @@ import androidx.lifecycle.Observer
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.data.MovieRepository
+import com.mho.training.data.RegionRepository
 import com.mho.training.data.database.RoomDataSource
 import com.mho.training.data.remote.requests.MovieDataSource
 import com.mho.training.databinding.ActivityMainBinding
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.moviedetail.MovieDetailActivity
+import com.mho.training.permissions.AndroidPermissionChecker
+import com.mho.training.permissions.PermissionRequester
 import com.mho.training.usecases.GetMovieList
 import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,6 +32,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var movieListAdapter: MovieListAdapter
     private lateinit var viewModel: MainViewModel
 
+    private val coarsePermissionRequester = PermissionRequester(this)
+
     //endregion
 
     //region Override Methods & Callbacks
@@ -42,7 +47,11 @@ class MainActivity : AppCompatActivity() {
                 GetMovieList(
                     MovieRepository(
                         RoomDataSource(app.db),
-                        MovieDataSource()
+                        MovieDataSource(),
+                        RegionRepository(
+                            PlayServicesLocationDataSource(app),
+                            AndroidPermissionChecker(app)
+                        )
                     )
                 )
             )
@@ -62,6 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.navigateToMovie.observe(this, EventObserver(::openMovieDetails))
         viewModel.movieCategory.observe(this, Observer(::updateMovieCategory))
+        viewModel.requestLocationPermission.observe(this, EventObserver { checkLocationPermission() })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -117,6 +127,12 @@ class MainActivity : AppCompatActivity() {
     private fun openMovieDetails(movieId: Int){
         startActivity<MovieDetailActivity> {
             putExtra(Constants.EXTRA_MOVIE, movieId)
+        }
+    }
+
+    private fun checkLocationPermission() {
+        coarsePermissionRequester.requestAccessCoarseLocation { hasPermission ->
+            viewModel.onCoarsePermissionRequested(hasPermission)
         }
     }
 

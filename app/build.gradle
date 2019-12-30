@@ -58,6 +58,12 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0'
 
+    //Location
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+    //Permission
+    implementation 'com.karumi:dexter:5.0.0'
+
     //Room
     implementation 'androidx.room:room-runtime:2.2.3'
     kapt 'androidx.room:room-compiler:2.2.3'

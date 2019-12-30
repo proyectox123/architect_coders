@@ -8,17 +8,18 @@ import kotlinx.coroutines.withContext
 
 class MovieRepository(
     private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource
+    private val remoteDataSource: RemoteDataSource,
+    private val regionRepository: RegionRepository
 ) {
 
     //region Public Methods
 
     suspend fun getTopRatedMovieList(): List<Movie> = withContext(Dispatchers.IO) {
-        remoteDataSource.getTopRatedMovieList()
+        remoteDataSource.getTopRatedMovieList(regionRepository.findLastRegion())
     }
 
     suspend fun getPopularMovieList(): List<Movie> = withContext(Dispatchers.IO) {
-        remoteDataSource.getPopularMovieList()
+        remoteDataSource.getPopularMovieList(regionRepository.findLastRegion())
     }
 
     suspend fun getFavoriteMovieList(): List<Movie> = withContext(Dispatchers.IO) {

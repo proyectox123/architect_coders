@@ -6,16 +6,14 @@ import com.mho.training.data.remote.models.ServerMovie
 import com.mho.training.data.remote.parsers.MovieListJsonUtils
 import com.mho.training.data.remote.requests.BaseMovieRequest
 
-class MovieTopRatedRequest : BaseMovieRequest() {
+class MovieTopRatedRequest(private val region: String) : BaseMovieRequest() {
 
     //region Override Methods & Callbacks
 
     public override fun createBuiltUri(): Uri {
         return Uri.parse(MOVIE_TOP_RATED_URL).buildUpon()
-            .appendQueryParameter(
-                QUERY_PARAMETER_API_KEY,
-                BuildConfig.MOVIE_DB_API_KEY
-            )
+            .appendQueryParameter(QUERY_PARAMETER_API_KEY, BuildConfig.MOVIE_DB_API_KEY)
+            .appendQueryParameter(QUERY_PARAMETER_REGION, region)
             .build()
     }
 

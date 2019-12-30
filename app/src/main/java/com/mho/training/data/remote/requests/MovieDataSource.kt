@@ -8,13 +8,13 @@ import com.mho.training.domain.Movie
 
 class MovieDataSource: RemoteDataSource {
 
-    override suspend fun getTopRatedMovieList(): List<Movie> =
-        MovieTopRatedRequest()
+    override suspend fun getTopRatedMovieList(region: String): List<Movie> =
+        MovieTopRatedRequest(region)
             .requestMovieList()
             .map { it.toDomainMovie() }
 
-    override suspend fun getPopularMovieList(): List<Movie> =
-        MoviePopularRequest()
+    override suspend fun getPopularMovieList(region: String): List<Movie> =
+        MoviePopularRequest(region)
             .requestMovieList()
             .map { it.toDomainMovie() }
 }

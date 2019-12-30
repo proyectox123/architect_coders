@@ -4,12 +4,11 @@ import android.net.Uri
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
-import java.util.Scanner
+import java.util.*
 
 abstract class BaseMovieRequest {
 
@@ -55,6 +54,7 @@ abstract class BaseMovieRequest {
         private val TAG = BaseMovieRequest::class.java.simpleName
 
         val QUERY_PARAMETER_API_KEY = "api_key"
+        val QUERY_PARAMETER_REGION = "region"
         val BASE_MOVIE_DB_URL = "https://api.themoviedb.org/3/"
     }
 
