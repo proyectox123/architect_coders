@@ -25,18 +25,14 @@ class MovieDetailViewModel(
 
     //region Fields
 
+    private val _infoMovie = MutableLiveData<Movie>()
+    val infoMovie: LiveData<Movie> get() = _infoMovie
+
     private val _reviews = MutableLiveData<List<Review>>()
     val reviews: LiveData<List<Review>> get() = _reviews
 
     private val _trailers = MutableLiveData<List<Trailer>>()
     val trailers: LiveData<List<Trailer>> get() = _trailers
-
-    private val _model = MutableLiveData<UiModel>()
-    val model: LiveData<UiModel>
-        get() {
-            if (_model.value == null) findMovieInformation()
-            return _model
-        }
 
     //endregion
 
@@ -49,15 +45,15 @@ class MovieDetailViewModel(
 
     //endregion
 
-    //region Private Methods
+    //region Public Methods
 
-    private fun findMovieInformation(){
+    fun onMovieInformation(){
         if(movie == null){
             //finish
             return
         }
 
-        _model.value = UiModel(movie)
+        _infoMovie.value = movie
 
         //TODO
         val dummyReviews = mutableListOf<Review>()

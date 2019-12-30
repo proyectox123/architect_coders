@@ -6,6 +6,10 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mho.training.adapters.movie.MovieListAdapter
+import com.mho.training.adapters.review.ReviewListAdapter
+import com.mho.training.adapters.trailer.TrailerListAdapter
+import com.mho.training.data.remote.models.Review
+import com.mho.training.data.remote.models.Trailer
 import com.mho.training.domain.Movie
 import com.mho.training.utils.loadUrl
 
@@ -18,6 +22,20 @@ fun ImageView.bindUrl(url: String?) {
 fun RecyclerView.setItems(movies: List<Movie>?) {
     (adapter as? MovieListAdapter)?.let {
         it.movies = movies ?: emptyList()
+    }
+}
+
+@BindingAdapter("items")
+fun RecyclerView.setReviews(reviews: List<Review>?) {
+    (adapter as? ReviewListAdapter)?.let {
+        it.reviews = reviews ?: emptyList()
+    }
+}
+
+@BindingAdapter("items")
+fun RecyclerView.setTrailers(trailers: List<Trailer>?) {
+    (adapter as? TrailerListAdapter)?.let {
+        it.trailers = trailers ?: emptyList()
     }
 }
 

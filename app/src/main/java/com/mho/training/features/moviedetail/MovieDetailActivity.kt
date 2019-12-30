@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.mho.training.R
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
@@ -18,7 +17,6 @@ import com.mho.training.databinding.ActivityMovieDetailBinding
 import com.mho.training.domain.Movie
 import com.mho.training.utils.Constants
 import com.mho.training.utils.getViewModel
-import com.mho.training.utils.loadUrl
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 
 
@@ -58,9 +56,7 @@ class MovieDetailActivity : AppCompatActivity() {
         reviewListView.adapter = reviewListAdapter
         trailerListView.adapter = trailerListAdapter
 
-        viewModel.model.observe(this, Observer(::updateUi))
-        viewModel.reviews.observe(this, Observer(::showReviews))
-        viewModel.trailers.observe(this, Observer(::showTrailers))
+        viewModel.onMovieInformation()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -104,22 +100,6 @@ class MovieDetailActivity : AppCompatActivity() {
         }
 
         startActivity(intent)
-    }
-
-    private fun updateUi(model: MovieDetailViewModel.UiModel) = with(model.movie) {
-        movieDetailPosterImageView.loadUrl(posterPath)
-        movieDetailTitleTextView.text = title
-        movieDetailReleaseDateTextView.text = releaseDate
-        movieDetailVoteAverageTextView.text = getVoteAverageLabel(this@MovieDetailActivity)
-        movieDetailDescriptionTextView.text = plotSynopsis
-    }
-
-    private fun showReviews(reviewList: List<Review>){
-        reviewListAdapter.reviews = reviewList
-    }
-
-    private fun showTrailers(trailerList: List<Trailer>){
-        trailerListAdapter.trailers = trailerList
     }
 
     //endregion

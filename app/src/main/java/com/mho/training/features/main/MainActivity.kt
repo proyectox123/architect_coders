@@ -46,8 +46,13 @@ class MainActivity : AppCompatActivity() {
             MainViewModel(
                 GetMovieList(
                     MovieRepository(
-                        RoomDataSource(app.db),
-                        MovieDataSource(),
+                        RoomDataSource(
+                            app.db,
+                            resources
+                        ),
+                        MovieDataSource(
+                            resources
+                        ),
                         RegionRepository(
                             PlayServicesLocationDataSource(app),
                             AndroidPermissionChecker(app)

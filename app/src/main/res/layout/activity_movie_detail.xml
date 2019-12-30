@@ -33,6 +33,7 @@
                         android:layout_width="@dimen/poster_detail_width"
                         android:layout_height="@dimen/poster_detail_height"
                         android:contentDescription="@string/content_description_movie_detail_poster_item"
+                        app:url="@{viewmodel.infoMovie.posterPath}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -55,6 +56,7 @@
                             android:id="@+id/movieDetailTitleTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="@{viewmodel.infoMovie.title}"
                             tools:text="Movie Title Title Title Title Title Title Title" />
 
                     <TextView
@@ -62,6 +64,7 @@
                             android:id="@+id/movieDetailReleaseDateTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="@{viewmodel.infoMovie.releaseDate}"
                             tools:text="2019" />
 
                     <TextView
@@ -69,6 +72,7 @@
                             android:id="@+id/movieDetailVoteAverageTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:text="@{viewmodel.infoMovie.voteAverage}"
                             tools:text="9.1/10" />
 
                 </LinearLayout>
@@ -86,7 +90,9 @@
                     style="@style/MovieDetailDescriptionStyle"
                     android:id="@+id/movieDetailDescriptionTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.infoMovie.plotSynopsis}"
+                    tools:text="@string/content_lorem_ipsum"/>
 
             <View
                     android:layout_width="match_parent"
@@ -114,6 +120,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        app:items="@{viewmodel.trailers}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_trailer"
                         tools:itemCount="5"/>
@@ -137,6 +144,7 @@
                         android:id="@+id/reviewListView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:items="@{viewmodel.reviews}"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_review"
                         tools:itemCount="1"/>
