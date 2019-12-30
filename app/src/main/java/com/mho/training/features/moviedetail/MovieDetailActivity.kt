@@ -3,14 +3,22 @@ package com.mho.training.features.moviedetail
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.mho.training.R
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
 import com.mho.training.data.remote.models.Review
 import com.mho.training.data.remote.models.Trailer
+import com.mho.training.databinding.ActivityMovieDetailBinding
+import com.mho.training.domain.Movie
+import com.mho.training.utils.Constants
+import com.mho.training.utils.getViewModel
+import com.mho.training.utils.loadUrl
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 
 
@@ -20,6 +28,7 @@ class MovieDetailActivity : AppCompatActivity() {
 
     private val TAG = MovieDetailActivity::class.java.simpleName
 
+    private lateinit var viewModel: MovieDetailViewModel
     private lateinit var reviewListAdapter: ReviewListAdapter
     private lateinit var trailerListAdapter: TrailerListAdapter
 
@@ -29,7 +38,19 @@ class MovieDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_movie_detail)
+
+        viewModel = getViewModel {
+            MovieDetailViewModel(
+                intent.getParcelableExtra(Constants.EXTRA_MOVIE) as Movie?,
+                resources
+            )
+        }
+
+        val binding: ActivityMovieDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail)
+        binding.apply {
+            viewmodel = viewModel
+            lifecycleOwner = this@MovieDetailActivity
+        }
 
         reviewListAdapter = ReviewListAdapter(::openReview)
         trailerListAdapter = TrailerListAdapter(::openTrailer)
@@ -37,16 +58,9 @@ class MovieDetailActivity : AppCompatActivity() {
         reviewListView.adapter = reviewListAdapter
         trailerListView.adapter = trailerListAdapter
 
-        //TODO
-        val dummyReviews = mutableListOf<Review>()
-        dummyReviews.add(Review("1", "Author 1", getString(R.string.content_lorem_ipsum), "http://www.google.com.mx"))
-        dummyReviews.add(Review("2", "Author 2", getString(R.string.content_lorem_ipsum), "http://www.google.com.mx"))
-
-        reviewListAdapter.reviews = dummyReviews
-
-        val dummyTrailers = mutableListOf<Trailer>()
-        dummyTrailers.add(Trailer("", "Trailer 1", "https://img.youtube.com/vi/aYWB3oOBk6c/default.jpg", "https://www.youtube.com/watch?v=aYWB3oOBk6c"))
-        trailerListAdapter.trailers = dummyTrailers
+        viewModel.model.observe(this, Observer(::updateUi))
+        viewModel.reviews.observe(this, Observer(::showReviews))
+        viewModel.trailers.observe(this, Observer(::showTrailers))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -75,6 +89,7 @@ class MovieDetailActivity : AppCompatActivity() {
     //region Private Methods
 
     private fun openReview(review: Review){
+        Log.d(TAG, "openReview -> $review")
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(review.url)
         }
@@ -83,11 +98,28 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     private fun openTrailer(trailer: Trailer){
+        Log.d(TAG, "openTrailer -> $trailer")
         val intent = Intent(Intent.ACTION_VIEW).apply {
             data = Uri.parse(trailer.videoPath)
         }
 
         startActivity(intent)
+    }
+
+    private fun updateUi(model: MovieDetailViewModel.UiModel) = with(model.movie) {
+        movieDetailPosterImageView.loadUrl(posterPath)
+        movieDetailTitleTextView.text = title
+        movieDetailReleaseDateTextView.text = releaseDate
+        movieDetailVoteAverageTextView.text = getVoteAverageLabel(this@MovieDetailActivity)
+        movieDetailDescriptionTextView.text = plotSynopsis
+    }
+
+    private fun showReviews(reviewList: List<Review>){
+        reviewListAdapter.reviews = reviewList
+    }
+
+    private fun showTrailers(trailerList: List<Trailer>){
+        trailerListAdapter.trailers = trailerList
     }
 
     //endregion

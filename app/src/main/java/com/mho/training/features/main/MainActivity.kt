@@ -14,6 +14,7 @@ import com.mho.training.data.RegionRepository
 import com.mho.training.data.database.RoomDataSource
 import com.mho.training.data.remote.requests.MovieDataSource
 import com.mho.training.databinding.ActivityMainBinding
+import com.mho.training.domain.Movie
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.permissions.AndroidPermissionChecker
@@ -40,7 +41,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         viewModel = getViewModel {
             MainViewModel(
@@ -124,9 +124,9 @@ class MainActivity : AppCompatActivity() {
         viewModel.onMovieListRefresh()
     }
 
-    private fun openMovieDetails(movieId: Int){
+    private fun openMovieDetails(movie: Movie){
         startActivity<MovieDetailActivity> {
-            putExtra(Constants.EXTRA_MOVIE, movieId)
+            putExtra(Constants.EXTRA_MOVIE, movie)
         }
     }
 

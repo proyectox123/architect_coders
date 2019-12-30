@@ -34,8 +34,8 @@ class MainViewModel(
     private val _requestLocationPermission = MutableLiveData<Event<Unit>>()
     val requestLocationPermission: LiveData<Event<Unit>> get() = _requestLocationPermission
 
-    private val _navigateToMovie = MutableLiveData<Event<Int>>()
-    val navigateToMovie: LiveData<Event<Int>> get() = _navigateToMovie
+    private val _navigateToMovie = MutableLiveData<Event<Movie>>()
+    val navigateToMovie: LiveData<Event<Movie>> get() = _navigateToMovie
 
     private val _error = MutableLiveData<Boolean>()
     val error: LiveData<Boolean> get() = _error
@@ -82,7 +82,7 @@ class MainViewModel(
     }
 
     fun onMovieClicked(movie: Movie) {
-        _navigateToMovie.value = Event(movie.id)
+        _navigateToMovie.value = Event(movie)
     }
 
     fun onCoarsePermissionRequested(hasPermission: Boolean) {
