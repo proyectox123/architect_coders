@@ -19,7 +19,9 @@ import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.permissions.AndroidPermissionChecker
 import com.mho.training.permissions.PermissionRequester
-import com.mho.training.usecases.GetMovieList
+import com.mho.training.usecases.GetFavoriteMovieListUseCase
+import com.mho.training.usecases.GetPopularMovieListUseCase
+import com.mho.training.usecases.GetTopRatedMovieListUseCase
 import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -44,21 +46,9 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = getViewModel {
             MainViewModel(
-                GetMovieList(
-                    MovieRepository(
-                        RoomDataSource(
-                            app.db,
-                            resources
-                        ),
-                        MovieDataSource(
-                            resources
-                        ),
-                        RegionRepository(
-                            PlayServicesLocationDataSource(app),
-                            AndroidPermissionChecker(app)
-                        )
-                    )
-                )
+                GetFavoriteMovieListUseCase(getMovieRepository()),
+                GetPopularMovieListUseCase(getMovieRepository()),
+                GetTopRatedMovieListUseCase(getMovieRepository())
             )
         }
 
@@ -108,6 +98,18 @@ class MainActivity : AppCompatActivity() {
     //endregion
 
     //region Private Methods
+
+    private fun getMovieRepository() = MovieRepository(
+        RoomDataSource(
+            app.db,
+            resources
+        ), MovieDataSource(
+            resources
+        ), RegionRepository(
+            PlayServicesLocationDataSource(app),
+            AndroidPermissionChecker(app)
+        )
+    )
 
     private fun onOptionsMovieMostPopularSelected(): Boolean {
         viewModel.onMoviePopularListRefresh()
