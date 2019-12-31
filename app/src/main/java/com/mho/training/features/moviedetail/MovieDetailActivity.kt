@@ -11,10 +11,14 @@ import androidx.databinding.DataBindingUtil
 import com.mho.training.R
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
+import com.mho.training.data.TrailerRepository
 import com.mho.training.data.remote.models.Review
-import com.mho.training.data.remote.models.Trailer
+import com.mho.training.data.remote.models.ServerTrailer
+import com.mho.training.data.remote.requests.TrailerDataSource
 import com.mho.training.databinding.ActivityMovieDetailBinding
 import com.mho.training.domain.Movie
+import com.mho.training.domain.Trailer
+import com.mho.training.usecases.GetTrailerListUseCase
 import com.mho.training.utils.Constants
 import com.mho.training.utils.getViewModel
 import kotlinx.android.synthetic.main.activity_movie_detail.*
@@ -39,6 +43,11 @@ class MovieDetailActivity : AppCompatActivity() {
 
         viewModel = getViewModel {
             MovieDetailViewModel(
+                GetTrailerListUseCase(
+                    TrailerRepository(
+                        TrailerDataSource()
+                    )
+                ),
                 intent.getParcelableExtra(Constants.EXTRA_MOVIE) as Movie?,
                 resources
             )

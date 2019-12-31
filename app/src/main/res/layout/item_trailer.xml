@@ -6,7 +6,7 @@
     <data>
         <variable
                 name="trailer"
-                type="com.mho.training.data.remote.models.Trailer" />
+                type="com.mho.training.domain.Trailer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
