@@ -1,20 +1,21 @@
 package com.mho.training.features.moviedetail
 
-import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mho.training.data.remote.models.Review
+import com.mho.training.data.remote.models.ServerReview
 import com.mho.training.domain.Movie
+import com.mho.training.domain.Review
 import com.mho.training.domain.Trailer
+import com.mho.training.usecases.GetReviewListUseCase
 import com.mho.training.usecases.GetTrailerListUseCase
 import com.mho.training.utils.Scope
 import kotlinx.coroutines.launch
 
 class MovieDetailViewModel(
-    private val getTrailerListUseCase: GetTrailerListUseCase,
     private val movie: Movie?,
-    private val resources: Resources
+    private val getTrailerListUseCase: GetTrailerListUseCase,
+    private val getReviewListUseCase: GetReviewListUseCase
 ) : ViewModel(), Scope by Scope.Impl() {
 
     //region Constructors
@@ -59,28 +60,9 @@ class MovieDetailViewModel(
 
         launch {
             _trailers.value = getTrailerListUseCase.invoke(movie.id)
+            _reviews.value = getReviewListUseCase.invoke(movie.id)
         }
-
-        /*
-        //TODO
-        val dummyReviews = mutableListOf<Review>()
-        dummyReviews.add(Review("1", "Author 1", resources.getString(R.string.content_lorem_ipsum), "http://www.google.com.mx"))
-        dummyReviews.add(Review("2", "Author 2", resources.getString(R.string.content_lorem_ipsum), "http://www.google.com.mx"))
-        _reviews.value = dummyReviews
-
-        val dummyTrailers = mutableListOf<ServerTrailer>()
-        dummyTrailers.add(ServerTrailer("", "ServerTrailer 1", "https://img.youtube.com/vi/aYWB3oOBk6c/default.jpg", "https://www.youtube.com/watch?v=aYWB3oOBk6c"))
-
-        _trailers.value = dummyTrailers
-
-         */
     }
-
-    //endregion
-
-    //region Inner Classes & Interfaces
-
-    class UiModel(val movie: Movie)
 
     //endregion
 

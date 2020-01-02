@@ -4,8 +4,10 @@ import android.content.res.Resources
 import com.mho.training.R
 import com.mho.training.data.database.tables.MovieEntity
 import com.mho.training.data.remote.models.ServerMovie
+import com.mho.training.data.remote.models.ServerReview
 import com.mho.training.data.remote.models.ServerTrailer
 import com.mho.training.domain.Movie
+import com.mho.training.domain.Review
 import com.mho.training.domain.Trailer
 
 fun MovieEntity.toDomainMovie(resources: Resources): Movie = Movie(
@@ -33,6 +35,13 @@ fun ServerTrailer.toDomainTrailer(): Trailer = Trailer(
     name,
     thumbnail,
     videoPath
+)
+
+fun ServerReview.toDomainReview(): Review = Review(
+    id,
+    author,
+    content,
+    url
 )
 
 private fun getVoteAverageLabel(resources: Resources, voteAverage: Double): String {
