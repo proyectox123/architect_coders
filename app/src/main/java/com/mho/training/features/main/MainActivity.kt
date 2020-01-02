@@ -30,8 +30,6 @@ class MainActivity : AppCompatActivity() {
 
     //region Fields
 
-    private val TAG = MainActivity::class.java.simpleName
-
     private lateinit var movieListAdapter: MovieListAdapter
     private lateinit var viewModel: MainViewModel
 
@@ -83,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             else -> R.id.menu_movie_highest_rated
         }
 
-        menu.findItem(menuItemId)?.isChecked = true;
+        menu.findItem(menuItemId)?.isChecked = true
 
         return super.onMenuOpened(featureId, menu)
     }
@@ -141,6 +139,16 @@ class MainActivity : AppCompatActivity() {
         coarsePermissionRequester.requestAccessCoarseLocation { hasPermission ->
             viewModel.onCoarsePermissionRequested(hasPermission)
         }
+    }
+
+    //endregion
+
+    //region Companion Object
+
+    companion object {
+
+        private val TAG = MainActivity::class.java.simpleName
+
     }
 
     //endregion

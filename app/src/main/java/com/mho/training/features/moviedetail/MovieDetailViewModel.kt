@@ -3,7 +3,6 @@ package com.mho.training.features.moviedetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mho.training.data.remote.models.ServerReview
 import com.mho.training.domain.Movie
 import com.mho.training.domain.Review
 import com.mho.training.domain.Trailer

@@ -23,14 +23,12 @@ class ReviewRequest(private val movieId: Int) : BaseMovieRequest() {
 
     //region Public Methods
 
-    suspend fun requestReviewList(): List<ServerReview>{
-        try {
-            val jsonReviewListResponse = getResponseFromHttpUrl(buildUrl()!!)
-            return ReviewListJsonUtils.getReviewListFromJson(jsonReviewListResponse!!)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return mutableListOf()
-        }
+    suspend fun requestReviewList(): List<ServerReview> = try {
+        val jsonReviewListResponse = getResponseFromHttpUrl(buildUrl()!!)
+        ReviewListJsonUtils.getReviewListFromJson(jsonReviewListResponse!!)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        mutableListOf()
     }
 
     //endregion

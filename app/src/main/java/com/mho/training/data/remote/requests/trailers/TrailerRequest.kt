@@ -23,14 +23,12 @@ class TrailerRequest(private val movieId: Int) : BaseMovieRequest() {
 
     //region Public Methods
 
-    suspend fun requestTrailerList(): List<ServerTrailer>{
-        try {
-            val jsonMovieListResponse = getResponseFromHttpUrl(buildUrl()!!)
-            return TrailerListJsonUtils.getTrailerListFromJson(jsonMovieListResponse!!)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return mutableListOf()
-        }
+    suspend fun requestTrailerList(): List<ServerTrailer> = try {
+        val jsonMovieListResponse = getResponseFromHttpUrl(buildUrl()!!)
+        TrailerListJsonUtils.getTrailerListFromJson(jsonMovieListResponse!!)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        mutableListOf()
     }
 
     //endregion

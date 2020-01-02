@@ -30,8 +30,6 @@ class MovieDetailActivity : AppCompatActivity() {
 
     //region Fields
 
-    private val TAG = MovieDetailActivity::class.java.simpleName
-
     private lateinit var viewModel: MovieDetailViewModel
     private lateinit var reviewListAdapter: ReviewListAdapter
     private lateinit var trailerListAdapter: TrailerListAdapter
@@ -115,6 +113,16 @@ class MovieDetailActivity : AppCompatActivity() {
         }
 
         startActivity(intent)
+    }
+
+    //endregion
+
+    //region Companion Object
+
+    companion object {
+
+        private val TAG = MovieDetailActivity::class.java.simpleName
+
     }
 
     //endregion

@@ -53,9 +53,9 @@ abstract class BaseMovieRequest {
 
         private val TAG = BaseMovieRequest::class.java.simpleName
 
-        val QUERY_PARAMETER_API_KEY = "api_key"
-        val QUERY_PARAMETER_REGION = "region"
-        val BASE_MOVIE_DB_URL = "https://api.themoviedb.org/3/"
+        const val QUERY_PARAMETER_API_KEY = "api_key"
+        const val QUERY_PARAMETER_REGION = "region"
+        const val BASE_MOVIE_DB_URL = "https://api.themoviedb.org/3/"
     }
 
 }

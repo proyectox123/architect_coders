@@ -21,14 +21,12 @@ class MovieTopRatedRequest(private val region: String) : BaseMovieRequest() {
 
     //region Public Methods
 
-    suspend fun requestMovieList(): List<ServerMovie>{
-        try {
-            val jsonMovieListResponse = getResponseFromHttpUrl(buildUrl()!!)
-            return MovieListJsonUtils.getMovieListFromJson(jsonMovieListResponse!!)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return mutableListOf()
-        }
+    suspend fun requestMovieList(): List<ServerMovie> = try {
+        val jsonMovieListResponse = getResponseFromHttpUrl(buildUrl()!!)
+        MovieListJsonUtils.getMovieListFromJson(jsonMovieListResponse!!)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        mutableListOf()
     }
 
     //endregion
