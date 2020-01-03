@@ -18,6 +18,9 @@ class MovieRepository(
     suspend fun getPopularMovieList(): List<Movie> =
         remoteDataSource.getPopularMovieList(regionRepository.findLastRegion())
 
+    suspend fun getInTheatersMovieList(): List<Movie> =
+        remoteDataSource.getInTheatersMovieList(regionRepository.findLastRegion())
+
     suspend fun getFavoriteMovieList(): List<Movie> =
         localDataSource.getFavoriteMovieList()
 

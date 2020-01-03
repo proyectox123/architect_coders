@@ -12,6 +12,9 @@
                         android:id="@+id/menu_movie_favorites"
                         android:title="@string/menu_movie_favorites" />
                 <item
+                        android:id="@+id/menu_movie_in_theaters"
+                        android:title="@string/menu_movie_in_theaters" />
+                <item
                         android:id="@+id/menu_movie_most_popular"
                         android:title="@string/menu_movie_most_popular" />
                 <item

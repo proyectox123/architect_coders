@@ -22,6 +22,12 @@ interface RetrofitService {
         @Query("region") region: String
     ): Deferred<MovieResult>
 
+    @GET("movie/now_playing")
+    fun getInTheatersMovieListAsync(
+        @Query("api_key") apiKey: String,
+        @Query("region") region: String
+    ): Deferred<MovieResult>
+
     @GET("movie/{movie_id}/reviews")
     fun getReviewListByMovieAsync(
         @Path("movie_id") movieId: Int,

@@ -28,4 +28,12 @@ class MovieDataSource(
             .results
             .map { it.toDomainMovie(resources) }
     }
+
+    override suspend fun getInTheatersMovieList(region: String): List<Movie> = withContext(Dispatchers.IO) {
+        RetrofitRequest.service
+            .getInTheatersMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
+            .await()
+            .results
+            .map { it.toDomainMovie(resources) }
+    }
 }

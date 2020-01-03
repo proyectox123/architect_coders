@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.domain.Movie
-import com.mho.training.enums.MovieCategoryEnum
 import com.example.android.usecases.GetFavoriteMovieListUseCase
+import com.example.android.usecases.GetInTheatersMovieListUseCase
 import com.example.android.usecases.GetPopularMovieListUseCase
 import com.example.android.usecases.GetTopRatedMovieListUseCase
+import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
 import kotlinx.coroutines.launch
@@ -15,7 +16,8 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val getFavoriteMovieListUseCase: GetFavoriteMovieListUseCase,
     private val getPopularMovieListUseCase: GetPopularMovieListUseCase,
-    private val getTopRatedMovieListUseCase: GetTopRatedMovieListUseCase
+    private val getTopRatedMovieListUseCase: GetTopRatedMovieListUseCase,
+    private val getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase
 ) :
     ViewModel(), Scope by Scope.Impl() {
 
@@ -48,7 +50,7 @@ class MainViewModel(
     val movieCategory: LiveData<MovieCategoryEnum>
         get() {
             if (_movieCategory.value == null) {
-                _movieCategory.value = MovieCategoryEnum.TOP_RATED
+                _movieCategory.value = MovieCategoryEnum.IN_THEATERS
             }
 
             return _movieCategory
@@ -85,6 +87,10 @@ class MainViewModel(
         _movieCategory.value = MovieCategoryEnum.FAVORITE
     }
 
+    fun onMovieInTheatersListRefresh(){
+        _movieCategory.value = MovieCategoryEnum.IN_THEATERS
+    }
+
     fun onMovieClicked(movie: Movie) {
         _navigateToMovie.value = Event(movie)
     }
@@ -112,6 +118,7 @@ class MainViewModel(
                 MovieCategoryEnum.TOP_RATED -> getTopRatedMovieListUseCase.invoke()
                 MovieCategoryEnum.POPULAR -> getPopularMovieListUseCase.invoke()
                 MovieCategoryEnum.FAVORITE -> getFavoriteMovieListUseCase.invoke()
+                MovieCategoryEnum.IN_THEATERS -> getInTheatersMovieListUseCase.invoke()
             }
 
             _error.value = movieList.isNullOrEmpty()

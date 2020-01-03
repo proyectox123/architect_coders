@@ -11,6 +11,7 @@ import com.example.android.data.repositories.MovieRepository
 import com.example.android.data.repositories.RegionRepository
 import com.example.android.domain.Movie
 import com.example.android.usecases.GetFavoriteMovieListUseCase
+import com.example.android.usecases.GetInTheatersMovieListUseCase
 import com.example.android.usecases.GetPopularMovieListUseCase
 import com.example.android.usecases.GetTopRatedMovieListUseCase
 import com.mho.training.R
@@ -48,7 +49,8 @@ class MainActivity : AppCompatActivity() {
             MainViewModel(
                 GetFavoriteMovieListUseCase(getMovieRepository()),
                 GetPopularMovieListUseCase(getMovieRepository()),
-                GetTopRatedMovieListUseCase(getMovieRepository())
+                GetTopRatedMovieListUseCase(getMovieRepository()),
+                GetInTheatersMovieListUseCase(getMovieRepository())
             )
         }
 
@@ -80,7 +82,9 @@ class MainActivity : AppCompatActivity() {
         val menuItemId = when(viewModel.onMovieCategory()){
             MovieCategoryEnum.FAVORITE -> R.id.menu_movie_favorites
             MovieCategoryEnum.POPULAR -> R.id.menu_movie_most_popular
-            else -> R.id.menu_movie_highest_rated
+            MovieCategoryEnum.IN_THEATERS -> R.id.menu_movie_in_theaters
+            MovieCategoryEnum.TOP_RATED -> R.id.menu_movie_highest_rated
+            else -> -1
         }
 
         menu.findItem(menuItemId)?.isChecked = true
@@ -92,6 +96,7 @@ class MainActivity : AppCompatActivity() {
             R.id.menu_movie_most_popular -> onOptionsMovieMostPopularSelected()
             R.id.menu_movie_highest_rated -> onOptionsMovieHighestRatedSelected()
             R.id.menu_movie_favorites -> onOptionsMovieFavoritesSelected()
+            R.id.menu_movie_in_theaters -> onOptionsMovieInTheatersSelected()
             else -> super.onOptionsItemSelected(item)
     }
 
@@ -123,6 +128,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun onOptionsMovieFavoritesSelected(): Boolean {
         viewModel.onMovieFavoriteListRefresh()
+        return true
+    }
+
+    private fun onOptionsMovieInTheatersSelected(): Boolean {
+        viewModel.onMovieInTheatersListRefresh()
         return true
     }
 
