@@ -7,21 +7,23 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.example.android.data.repositories.MovieRepository
+import com.example.android.data.repositories.RegionRepository
+import com.example.android.domain.Movie
+import com.example.android.usecases.GetFavoriteMovieListUseCase
+import com.example.android.usecases.GetPopularMovieListUseCase
+import com.example.android.usecases.GetTopRatedMovieListUseCase
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
-import com.mho.training.data.MovieRepository
-import com.mho.training.data.RegionRepository
-import com.mho.training.data.database.RoomDataSource
-import com.mho.training.data.remote.requests.MovieDataSource
+import com.mho.training.data.translators.toParcelableMovie
 import com.mho.training.databinding.ActivityMainBinding
-import com.mho.training.domain.Movie
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.permissions.AndroidPermissionChecker
 import com.mho.training.permissions.PermissionRequester
-import com.mho.training.usecases.GetFavoriteMovieListUseCase
-import com.mho.training.usecases.GetPopularMovieListUseCase
-import com.mho.training.usecases.GetTopRatedMovieListUseCase
+import com.mho.training.sources.MovieDataSource
+import com.mho.training.sources.PlayServicesLocationDataSource
+import com.mho.training.sources.RoomDataSource
 import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -131,7 +133,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openMovieDetails(movie: Movie){
         startActivity<MovieDetailActivity> {
-            putExtra(Constants.EXTRA_MOVIE, movie)
+            putExtra(Constants.EXTRA_MOVIE, movie.toParcelableMovie())
         }
     }
 

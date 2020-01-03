@@ -1,7 +1,7 @@
-package com.mho.training.data
+package com.example.android.data.repositories
 
-import com.mho.training.data.PermissionChecker.Permission.COARSE_LOCATION
-import com.mho.training.data.source.LocationDataSource
+import com.example.android.data.repositories.PermissionChecker.Permission.COARSE_LOCATION
+import com.example.android.data.sources.LocationDataSource
 
 class RegionRepository(
     private val locationDataSource: LocationDataSource,

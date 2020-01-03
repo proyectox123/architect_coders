@@ -8,19 +8,20 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.example.android.domain.Review
+import com.example.android.domain.Trailer
 import com.mho.training.R
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
-import com.mho.training.data.ReviewRepository
-import com.mho.training.data.TrailerRepository
-import com.mho.training.data.remote.requests.ReviewDataSource
-import com.mho.training.data.remote.requests.TrailerDataSource
+import com.example.android.data.repositories.ReviewRepository
+import com.example.android.data.repositories.TrailerRepository
+import com.mho.training.sources.ReviewDataSource
+import com.mho.training.sources.TrailerDataSource
+import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.databinding.ActivityMovieDetailBinding
-import com.mho.training.domain.Movie
-import com.mho.training.domain.Review
-import com.mho.training.domain.Trailer
-import com.mho.training.usecases.GetReviewListUseCase
-import com.mho.training.usecases.GetTrailerListUseCase
+import com.mho.training.parcelables.MovieParcelable
+import com.example.android.usecases.GetReviewListUseCase
+import com.example.android.usecases.GetTrailerListUseCase
 import com.mho.training.utils.Constants
 import com.mho.training.utils.getViewModel
 import kotlinx.android.synthetic.main.activity_movie_detail.*
@@ -43,7 +44,7 @@ class MovieDetailActivity : AppCompatActivity() {
 
         viewModel = getViewModel {
             MovieDetailViewModel(
-                intent.getParcelableExtra(Constants.EXTRA_MOVIE) as Movie?,
+                (intent.getParcelableExtra(Constants.EXTRA_MOVIE) as MovieParcelable?).toDomainMovie(),
                 GetTrailerListUseCase(
                     TrailerRepository(
                         TrailerDataSource()

@@ -3,11 +3,11 @@ package com.mho.training.features.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mho.training.domain.Movie
+import com.example.android.domain.Movie
 import com.mho.training.enums.MovieCategoryEnum
-import com.mho.training.usecases.GetFavoriteMovieListUseCase
-import com.mho.training.usecases.GetPopularMovieListUseCase
-import com.mho.training.usecases.GetTopRatedMovieListUseCase
+import com.example.android.usecases.GetFavoriteMovieListUseCase
+import com.example.android.usecases.GetPopularMovieListUseCase
+import com.example.android.usecases.GetTopRatedMovieListUseCase
 import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
 import kotlinx.coroutines.launch

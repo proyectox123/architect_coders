@@ -2,7 +2,7 @@ package com.mho.training.adapters.review
 
 import androidx.recyclerview.widget.RecyclerView
 import com.mho.training.databinding.ItemReviewBinding
-import com.mho.training.domain.Review
+import com.example.android.domain.Review
 
 class ReviewViewHolder(private val dataBinding: ItemReviewBinding,
                        private val listener: (Review) -> Unit) :

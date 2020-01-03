@@ -1,6 +1,6 @@
-package com.mho.training.data.source
+package com.example.android.data.sources
 
-import com.mho.training.domain.Movie
+import com.example.android.domain.Movie
 
 interface RemoteDataSource {
     suspend fun getTopRatedMovieList(region: String): List<Movie>

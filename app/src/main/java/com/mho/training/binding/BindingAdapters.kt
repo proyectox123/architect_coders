@@ -8,9 +8,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
-import com.mho.training.domain.Movie
-import com.mho.training.domain.Review
-import com.mho.training.domain.Trailer
+import com.example.android.domain.Movie
+import com.example.android.domain.Review
+import com.example.android.domain.Trailer
 import com.mho.training.utils.loadUrl
 
 @BindingAdapter("url")

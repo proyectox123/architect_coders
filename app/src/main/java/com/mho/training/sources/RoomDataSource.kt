@@ -1,9 +1,10 @@
-package com.mho.training.data.database
+package com.mho.training.sources
 
 import android.content.res.Resources
-import com.mho.training.data.source.LocalDataSource
+import com.example.android.data.sources.LocalDataSource
+import com.example.android.domain.Movie
+import com.mho.training.data.database.MovieDatabase
 import com.mho.training.data.translators.toDomainMovie
-import com.mho.training.domain.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

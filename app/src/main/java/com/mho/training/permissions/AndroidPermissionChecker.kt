@@ -4,9 +4,10 @@ import android.Manifest
 import android.app.Application
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
-import com.mho.training.data.PermissionChecker
+import com.example.android.data.repositories.PermissionChecker
 
-class AndroidPermissionChecker(private val application: Application): PermissionChecker {
+class AndroidPermissionChecker(private val application: Application):
+    PermissionChecker {
 
     override suspend fun check(permission: PermissionChecker.Permission): Boolean =
         ContextCompat.checkSelfPermission(

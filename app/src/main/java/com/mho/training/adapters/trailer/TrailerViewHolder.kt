@@ -2,7 +2,7 @@ package com.mho.training.adapters.trailer
 
 import androidx.recyclerview.widget.RecyclerView
 import com.mho.training.databinding.ItemTrailerBinding
-import com.mho.training.domain.Trailer
+import com.example.android.domain.Trailer
 
 class TrailerViewHolder(private val dataBinding: ItemTrailerBinding,
                        private val listener: (Trailer) -> Unit) :

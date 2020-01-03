@@ -1,7 +1,7 @@
-package com.mho.training.usecases
+package com.example.android.usecases
 
-import com.mho.training.data.ReviewRepository
-import com.mho.training.domain.Review
+import com.example.android.data.repositories.ReviewRepository
+import com.example.android.domain.Review
 
 class GetReviewListUseCase(private val reviewRepository: ReviewRepository){
 

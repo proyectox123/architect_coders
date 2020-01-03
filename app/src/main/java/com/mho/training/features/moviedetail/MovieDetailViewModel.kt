@@ -3,11 +3,11 @@ package com.mho.training.features.moviedetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mho.training.domain.Movie
-import com.mho.training.domain.Review
-import com.mho.training.domain.Trailer
-import com.mho.training.usecases.GetReviewListUseCase
-import com.mho.training.usecases.GetTrailerListUseCase
+import com.example.android.domain.Movie
+import com.example.android.domain.Review
+import com.example.android.domain.Trailer
+import com.example.android.usecases.GetReviewListUseCase
+import com.example.android.usecases.GetTrailerListUseCase
 import com.mho.training.utils.Scope
 import kotlinx.coroutines.launch
 

@@ -1,15 +1,16 @@
-package com.mho.training.utils
+package com.mho.training.sources
 
 import android.annotation.SuppressLint
 import android.app.Application
 import android.location.Geocoder
 import android.location.Location
+import com.example.android.data.sources.LocationDataSource
 import com.google.android.gms.location.LocationServices
-import com.mho.training.data.source.LocationDataSource
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-class PlayServicesLocationDataSource(application: Application) : LocationDataSource {
+class PlayServicesLocationDataSource(application: Application) :
+    LocationDataSource {
 
     private val geocoder = Geocoder(application)
     private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(application)

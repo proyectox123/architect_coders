@@ -1,7 +1,7 @@
-package com.mho.training.usecases
+package com.example.android.usecases
 
-import com.mho.training.data.TrailerRepository
-import com.mho.training.domain.Trailer
+import com.example.android.data.repositories.TrailerRepository
+import com.example.android.domain.Trailer
 
 class GetTrailerListUseCase(private val trailerRepository: TrailerRepository){
 

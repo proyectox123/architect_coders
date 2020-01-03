@@ -3,7 +3,7 @@ package com.mho.training.adapters.review
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mho.training.R
-import com.mho.training.domain.Review
+import com.example.android.domain.Review
 import com.mho.training.utils.basicDiffUtil
 import com.mho.training.utils.bindingInflate
 

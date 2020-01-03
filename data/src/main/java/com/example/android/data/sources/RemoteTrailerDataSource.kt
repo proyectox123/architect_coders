@@ -1,6 +1,6 @@
-package com.mho.training.data.source
+package com.example.android.data.sources
 
-import com.mho.training.domain.Trailer
+import com.example.android.domain.Trailer
 
 interface RemoteTrailerDataSource {
     suspend fun getTrailerList(movieId: Int): List<Trailer>
