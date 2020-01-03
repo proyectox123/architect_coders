@@ -14,9 +14,9 @@ fun MovieEntity.toDomainMovie(resources: Resources): Movie =
         title,
         releaseDate.toString(),
         posterPath,
+        voteAverage,
         getVoteAverageLabel(resources, voteAverage),
-        plotSynopsis,
-        false
+        plotSynopsis
     )
 
 fun ServerMovie.toDomainMovie(resources: Resources): Movie =
@@ -25,9 +25,9 @@ fun ServerMovie.toDomainMovie(resources: Resources): Movie =
         title,
         releaseDate,
         generateMoviePosterAbsolutePath(posterPath),
+        voteAverage,
         getVoteAverageLabel(resources, voteAverage),
-        plotSynopsis,
-        false
+        plotSynopsis
     )
 
 fun Movie.toParcelableMovie(): MovieParcelable =
@@ -37,8 +37,18 @@ fun Movie.toParcelableMovie(): MovieParcelable =
         releaseDate,
         posterPath,
         voteAverage,
-        plotSynopsis,
-        favorite
+        voteAverageLabel,
+        plotSynopsis
+    )
+
+fun Movie.toEntityMovie(): MovieEntity =
+    MovieEntity(
+        id,
+        title,
+        releaseDate,
+        posterPath,
+        voteAverage,
+        plotSynopsis
     )
 
 fun MovieParcelable?.toDomainMovie(): Movie? = if(this == null){
@@ -50,8 +60,8 @@ fun MovieParcelable?.toDomainMovie(): Movie? = if(this == null){
         releaseDate,
         posterPath,
         voteAverage,
-        plotSynopsis,
-        favorite
+        voteAverageLabel,
+        plotSynopsis
     )
 }
 

@@ -21,6 +21,12 @@ class MovieRepository(
     suspend fun getFavoriteMovieList(): List<Movie> =
         localDataSource.getFavoriteMovieList()
 
+    suspend fun getFavoriteMovieStatus(movie: Movie) =
+        localDataSource.getFavoriteMovieStatus(movie)
+
+    suspend fun updateFavoriteMovieStatus(movie: Movie) =
+        localDataSource.updateFavoriteMovieStatus(movie)
+
     //endregion
 
 }

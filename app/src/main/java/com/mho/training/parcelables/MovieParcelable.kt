@@ -9,7 +9,7 @@ data class MovieParcelable(
     val title: String,
     val releaseDate: String,
     val posterPath: String,
-    val voteAverage: String,
-    val plotSynopsis: String,
-    val favorite: Boolean
+    val voteAverage: Double,
+    val voteAverageLabel: String,
+    val plotSynopsis: String
 ): Parcelable

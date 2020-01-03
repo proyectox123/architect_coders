@@ -9,148 +9,164 @@
                 type="com.mho.training.features.moviedetail.MovieDetailViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/parent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:paddingEnd="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp">
+                android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp">
 
-                <ImageView
-                        android:id="@+id/movieDetailPosterImageView"
-                        android:layout_width="@dimen/poster_detail_width"
-                        android:layout_height="@dimen/poster_detail_height"
-                        android:contentDescription="@string/content_description_movie_detail_poster_item"
-                        app:url="@{viewmodel.infoMovie.posterPath}"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:src="@drawable/ic_movie_black_48dp" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <ImageView
+                            android:id="@+id/movieDetailPosterImageView"
+                            android:layout_width="@dimen/poster_detail_width"
+                            android:layout_height="@dimen/poster_detail_height"
+                            android:contentDescription="@string/content_description_movie_detail_poster_item"
+                            app:url="@{viewmodel.infoMovie.posterPath}"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:src="@drawable/ic_movie_black_48dp" />
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/movieDetailPosterImageView"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/movieDetailPosterImageView"
+                            app:layout_constraintTop_toTopOf="@+id/movieDetailPosterImageView">
+
+                        <TextView
+                                style="@style/MovieDetailTitleStyle"
+                                android:id="@+id/movieDetailTitleTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewmodel.infoMovie.title}"
+                                tools:text="Movie Title Title Title Title Title Title Title" />
+
+                        <TextView
+                                style="@style/MovieDetailInfoStyle"
+                                android:id="@+id/movieDetailReleaseDateTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewmodel.infoMovie.releaseDate}"
+                                tools:text="2019" />
+
+                        <TextView
+                                style="@style/MovieDetailInfoSmallStyle"
+                                android:id="@+id/movieDetailVoteAverageTextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@{viewmodel.infoMovie.voteAverageLabel}"
+                                tools:text="9.1/10" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp" />
+
+                <TextView
+                        style="@style/MovieDetailDescriptionStyle"
+                        android:id="@+id/movieDetailDescriptionTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewmodel.infoMovie.plotSynopsis}"
+                        tools:text="@string/content_lorem_ipsum"/>
+
+                <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp" />
 
                 <LinearLayout
-                        android:layout_width="0dp"
+                        android:id="@+id/trailerSectionContainer"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintLeft_toRightOf="@+id/movieDetailPosterImageView"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/movieDetailPosterImageView"
-                        app:layout_constraintTop_toTopOf="@+id/movieDetailPosterImageView">
+                        android:layout_marginBottom="8dp"
+                        android:orientation="vertical">
 
                     <TextView
                             style="@style/MovieDetailTitleStyle"
-                            android:id="@+id/movieDetailTitleTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{viewmodel.infoMovie.title}"
-                            tools:text="Movie Title Title Title Title Title Title Title" />
+                            android:layout_marginBottom="8dp"
+                            android:text="@string/section_trailers" />
 
-                    <TextView
-                            style="@style/MovieDetailInfoStyle"
-                            android:id="@+id/movieDetailReleaseDateTextView"
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/trailerListView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{viewmodel.infoMovie.releaseDate}"
-                            tools:text="2019" />
-
-                    <TextView
-                            style="@style/MovieDetailInfoSmallStyle"
-                            android:id="@+id/movieDetailVoteAverageTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@{viewmodel.infoMovie.voteAverage}"
-                            tools:text="9.1/10" />
+                            android:orientation="horizontal"
+                            app:items="@{viewmodel.trailers}"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:listitem="@layout/item_trailer"
+                            tools:itemCount="5"/>
 
                 </LinearLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp" />
-
-            <TextView
-                    style="@style/MovieDetailDescriptionStyle"
-                    android:id="@+id/movieDetailDescriptionTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewmodel.infoMovie.plotSynopsis}"
-                    tools:text="@string/content_lorem_ipsum"/>
-
-            <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp" />
-
-            <LinearLayout
-                    android:id="@+id/trailerSectionContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="vertical">
-
-                <TextView
-                        style="@style/MovieDetailTitleStyle"
+                <LinearLayout
+                        android:id="@+id/reviewSectionContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="@string/section_trailers" />
+                        android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/trailerListView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:items="@{viewmodel.trailers}"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_trailer"
-                        tools:itemCount="5"/>
+                    <TextView
+                            style="@style/MovieDetailTitleStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="@string/section_reviews" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/reviewListView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:items="@{viewmodel.reviews}"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:listitem="@layout/item_review"
+                            tools:itemCount="1"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                    android:id="@+id/reviewSectionContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+        </androidx.core.widget.NestedScrollView>
 
-                <TextView
-                        style="@style/MovieDetailTitleStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:text="@string/section_reviews" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/movieDetailFavorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_favorite_border"
+                app:layout_anchor="@id/parent"
+                app:layout_anchorGravity="bottom|end"/>
 
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/reviewListView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:items="@{viewmodel.reviews}"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_review"
-                        tools:itemCount="1"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
