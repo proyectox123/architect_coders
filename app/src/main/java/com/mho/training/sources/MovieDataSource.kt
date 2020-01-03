@@ -15,7 +15,7 @@ class MovieDataSource(
 
     override suspend fun getTopRatedMovieList(region: String): List<Movie> = withContext(Dispatchers.IO) {
         RetrofitRequest.service
-            .getPopularMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
+            .getTopRatedMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
             .await()
             .results
             .map { it.toDomainMovie(resources) }
@@ -23,7 +23,7 @@ class MovieDataSource(
 
     override suspend fun getPopularMovieList(region: String): List<Movie> = withContext(Dispatchers.IO) {
         RetrofitRequest.service
-            .getTopRatedMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
+            .getPopularMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
             .await()
             .results
             .map { it.toDomainMovie(resources) }
