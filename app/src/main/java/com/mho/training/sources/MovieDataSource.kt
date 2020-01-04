@@ -17,23 +17,29 @@ class MovieDataSource(
         RetrofitRequest.service
             .getTopRatedMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
             .await()
-            .results
-            .map { it.toDomainMovie(resources) }
+            .body()
+            ?.results
+            ?.map { it.toDomainMovie(resources) }
+            ?: mutableListOf()
     }
 
     override suspend fun getPopularMovieList(region: String): List<Movie> = withContext(Dispatchers.IO) {
         RetrofitRequest.service
             .getPopularMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
             .await()
-            .results
-            .map { it.toDomainMovie(resources) }
+            .body()
+            ?.results
+            ?.map { it.toDomainMovie(resources) }
+            ?: mutableListOf()
     }
 
     override suspend fun getInTheatersMovieList(region: String): List<Movie> = withContext(Dispatchers.IO) {
         RetrofitRequest.service
             .getInTheatersMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
             .await()
-            .results
-            .map { it.toDomainMovie(resources) }
+            .body()
+            ?.results
+            ?.map { it.toDomainMovie(resources) }
+            ?: mutableListOf()
     }
 }

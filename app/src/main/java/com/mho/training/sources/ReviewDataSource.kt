@@ -14,7 +14,9 @@ class ReviewDataSource : RemoteReviewDataSource {
         RetrofitRequest.service
             .getReviewListByMovieAsync(movieId, BuildConfig.MOVIE_DB_API_KEY)
             .await()
-            .results
-            .map { it.toDomainReview() }
+            .body()
+            ?.results
+            ?.map { it.toDomainReview() }
+            ?: mutableListOf()
     }
 }

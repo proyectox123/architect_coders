@@ -14,7 +14,9 @@ class TrailerDataSource : RemoteTrailerDataSource {
         RetrofitRequest.service
             .getTrailerListByMovieAsync(movieId, BuildConfig.MOVIE_DB_API_KEY)
             .await()
-            .results
-            .map { it.toDomainTrailer() }
+            .body()
+            ?.results
+            ?.map { it.toDomainTrailer() }
+            ?: mutableListOf()
     }
 }
