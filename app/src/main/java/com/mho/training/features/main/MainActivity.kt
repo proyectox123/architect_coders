@@ -10,10 +10,7 @@ import androidx.lifecycle.Observer
 import com.example.android.data.repositories.MovieRepository
 import com.example.android.data.repositories.RegionRepository
 import com.example.android.domain.Movie
-import com.example.android.usecases.GetFavoriteMovieListUseCase
-import com.example.android.usecases.GetInTheatersMovieListUseCase
-import com.example.android.usecases.GetPopularMovieListUseCase
-import com.example.android.usecases.GetTopRatedMovieListUseCase
+import com.example.android.usecases.*
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.data.translators.toParcelableMovie
@@ -49,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = getViewModel {
             MainViewModel(
                 GetFavoriteMovieListUseCase(getMovieRepository()),
+                GetFavoriteMovieListWithChangesUseCase(getMovieRepository()),
                 GetPopularMovieListUseCase(getMovieRepository()),
                 GetTopRatedMovieListUseCase(getMovieRepository()),
                 GetInTheatersMovieListUseCase(getMovieRepository())
@@ -68,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         srwMovieList.setOnRefreshListener { viewModel.onMovieListRefresh() }
 
         viewModel.movieCategory.observe(this, Observer(::updateMovieCategory))
+        viewModel.favoriteMovies.observe(this, Observer { viewModel.onMovieFavoriteListUpdate(it) })
         viewModel.events.observe(this, EventObserver(::validateEvents))
     }
 

@@ -1,13 +1,11 @@
 package com.mho.training.features.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.domain.Movie
-import com.example.android.usecases.GetFavoriteMovieListUseCase
-import com.example.android.usecases.GetInTheatersMovieListUseCase
-import com.example.android.usecases.GetPopularMovieListUseCase
-import com.example.android.usecases.GetTopRatedMovieListUseCase
+import com.example.android.usecases.*
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
@@ -15,6 +13,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val getFavoriteMovieListUseCase: GetFavoriteMovieListUseCase,
+    getFavoriteMovieListWithChangesUseCase: GetFavoriteMovieListWithChangesUseCase,
     private val getPopularMovieListUseCase: GetPopularMovieListUseCase,
     private val getTopRatedMovieListUseCase: GetTopRatedMovieListUseCase,
     private val getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase
@@ -33,6 +32,9 @@ class MainViewModel(
 
     private val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>> get() = _movies
+
+    private val _favoriteMovies = getFavoriteMovieListWithChangesUseCase.invoke()
+    val favoriteMovies: LiveData<List<Movie>> get() = _favoriteMovies
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
@@ -88,11 +90,21 @@ class MainViewModel(
         _movieCategory.value = MovieCategoryEnum.IN_THEATERS
     }
 
+    fun onMovieFavoriteListUpdate(favoriteMovieList: List<Movie>){
+        Log.d(TAG, "onMovieFavoriteListUpdate movieCategory -> ${_movieCategory.value}")
+        Log.d(TAG, "onMovieFavoriteListUpdate favoriteMovieList -> ${favoriteMovieList.size}")
+        if(_movieCategory.value == MovieCategoryEnum.FAVORITE){
+            _error.value = favoriteMovieList.isNullOrEmpty()
+            _movies.value = favoriteMovieList
+        }
+    }
+
     fun onMovieClicked(movie: Movie) {
         _events.value = Event(Navigation.NavigateToMovie(movie))
     }
 
     fun onCoarsePermissionRequested(hasPermission: Boolean) {
+        Log.d(TAG, "onCoarsePermissionRequested hasPermission -> $hasPermission")
         if(hasPermission){
             refresh(_movieCategory.value ?: MovieCategoryEnum.TOP_RATED)
             return
@@ -107,6 +119,7 @@ class MainViewModel(
     //region Private Methods
 
     private fun refresh(movieCategory: MovieCategoryEnum){
+        Log.d(TAG, "refresh movieCategory -> $movieCategory")
         launch {
             _loading.value = true
             _error.value = false
@@ -120,6 +133,8 @@ class MainViewModel(
 
             _error.value = movieList.isNullOrEmpty()
             _movies.value = movieList
+
+            Log.d(TAG, "refresh movies -> ${_movies.value?.size ?: 0}")
 
             _loading.value = false
         }
@@ -135,4 +150,10 @@ class MainViewModel(
     }
 
     //endregion
+
+    companion object {
+
+        private val TAG = MainViewModel::class.java.simpleName
+
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.android.data.repositories
 
+import androidx.lifecycle.LiveData
 import com.example.android.data.sources.LocalDataSource
 import com.example.android.data.sources.RemoteDataSource
 import com.example.android.domain.Movie
@@ -23,6 +24,9 @@ class MovieRepository(
 
     suspend fun getFavoriteMovieList(): List<Movie> =
         localDataSource.getFavoriteMovieList()
+
+    fun getFavoriteMovieListWithChanges(): LiveData<List<Movie>> =
+        localDataSource.getFavoriteMovieListWithChanges()
 
     suspend fun getFavoriteMovieStatus(movie: Movie) =
         localDataSource.getFavoriteMovieStatus(movie)
