@@ -13,7 +13,6 @@ import com.example.android.domain.Movie
 import com.example.android.usecases.*
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
-import com.mho.training.data.translators.toParcelableMovie
 import com.mho.training.databinding.ActivityMainBinding
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.moviedetail.MovieDetailActivity
@@ -149,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openMovieDetails(movie: Movie){
         startActivity<MovieDetailActivity> {
-            putExtra(Constants.EXTRA_MOVIE, movie.toParcelableMovie())
+            putExtra(Constants.EXTRA_MOVIE, movie)
         }
     }
 
