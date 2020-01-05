@@ -106,6 +106,32 @@
                         android:layout_marginTop="8dp" />
 
                 <LinearLayout
+                        android:id="@+id/keywordsSectionContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="vertical">
+
+                    <TextView
+                            style="@style/MovieDetailTitleStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="@string/section_keywords" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/keywordListView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:items="@{viewmodel.keywords}"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:listitem="@layout/item_keyword"
+                            tools:itemCount="4"/>
+
+                </LinearLayout>
+
+                <LinearLayout
                         android:id="@+id/trailerSectionContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -164,7 +190,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:src="@drawable/ic_favorite_border"
+                android:onClick="@{() -> viewmodel.updateFavoriteMovieStatus()}"
+                app:isFavorite="@{viewmodel.isFavorite}"
                 app:layout_anchor="@id/parent"
                 app:layout_anchorGravity="bottom|end"/>
 

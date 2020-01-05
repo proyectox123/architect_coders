@@ -27,6 +27,7 @@ import com.mho.training.sources.PlayServicesLocationDataSource
 import com.mho.training.sources.RoomDataSource
 import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
+import com.mho.training.features.main.MainViewModel.Navigation as Navigation
 
 
 class MainActivity : AppCompatActivity() {
@@ -66,9 +67,8 @@ class MainActivity : AppCompatActivity() {
 
         srwMovieList.setOnRefreshListener { viewModel.onMovieListRefresh() }
 
-        viewModel.navigateToMovie.observe(this, EventObserver(::openMovieDetails))
         viewModel.movieCategory.observe(this, Observer(::updateMovieCategory))
-        viewModel.requestLocationPermission.observe(this, EventObserver { checkLocationPermission() })
+        viewModel.events.observe(this, EventObserver(::validateEvents))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -139,6 +139,13 @@ class MainActivity : AppCompatActivity() {
     private fun updateMovieCategory(movieCategory: MovieCategoryEnum){
         Log.d(TAG, "updateMovieCategory movieCategory -> $movieCategory")
         viewModel.onMovieListRefresh()
+    }
+
+    private fun validateEvents(navigation: Navigation){
+        when(navigation){
+            is Navigation.NavigateToMovie -> navigation.run { openMovieDetails(movie) }
+            Navigation.RequestLocationPermission -> checkLocationPermission()
+        }
     }
 
     private fun openMovieDetails(movie: Movie){

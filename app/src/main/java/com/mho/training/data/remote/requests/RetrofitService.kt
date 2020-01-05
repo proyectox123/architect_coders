@@ -1,5 +1,6 @@
 package com.mho.training.data.remote.requests
 
+import com.mho.training.data.remote.models.KeywordResult
 import com.mho.training.data.remote.models.MovieResult
 import com.mho.training.data.remote.models.ReviewResult
 import com.mho.training.data.remote.models.TrailerResult
@@ -28,6 +29,12 @@ interface RetrofitService {
         @Query("api_key") apiKey: String,
         @Query("region") region: String
     ): Deferred<Response<MovieResult>>
+
+    @GET("movie/{movie_id}/keywords")
+    fun getKeywordListByMovieAsync(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String
+    ): Deferred<Response<KeywordResult>>
 
     @GET("movie/{movie_id}/reviews")
     fun getReviewListByMovieAsync(

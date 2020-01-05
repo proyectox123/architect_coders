@@ -4,30 +4,26 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
-import com.example.android.data.repositories.MovieRepository
-import com.example.android.data.repositories.RegionRepository
-import com.example.android.data.repositories.ReviewRepository
-import com.example.android.data.repositories.TrailerRepository
+import com.example.android.data.repositories.*
+import com.example.android.domain.Keyword
 import com.example.android.domain.Review
 import com.example.android.domain.Trailer
-import com.example.android.usecases.GetFavoriteMovieStatus
-import com.example.android.usecases.GetReviewListUseCase
-import com.example.android.usecases.GetTrailerListUseCase
-import com.example.android.usecases.UpdateFavoriteMovieStatus
+import com.example.android.usecases.*
 import com.mho.training.R
+import com.mho.training.adapters.keyword.KeywordListAdapter
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.databinding.ActivityMovieDetailBinding
+import com.mho.training.features.moviedetail.MovieDetailViewModel.Navigation
 import com.mho.training.parcelables.MovieParcelable
 import com.mho.training.permissions.AndroidPermissionChecker
 import com.mho.training.sources.*
 import com.mho.training.utils.Constants
+import com.mho.training.utils.EventObserver
 import com.mho.training.utils.app
 import com.mho.training.utils.getViewModel
 import kotlinx.android.synthetic.main.activity_movie_detail.*
@@ -38,10 +34,9 @@ class MovieDetailActivity : AppCompatActivity() {
     //region Fields
 
     private lateinit var viewModel: MovieDetailViewModel
+    private lateinit var keywordListAdapter: KeywordListAdapter
     private lateinit var reviewListAdapter: ReviewListAdapter
     private lateinit var trailerListAdapter: TrailerListAdapter
-
-    private var favoriteMenuItem: MenuItem? = null
 
     //endregion
 
@@ -79,6 +74,11 @@ class MovieDetailActivity : AppCompatActivity() {
                         )
                     )
                 ),
+                GetKeywordListUseCase(
+                    KeywordRepository(
+                        KeywordDataSource()
+                    )
+                ),
                 GetTrailerListUseCase(
                     TrailerRepository(
                         TrailerDataSource()
@@ -98,35 +98,23 @@ class MovieDetailActivity : AppCompatActivity() {
             lifecycleOwner = this@MovieDetailActivity
         }
 
+        keywordListAdapter = KeywordListAdapter(::openKeyword)
         reviewListAdapter = ReviewListAdapter(::openReview)
         trailerListAdapter = TrailerListAdapter(::openTrailer)
 
+        keywordListView.adapter = keywordListAdapter
         reviewListView.adapter = reviewListAdapter
         trailerListView.adapter = trailerListAdapter
 
-        viewModel.isFavorite.observe(this, Observer(::updateFavoriteMovieStatus))
+        viewModel.events.observe(this, EventObserver(::validateEvents))
 
         viewModel.onMovieInformation()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.movie_detail, menu)
-
-        this.favoriteMenuItem = menu.findItem(R.id.action_favorite)
         viewModel.onValidateFavoriteMovieStatus()
-
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             onBackPressed()
-            return true
-        }
-
-        if (item.itemId == R.id.action_favorite) {
-            viewModel.onUpdateFavoriteMovieStatus()
             return true
         }
 
@@ -136,6 +124,10 @@ class MovieDetailActivity : AppCompatActivity() {
     //endregion
 
     //region Private Methods
+
+    private fun openKeyword(keyword: Keyword){
+        Log.d(TAG, "openKeyword -> $keyword")
+    }
 
     private fun openReview(review: Review){
         Log.d(TAG, "openReview -> $review")
@@ -155,11 +147,10 @@ class MovieDetailActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun updateFavoriteMovieStatus(isFavorite: Boolean){
-        val icon = if(isFavorite) R.drawable.ic_favorite_full else R.drawable.ic_favorite_border
-
-        favoriteMenuItem?.setIcon(icon)
-        movieDetailFavorite.setImageResource(icon)
+    private fun validateEvents(navigation: Navigation){
+        when(navigation){
+            Navigation.CloseActivity -> finish()
+        }
     }
 
     //endregion

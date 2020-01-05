@@ -5,12 +5,16 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.android.domain.Keyword
 import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
 import com.example.android.domain.Movie
 import com.example.android.domain.Review
 import com.example.android.domain.Trailer
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.mho.training.R
+import com.mho.training.adapters.keyword.KeywordListAdapter
 import com.mho.training.utils.loadUrl
 
 @BindingAdapter("url")
@@ -22,6 +26,13 @@ fun ImageView.bindUrl(url: String?) {
 fun RecyclerView.setItems(movies: List<Movie>?) {
     (adapter as? MovieListAdapter)?.let {
         it.movies = movies ?: emptyList()
+    }
+}
+
+@BindingAdapter("items")
+fun RecyclerView.setKeywords(keywords: List<Keyword>?) {
+    (adapter as? KeywordListAdapter)?.let {
+        it.keywords = keywords ?: emptyList()
     }
 }
 
@@ -47,4 +58,11 @@ fun SwipeRefreshLayout.setRefreshing(canRefreshing: Boolean?){
 @BindingAdapter("visible")
 fun View.setVisible(visible: Boolean?) {
     visibility = visible?.let { if (visible) View.VISIBLE else View.GONE } ?: View.GONE
+}
+
+@BindingAdapter("isFavorite")
+fun FloatingActionButton.setFavoriteIcon(isFavorite: Boolean?){
+    setImageResource(
+        isFavorite?.let { if(isFavorite) R.drawable.ic_favorite_full else R.drawable.ic_favorite_border } ?: R.drawable.ic_favorite_border
+    )
 }

@@ -37,12 +37,6 @@ class MainViewModel(
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
 
-    private val _requestLocationPermission = MutableLiveData<Event<Unit>>()
-    val requestLocationPermission: LiveData<Event<Unit>> get() = _requestLocationPermission
-
-    private val _navigateToMovie = MutableLiveData<Event<Movie>>()
-    val navigateToMovie: LiveData<Event<Movie>> get() = _navigateToMovie
-
     private val _error = MutableLiveData<Boolean>()
     val error: LiveData<Boolean> get() = _error
 
@@ -55,6 +49,9 @@ class MainViewModel(
 
             return _movieCategory
         }
+
+    private val _events = MutableLiveData<Event<Navigation>>()
+    val events: LiveData<Event<Navigation>> get() = _events
 
     //endregion
 
@@ -70,7 +67,7 @@ class MainViewModel(
     //region Public Methods
 
     fun onMovieListRefresh() {
-        _requestLocationPermission.value = Event(Unit)
+        _events.value = Event(Navigation.RequestLocationPermission)
     }
 
     fun onMovieCategory() = _movieCategory.value
@@ -92,7 +89,7 @@ class MainViewModel(
     }
 
     fun onMovieClicked(movie: Movie) {
-        _navigateToMovie.value = Event(movie)
+        _events.value = Event(Navigation.NavigateToMovie(movie))
     }
 
     fun onCoarsePermissionRequested(hasPermission: Boolean) {
@@ -126,6 +123,15 @@ class MainViewModel(
 
             _loading.value = false
         }
+    }
+
+    //endregion
+
+    //region Inner Classes & Interfaces
+
+    sealed class Navigation {
+        class NavigateToMovie(val movie: Movie): Navigation()
+        object RequestLocationPermission: Navigation()
     }
 
     //endregion

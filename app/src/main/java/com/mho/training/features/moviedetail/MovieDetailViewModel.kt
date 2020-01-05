@@ -1,15 +1,15 @@
 package com.mho.training.features.moviedetail
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.android.domain.Keyword
 import com.example.android.domain.Movie
 import com.example.android.domain.Review
 import com.example.android.domain.Trailer
-import com.example.android.usecases.GetFavoriteMovieStatus
-import com.example.android.usecases.GetReviewListUseCase
-import com.example.android.usecases.GetTrailerListUseCase
-import com.example.android.usecases.UpdateFavoriteMovieStatus
+import com.example.android.usecases.*
+import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
 import kotlinx.coroutines.launch
 
@@ -17,6 +17,7 @@ class MovieDetailViewModel(
     private val movie: Movie?,
     private val getFavoriteMovieStatus: GetFavoriteMovieStatus,
     private val updateFavoriteMovieStatus: UpdateFavoriteMovieStatus,
+    private val getKeywordListUseCase: GetKeywordListUseCase,
     private val getTrailerListUseCase: GetTrailerListUseCase,
     private val getReviewListUseCase: GetReviewListUseCase
 ) : ViewModel(), Scope by Scope.Impl() {
@@ -34,6 +35,9 @@ class MovieDetailViewModel(
     private val _infoMovie = MutableLiveData<Movie>()
     val infoMovie: LiveData<Movie> get() = _infoMovie
 
+    private val _keywords = MutableLiveData<List<Keyword>>()
+    val keywords: LiveData<List<Keyword>> get() = _keywords
+
     private val _reviews = MutableLiveData<List<Review>>()
     val reviews: LiveData<List<Review>> get() = _reviews
 
@@ -42,6 +46,9 @@ class MovieDetailViewModel(
 
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
+
+    private val _events = MutableLiveData<Event<Navigation>>()
+    val events: LiveData<Event<Navigation>> get() = _events
 
     //endregion
 
@@ -57,14 +64,16 @@ class MovieDetailViewModel(
     //region Public Methods
 
     fun onMovieInformation(){
+        Log.d(TAG, "onMovieInformation movie -> $movie")
         if(movie == null){
-            //finish
+            _events.value = Event(Navigation.CloseActivity)
             return
         }
 
         _infoMovie.value = movie
 
         launch {
+            _keywords.value = getKeywordListUseCase.invoke(movie.id)
             _trailers.value = getTrailerListUseCase.invoke(movie.id)
             _reviews.value = getReviewListUseCase.invoke(movie.id)
         }
@@ -76,10 +85,18 @@ class MovieDetailViewModel(
         }
     }
 
-    fun onUpdateFavoriteMovieStatus() {
+    fun updateFavoriteMovieStatus() {
         launch {
             _isFavorite.value = updateFavoriteMovieStatus.invoke(movie!!)
         }
+    }
+
+    //endregion
+
+    //region Inner Classes & Interfaces
+
+    sealed class Navigation {
+        object CloseActivity: Navigation()
     }
 
     //endregion
