@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.android.data.sources.LocalDataSource
 import com.example.android.domain.Movie
-import com.mho.training.data.database.MovieDatabase
-import com.mho.training.data.database.tables.MovieEntity
+import com.example.android.framework.data.local.database.MovieDatabase
+import com.example.android.framework.data.local.database.tables.MovieEntity
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.data.translators.toEntityMovie
 import kotlinx.coroutines.Dispatchers

@@ -1,8 +1,7 @@
 package com.mho.training
 
 import android.app.Application
-import androidx.room.Room
-import com.mho.training.data.database.MovieDatabase
+import com.example.android.framework.data.local.database.MovieDatabase
 
 class MoviesApp : Application() {
 
@@ -12,9 +11,6 @@ class MoviesApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        db = Room.databaseBuilder(
-            this,
-            MovieDatabase::class.java, "movie-db"
-        ).build()
+        db = MovieDatabase.getDatabase(this)
     }
 }

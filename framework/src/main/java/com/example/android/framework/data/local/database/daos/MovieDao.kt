@@ -1,10 +1,8 @@
-package com.mho.training.data.database.daos
+package com.example.android.framework.data.local.database.daos
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.mho.training.data.database.tables.MovieEntity
-
-
+import com.example.android.framework.data.local.database.tables.MovieEntity
 
 @Dao
 interface MovieDao {

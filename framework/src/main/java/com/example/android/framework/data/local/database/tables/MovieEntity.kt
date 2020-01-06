@@ -1,4 +1,4 @@
-package com.mho.training.data.database.tables
+package com.example.android.framework.data.local.database.tables
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

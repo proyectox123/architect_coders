@@ -1,7 +1,7 @@
-package com.mho.training.data.database.converters
+package com.example.android.framework.data.local.database.converters
 
 import androidx.room.TypeConverter
-import com.mho.training.utils.Constants
+import com.example.android.framework.utils.Constants
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
