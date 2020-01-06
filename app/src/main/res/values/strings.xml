@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ArchitectCodersTraining</string>
+    <string name="app_name">App Movie Coders</string>
 
     <!-- Main -->
     <string name="title_movie_activity">Popular Movies</string>
