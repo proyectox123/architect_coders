@@ -1,9 +1,9 @@
-package com.mho.training.data.remote.requests
+package com.example.android.framework.data.remote.requests
 
-import com.mho.training.data.remote.models.KeywordResult
-import com.mho.training.data.remote.models.MovieResult
-import com.mho.training.data.remote.models.ReviewResult
-import com.mho.training.data.remote.models.TrailerResult
+import com.example.android.framework.data.remote.models.KeywordResult
+import com.example.android.framework.data.remote.models.MovieResult
+import com.example.android.framework.data.remote.models.ReviewResult
+import com.example.android.framework.data.remote.models.TrailerResult
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET

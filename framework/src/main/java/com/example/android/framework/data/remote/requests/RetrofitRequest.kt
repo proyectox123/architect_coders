@@ -1,4 +1,4 @@
-package com.mho.training.data.remote.requests
+package com.example.android.framework.data.remote.requests
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient

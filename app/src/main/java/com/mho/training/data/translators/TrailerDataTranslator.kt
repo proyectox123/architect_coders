@@ -1,7 +1,7 @@
 package com.mho.training.data.translators
 
 import com.example.android.domain.Trailer
-import com.mho.training.data.remote.models.ServerTrailer
+import com.example.android.framework.data.remote.models.ServerTrailer
 import com.mho.training.utils.Constants
 
 fun ServerTrailer.toDomainTrailer(): Trailer =

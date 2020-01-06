@@ -2,8 +2,8 @@ package com.mho.training.sources
 
 import com.example.android.data.sources.RemoteReviewDataSource
 import com.example.android.domain.Review
+import com.example.android.framework.data.remote.requests.RetrofitRequest
 import com.mho.training.BuildConfig
-import com.mho.training.data.remote.requests.RetrofitRequest
 import com.mho.training.data.translators.toDomainReview
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

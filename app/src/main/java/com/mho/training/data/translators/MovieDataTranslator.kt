@@ -2,9 +2,9 @@ package com.mho.training.data.translators
 
 import android.content.res.Resources
 import com.example.android.domain.Movie
+import com.example.android.framework.data.remote.models.ServerMovie
 import com.mho.training.R
 import com.mho.training.data.database.tables.MovieEntity
-import com.mho.training.data.remote.models.ServerMovie
 import com.mho.training.utils.Constants
 
 fun MovieEntity.toDomainMovie(resources: Resources): Movie =

@@ -1,4 +1,4 @@
-package com.mho.training.data.remote.models
+package com.example.android.framework.data.remote.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

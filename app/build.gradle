@@ -37,6 +37,7 @@ androidExtensions {
 }
 
 dependencies {
+    implementation project(":framework")
     implementation project(":data")
     implementation project(":domain")
     implementation project(":usecases")
@@ -66,12 +67,6 @@ dependencies {
 
     //Permission
     implementation 'com.karumi:dexter:5.0.0'
-
-    //Retrofit
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.0.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
-    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
 
     //Room
     implementation 'androidx.room:room-runtime:2.2.3'
