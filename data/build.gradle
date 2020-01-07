@@ -26,6 +26,7 @@ android {
 
 dependencies {
     implementation project(":domain")
+    implementation project(":framework")
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //Live Data

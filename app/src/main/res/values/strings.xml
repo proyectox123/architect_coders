@@ -34,4 +34,12 @@
 
     <!-- Errors -->
     <string name="error_not_available">Not available</string>
+    <string name="error_unable_to_fetch_movies">Unable to fetch movies!</string>
+    <string name="error_unable_to_fetch_keywords">Unable to fetch keywords!</string>
+    <string name="error_unable_to_fetch_trailers">Unable to fetch trailers!</string>
+    <string name="error_unable_to_fetch_reviews">Unable to fetch reviews!</string>
+    <string name="error_during_fetching_movies">Error occurred during fetching movies!</string>
+    <string name="error_during_fetching_keywords">Error occurred during fetching keywords!</string>
+    <string name="error_during_fetching_trailers">Error occurred during fetching trailers!</string>
+    <string name="error_during_fetching_reviews">Error occurred during fetching reviews!</string>
 </resources>

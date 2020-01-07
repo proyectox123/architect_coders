@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.android.data.sources.LocalDataSource
 import com.example.android.data.sources.RemoteDataSource
 import com.example.android.domain.Movie
+import com.example.android.framework.data.remote.requests.Result
 
 class MovieRepository(
     private val localDataSource: LocalDataSource,
@@ -13,16 +14,16 @@ class MovieRepository(
 
     //region Public Methods
 
-    suspend fun getTopRatedMovieList(): List<Movie> =
+    suspend fun getTopRatedMovieList(): Result<List<Movie>> =
         remoteDataSource.getTopRatedMovieList(regionRepository.findLastRegion())
 
-    suspend fun getPopularMovieList(): List<Movie> =
+    suspend fun getPopularMovieList(): Result<List<Movie>> =
         remoteDataSource.getPopularMovieList(regionRepository.findLastRegion())
 
-    suspend fun getInTheatersMovieList(): List<Movie> =
+    suspend fun getInTheatersMovieList(): Result<List<Movie>> =
         remoteDataSource.getInTheatersMovieList(regionRepository.findLastRegion())
 
-    suspend fun getFavoriteMovieList(): List<Movie> =
+    suspend fun getFavoriteMovieList(): Result<List<Movie>> =
         localDataSource.getFavoriteMovieList()
 
     fun getFavoriteMovieListWithChanges(): LiveData<List<Movie>> =

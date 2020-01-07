@@ -8,6 +8,7 @@ import com.example.android.domain.Keyword
 import com.example.android.domain.Movie
 import com.example.android.domain.Review
 import com.example.android.domain.Trailer
+import com.example.android.framework.data.remote.requests.Result
 import com.example.android.usecases.*
 import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
@@ -38,20 +39,20 @@ class MovieDetailViewModel(
     private val _keywords = MutableLiveData<List<Keyword>>()
     val keywords: LiveData<List<Keyword>> get() = _keywords
 
-    private val _hasKeywords = MutableLiveData<Boolean>()
-    val hasKeywords: LiveData<Boolean> get() = _hasKeywords
+    private val _hasNotKeywords = MutableLiveData<Boolean>()
+    val hasNotKeywords: LiveData<Boolean> get() = _hasNotKeywords
 
     private val _reviews = MutableLiveData<List<Review>>()
     val reviews: LiveData<List<Review>> get() = _reviews
 
-    private val _hasReviews = MutableLiveData<Boolean>()
-    val hasReviews: LiveData<Boolean> get() = _hasReviews
+    private val _hasNotReviews = MutableLiveData<Boolean>()
+    val hasNotReviews: LiveData<Boolean> get() = _hasNotReviews
 
     private val _trailers = MutableLiveData<List<Trailer>>()
     val trailers: LiveData<List<Trailer>> get() = _trailers
 
-    private val _hasTrailers = MutableLiveData<Boolean>()
-    val hasTrailers: LiveData<Boolean> get() = _hasTrailers
+    private val _hasNotTrailers = MutableLiveData<Boolean>()
+    val hasNotTrailers: LiveData<Boolean> get() = _hasNotTrailers
 
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
@@ -82,17 +83,9 @@ class MovieDetailViewModel(
         _infoMovie.value = movie
 
         launch {
-            val keywordList = getKeywordListUseCase.invoke(movie.id)
-            _keywords.value = keywordList
-            _hasKeywords.value = keywordList.isEmpty()
-
-            val trailerList = getTrailerListUseCase.invoke(movie.id)
-            _trailers.value = trailerList
-            _hasTrailers.value = trailerList.isEmpty()
-
-            val reviewList = getReviewListUseCase.invoke(movie.id)
-            _reviews.value = reviewList
-            _hasReviews.value = reviewList.isEmpty()
+            validateKeywordResult(getKeywordListUseCase.invoke(movie.id))
+            validateTrailerResult(getTrailerListUseCase.invoke(movie.id))
+            validateReviewResult(getReviewListUseCase.invoke(movie.id))
         }
     }
 
@@ -105,6 +98,52 @@ class MovieDetailViewModel(
     fun updateFavoriteMovieStatus() {
         launch {
             _isFavorite.value = updateFavoriteMovieStatus.invoke(movie!!)
+        }
+    }
+
+    //endregion
+
+    //region Private Methods
+
+    private fun validateKeywordResult(keywordListResult: Result<List<Keyword>>){
+        when(keywordListResult){
+            is Result.Success -> {
+                _keywords.value = keywordListResult.data
+                _hasNotKeywords.value = false
+            }
+            is Result.Error -> {
+                Log.d(TAG, "validateKeywordResult error message -> ${keywordListResult.exception.message}")
+                _keywords.value = emptyList()
+                _hasNotKeywords.value = true
+            }
+        }
+    }
+
+    private fun validateTrailerResult(trailerListResult: Result<List<Trailer>>){
+        when(trailerListResult){
+            is Result.Success -> {
+                _trailers.value = trailerListResult.data
+                _hasNotTrailers.value = false
+            }
+            is Result.Error -> {
+                Log.d(TAG, "validateTrailerResult error message -> ${trailerListResult.exception.message}")
+                _trailers.value = emptyList()
+                _hasNotTrailers.value = true
+            }
+        }
+    }
+
+    private fun validateReviewResult(reviewListResult: Result<List<Review>>){
+        when(reviewListResult){
+            is Result.Success -> {
+                _reviews.value = reviewListResult.data
+                _hasNotReviews.value = false
+            }
+            is Result.Error -> {
+                Log.d(TAG, "validateReviewResult error message -> ${reviewListResult.exception.message}")
+                _reviews.value = emptyList()
+                _hasNotReviews.value = true
+            }
         }
     }
 

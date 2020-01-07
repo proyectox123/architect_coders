@@ -7,21 +7,33 @@ import com.example.android.data.sources.LocalDataSource
 import com.example.android.domain.Movie
 import com.example.android.framework.data.local.database.MovieDatabase
 import com.example.android.framework.data.local.database.tables.MovieEntity
+import com.example.android.framework.data.remote.requests.Result
+import com.example.android.framework.data.remote.requests.safeApiCall
+import com.mho.training.R
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.data.translators.toEntityMovie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.IOException
 
 class RoomDataSource(
     db: MovieDatabase,
     private val resources: Resources
 ) : LocalDataSource {
 
+    //region Fields
+
     private val movieDao = db.movieDao()
 
-    override suspend fun getFavoriteMovieList(): List<Movie> = withContext(Dispatchers.IO) {
-        movieDao.getAll()
-            .map { it.toDomainMovie(resources) }
+    //endregion
+
+    //region Override Methods & Callbacks
+
+    override suspend fun getFavoriteMovieList(): Result<List<Movie>> = withContext(Dispatchers.IO) {
+        safeApiCall(
+            call = { requestFavoriteMovieList() },
+            errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
+        )
     }
 
     override fun getFavoriteMovieListWithChanges(): LiveData<List<Movie>> =
@@ -43,4 +55,20 @@ class RoomDataSource(
             false
         }
     }
+
+    //endregion
+
+    //region Private Methods
+
+    private fun requestFavoriteMovieList(): Result<List<Movie>> {
+        val results = movieDao.getAll()
+
+        if (!results.isNullOrEmpty()) {
+            return Result.Success(results.map { it.toDomainMovie(resources) })
+        }
+
+        return Result.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
+    }
+
+    //endregion
 }

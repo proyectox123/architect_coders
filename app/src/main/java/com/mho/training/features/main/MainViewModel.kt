@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.domain.Movie
+import com.example.android.framework.data.remote.requests.Result
 import com.example.android.usecases.*
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.utils.Event
@@ -124,19 +125,27 @@ class MainViewModel(
             _loading.value = true
             _error.value = false
 
-            val movieList: List<Movie>? = when (movieCategory) {
-                MovieCategoryEnum.TOP_RATED -> getTopRatedMovieListUseCase.invoke()
-                MovieCategoryEnum.POPULAR -> getPopularMovieListUseCase.invoke()
-                MovieCategoryEnum.FAVORITE -> getFavoriteMovieListUseCase.invoke()
-                MovieCategoryEnum.IN_THEATERS -> getInTheatersMovieListUseCase.invoke()
+            when (movieCategory) {
+                MovieCategoryEnum.FAVORITE -> validateMovieResult(getFavoriteMovieListUseCase.invoke())
+                MovieCategoryEnum.IN_THEATERS -> validateMovieResult(getInTheatersMovieListUseCase.invoke())
+                MovieCategoryEnum.POPULAR -> validateMovieResult(getTopRatedMovieListUseCase.invoke())
+                MovieCategoryEnum.TOP_RATED -> validateMovieResult(getTopRatedMovieListUseCase.invoke())
             }
 
-            _error.value = movieList.isNullOrEmpty()
-            _movies.value = movieList
-
-            Log.d(TAG, "refresh movies -> ${_movies.value?.size ?: 0}")
-
             _loading.value = false
+        }
+    }
+
+    private fun validateMovieResult(movieListResult: Result<List<Movie>>){
+        when(movieListResult){
+            is Result.Success -> {
+                _error.value = false
+                _movies.value = movieListResult.data
+            }
+            is Result.Error -> {
+                _error.value = true
+                _movies.value = mutableListOf()
+            }
         }
     }
 

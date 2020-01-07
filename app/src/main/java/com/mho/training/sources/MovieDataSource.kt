@@ -3,43 +3,88 @@ package com.mho.training.sources
 import android.content.res.Resources
 import com.example.android.data.sources.RemoteDataSource
 import com.example.android.domain.Movie
-import com.example.android.framework.data.remote.requests.RetrofitRequest
+import com.example.android.framework.data.remote.requests.Result
+import com.example.android.framework.data.remote.requests.movie.MovieRequest
+import com.example.android.framework.data.remote.requests.safeApiCall
 import com.mho.training.BuildConfig
+import com.mho.training.R
 import com.mho.training.data.translators.toDomainMovie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.IOException
 
 class MovieDataSource(
     private val resources: Resources
 ): RemoteDataSource {
 
-    override suspend fun getTopRatedMovieList(region: String): List<Movie> = withContext(Dispatchers.IO) {
-        RetrofitRequest.service
+    //region Override Methods & Callbacks
+
+    override suspend fun getTopRatedMovieList(region: String): Result<List<Movie>> = withContext(Dispatchers.IO) {
+        safeApiCall(
+            call = { requestTopRatedMovieList(region) },
+            errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
+        )
+    }
+
+    override suspend fun getPopularMovieList(region: String): Result<List<Movie>> = withContext(Dispatchers.IO) {
+        safeApiCall(
+            call = { requestPopularMovieList(region) },
+            errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
+        )
+    }
+
+    override suspend fun getInTheatersMovieList(region: String): Result<List<Movie>> = withContext(Dispatchers.IO) {
+        safeApiCall(
+            call = { requestInTheatersMovieList(region) },
+            errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
+        )
+    }
+
+    //endregion
+
+    //region Private Methods
+
+    private suspend fun requestTopRatedMovieList(region: String): Result<List<Movie>> {
+        val response = MovieRequest.service
             .getTopRatedMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
-            .await()
-            .body()
-            ?.results
-            ?.map { it.toDomainMovie(resources) }
-            ?: mutableListOf()
+
+        if(response.isSuccessful){
+            val results = response.body()?.results
+            if (!results.isNullOrEmpty()) {
+                return Result.Success(results.map { it.toDomainMovie(resources) })
+            }
+        }
+
+        return Result.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
     }
 
-    override suspend fun getPopularMovieList(region: String): List<Movie> = withContext(Dispatchers.IO) {
-        RetrofitRequest.service
+    private suspend fun requestPopularMovieList(region: String): Result<List<Movie>> {
+        val response = MovieRequest.service
             .getPopularMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
-            .await()
-            .body()
-            ?.results
-            ?.map { it.toDomainMovie(resources) }
-            ?: mutableListOf()
+
+        if(response.isSuccessful){
+            val results = response.body()?.results
+            if (!results.isNullOrEmpty()) {
+                return Result.Success(results.map { it.toDomainMovie(resources) })
+            }
+        }
+
+        return Result.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
     }
 
-    override suspend fun getInTheatersMovieList(region: String): List<Movie> = withContext(Dispatchers.IO) {
-        RetrofitRequest.service
+    private suspend fun requestInTheatersMovieList(region: String): Result<List<Movie>> {
+        val response = MovieRequest.service
             .getInTheatersMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
-            .await()
-            .body()
-            ?.results
-            ?.map { it.toDomainMovie(resources) }
-            ?: mutableListOf()
+
+        if(response.isSuccessful){
+            val results = response.body()?.results
+            if (!results.isNullOrEmpty()) {
+                return Result.Success(results.map { it.toDomainMovie(resources) })
+            }
+        }
+
+        return Result.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
     }
+
+    //endregion
 }

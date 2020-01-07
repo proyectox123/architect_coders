@@ -134,7 +134,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/error_not_available"
-                            app:visible="@{viewmodel.hasKeywords}"
+                            app:visible="@{viewmodel.hasNotKeywords}"
                             tools:visibility="visible"/>
 
                 </LinearLayout>
@@ -168,7 +168,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/error_not_available"
-                            app:visible="@{viewmodel.hasTrailers}"
+                            app:visible="@{viewmodel.hasNotTrailers}"
                             tools:visibility="visible"/>
 
                 </LinearLayout>
@@ -200,7 +200,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/error_not_available"
-                            app:visible="@{viewmodel.hasReviews}"
+                            app:visible="@{viewmodel.hasNotReviews}"
                             tools:visibility="visible"/>
 
                 </LinearLayout>

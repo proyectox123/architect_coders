@@ -75,17 +75,17 @@ class MovieDetailActivity : AppCompatActivity() {
                 ),
                 GetKeywordListUseCase(
                     KeywordRepository(
-                        KeywordDataSource()
+                        KeywordDataSource(resources)
                     )
                 ),
                 GetTrailerListUseCase(
                     TrailerRepository(
-                        TrailerDataSource()
+                        TrailerDataSource(resources)
                     )
                 ),
                 GetReviewListUseCase(
                     ReviewRepository(
-                        ReviewDataSource()
+                        ReviewDataSource(resources)
                     )
                 )
             )
