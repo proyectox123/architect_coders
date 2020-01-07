@@ -31,4 +31,7 @@
     <string name="section_trailers">Trailers</string>
     <string name="section_reviews">Reviews</string>
     <string name="menu_movie_favorite">Favorite Movie</string>
+
+    <!-- Errors -->
+    <string name="error_not_available">Not available</string>
 </resources>

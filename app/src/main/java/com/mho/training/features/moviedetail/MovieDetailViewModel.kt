@@ -38,11 +38,20 @@ class MovieDetailViewModel(
     private val _keywords = MutableLiveData<List<Keyword>>()
     val keywords: LiveData<List<Keyword>> get() = _keywords
 
+    private val _hasKeywords = MutableLiveData<Boolean>()
+    val hasKeywords: LiveData<Boolean> get() = _hasKeywords
+
     private val _reviews = MutableLiveData<List<Review>>()
     val reviews: LiveData<List<Review>> get() = _reviews
 
+    private val _hasReviews = MutableLiveData<Boolean>()
+    val hasReviews: LiveData<Boolean> get() = _hasReviews
+
     private val _trailers = MutableLiveData<List<Trailer>>()
     val trailers: LiveData<List<Trailer>> get() = _trailers
+
+    private val _hasTrailers = MutableLiveData<Boolean>()
+    val hasTrailers: LiveData<Boolean> get() = _hasTrailers
 
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
@@ -73,9 +82,17 @@ class MovieDetailViewModel(
         _infoMovie.value = movie
 
         launch {
-            _keywords.value = getKeywordListUseCase.invoke(movie.id)
-            _trailers.value = getTrailerListUseCase.invoke(movie.id)
-            _reviews.value = getReviewListUseCase.invoke(movie.id)
+            val keywordList = getKeywordListUseCase.invoke(movie.id)
+            _keywords.value = keywordList
+            _hasKeywords.value = keywordList.isEmpty()
+
+            val trailerList = getTrailerListUseCase.invoke(movie.id)
+            _trailers.value = trailerList
+            _hasTrailers.value = trailerList.isEmpty()
+
+            val reviewList = getReviewListUseCase.invoke(movie.id)
+            _reviews.value = reviewList
+            _hasReviews.value = reviewList.isEmpty()
         }
     }
 

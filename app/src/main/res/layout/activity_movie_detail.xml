@@ -129,6 +129,14 @@
                             tools:listitem="@layout/item_keyword"
                             tools:itemCount="4"/>
 
+                    <TextView
+                            style="@style/MovieDetailInfoError"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/error_not_available"
+                            app:visible="@{viewmodel.hasKeywords}"
+                            tools:visibility="visible"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -155,6 +163,14 @@
                             tools:listitem="@layout/item_trailer"
                             tools:itemCount="5"/>
 
+                    <TextView
+                            style="@style/MovieDetailInfoError"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/error_not_available"
+                            app:visible="@{viewmodel.hasTrailers}"
+                            tools:visibility="visible"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -178,6 +194,14 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:listitem="@layout/item_review"
                             tools:itemCount="1"/>
+
+                    <TextView
+                            style="@style/MovieDetailInfoError"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/error_not_available"
+                            app:visible="@{viewmodel.hasReviews}"
+                            tools:visibility="visible"/>
 
                 </LinearLayout>
 

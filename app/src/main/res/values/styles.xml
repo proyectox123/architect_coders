@@ -47,4 +47,10 @@
         <item name="android:textSize">13sp</item>
     </style>
 
+    <style name="MovieDetailInfoError">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
 </resources>
