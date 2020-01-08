@@ -128,7 +128,7 @@ class MainViewModel(
             when (movieCategory) {
                 MovieCategoryEnum.FAVORITE -> validateMovieResult(getFavoriteMovieListUseCase.invoke())
                 MovieCategoryEnum.IN_THEATERS -> validateMovieResult(getInTheatersMovieListUseCase.invoke())
-                MovieCategoryEnum.POPULAR -> validateMovieResult(getTopRatedMovieListUseCase.invoke())
+                MovieCategoryEnum.POPULAR -> validateMovieResult(getPopularMovieListUseCase.invoke())
                 MovieCategoryEnum.TOP_RATED -> validateMovieResult(getTopRatedMovieListUseCase.invoke())
             }
 
