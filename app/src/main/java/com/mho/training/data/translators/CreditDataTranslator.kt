@@ -12,5 +12,5 @@ fun ServerCredit.toDomainCredit(): Credit =
         generateCreditProfilePath(profilePath)
     )
 
-private fun generateCreditProfilePath(profilePath: String) =
-    Constants.URL_IMAGE_TBMD + profilePath
+private fun generateCreditProfilePath(profilePath: String?) =
+    if(profilePath.isNullOrBlank()) null else Constants.URL_IMAGE_TBMD + profilePath

@@ -6,24 +6,32 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.android.domain.*
-import com.mho.training.adapters.movie.MovieListAdapter
-import com.mho.training.adapters.review.ReviewListAdapter
-import com.mho.training.adapters.trailer.TrailerListAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mho.training.R
 import com.mho.training.adapters.credit.CreditListAdapter
 import com.mho.training.adapters.keyword.KeywordListAdapter
+import com.mho.training.adapters.movie.MovieListAdapter
+import com.mho.training.adapters.review.ReviewListAdapter
+import com.mho.training.adapters.trailer.TrailerListAdapter
 import com.mho.training.utils.loadUrl
 import com.mho.training.utils.loadUrlCircular
 
 @BindingAdapter("url")
 fun ImageView.bindUrl(url: String?) {
-    if (url != null) loadUrl(url)
+    if (url.isNullOrBlank()){
+        setImageResource(R.drawable.ic_broken_image)
+    }else{
+        loadUrl(url)
+    }
 }
 
-@BindingAdapter("urlCircular")
-fun ImageView.bindUrlCircular(url: String?) {
-    if (url != null) loadUrlCircular(url)
+@BindingAdapter("creditPhoto")
+fun ImageView.bindCreditPhotoUrl(url: String?) {
+    if (url.isNullOrBlank()) {
+        setImageResource(R.drawable.ic_camera)
+    } else {
+        loadUrlCircular(url)
+    }
 }
 
 @BindingAdapter("items")
