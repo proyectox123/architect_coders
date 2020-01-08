@@ -8,12 +8,10 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.android.data.repositories.*
-import com.example.android.domain.Keyword
-import com.example.android.domain.Movie
-import com.example.android.domain.Review
-import com.example.android.domain.Trailer
+import com.example.android.domain.*
 import com.example.android.usecases.*
 import com.mho.training.R
+import com.mho.training.adapters.credit.CreditListAdapter
 import com.mho.training.adapters.keyword.KeywordListAdapter
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
@@ -33,6 +31,7 @@ class MovieDetailActivity : AppCompatActivity() {
     //region Fields
 
     private lateinit var viewModel: MovieDetailViewModel
+    private lateinit var creditListAdapter: CreditListAdapter
     private lateinit var keywordListAdapter: KeywordListAdapter
     private lateinit var reviewListAdapter: ReviewListAdapter
     private lateinit var trailerListAdapter: TrailerListAdapter
@@ -78,6 +77,11 @@ class MovieDetailActivity : AppCompatActivity() {
                         KeywordDataSource(resources)
                     )
                 ),
+                GetCreditListUseCase(
+                    CreditRepository(
+                        CreditDataSource(resources)
+                    )
+                ),
                 GetTrailerListUseCase(
                     TrailerRepository(
                         TrailerDataSource(resources)
@@ -97,10 +101,12 @@ class MovieDetailActivity : AppCompatActivity() {
             lifecycleOwner = this@MovieDetailActivity
         }
 
+        creditListAdapter = CreditListAdapter(::openCredit)
         keywordListAdapter = KeywordListAdapter(::openKeyword)
         reviewListAdapter = ReviewListAdapter(::openReview)
         trailerListAdapter = TrailerListAdapter(::openTrailer)
 
+        creditListView.adapter = creditListAdapter
         keywordListView.adapter = keywordListAdapter
         reviewListView.adapter = reviewListAdapter
         trailerListView.adapter = trailerListAdapter
@@ -123,6 +129,10 @@ class MovieDetailActivity : AppCompatActivity() {
     //endregion
 
     //region Private Methods
+
+    private fun openCredit(credit: Credit){
+        Log.d(TAG, "openCredit -> $credit")
+    }
 
     private fun openKeyword(keyword: Keyword){
         Log.d(TAG, "openKeyword -> $keyword")

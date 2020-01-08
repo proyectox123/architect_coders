@@ -4,10 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.android.domain.Keyword
-import com.example.android.domain.Movie
-import com.example.android.domain.Review
-import com.example.android.domain.Trailer
+import com.example.android.domain.*
 import com.example.android.framework.data.remote.requests.Result
 import com.example.android.usecases.*
 import com.mho.training.utils.Event
@@ -19,6 +16,7 @@ class MovieDetailViewModel(
     private val getFavoriteMovieStatus: GetFavoriteMovieStatus,
     private val updateFavoriteMovieStatus: UpdateFavoriteMovieStatus,
     private val getKeywordListUseCase: GetKeywordListUseCase,
+    private val getCreditListUseCase: GetCreditListUseCase,
     private val getTrailerListUseCase: GetTrailerListUseCase,
     private val getReviewListUseCase: GetReviewListUseCase
 ) : ViewModel(), Scope by Scope.Impl() {
@@ -35,6 +33,12 @@ class MovieDetailViewModel(
 
     private val _infoMovie = MutableLiveData<Movie>()
     val infoMovie: LiveData<Movie> get() = _infoMovie
+
+    private val _credits = MutableLiveData<List<Credit>>()
+    val credits: LiveData<List<Credit>> get() = _credits
+
+    private val _hasNotCredits = MutableLiveData<Boolean>()
+    val hasNotCredits: LiveData<Boolean> get() = _hasNotCredits
 
     private val _keywords = MutableLiveData<List<Keyword>>()
     val keywords: LiveData<List<Keyword>> get() = _keywords
@@ -83,6 +87,7 @@ class MovieDetailViewModel(
         _infoMovie.value = movie
 
         launch {
+            validateCreditResult(getCreditListUseCase.invoke(movie.id))
             validateKeywordResult(getKeywordListUseCase.invoke(movie.id))
             validateTrailerResult(getTrailerListUseCase.invoke(movie.id))
             validateReviewResult(getReviewListUseCase.invoke(movie.id))
@@ -104,6 +109,20 @@ class MovieDetailViewModel(
     //endregion
 
     //region Private Methods
+
+    private fun validateCreditResult(creditListResult: Result<List<Credit>>){
+        when(creditListResult){
+            is Result.Success -> {
+                _credits.value = creditListResult.data
+                _hasNotCredits.value = false
+            }
+            is Result.Error -> {
+                Log.d(TAG, "validateCreditResult error message -> ${creditListResult.exception.message}")
+                _credits.value = emptyList()
+                _hasNotCredits.value = true
+            }
+        }
+    }
 
     private fun validateKeywordResult(keywordListResult: Result<List<Keyword>>){
         when(keywordListResult){

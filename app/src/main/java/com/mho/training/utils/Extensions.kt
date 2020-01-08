@@ -55,6 +55,10 @@ fun ImageView.loadUrl(url: String, placeholder: Int = 0) {
     Glide.with(context).load(url).placeholder(placeholder).into(this)
 }
 
+fun ImageView.loadUrlCircular(url: String, placeholder: Int = 0) {
+    Glide.with(context).load(url).placeholder(placeholder).circleCrop().into(this)
+}
+
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline factory: () -> T): T {
 

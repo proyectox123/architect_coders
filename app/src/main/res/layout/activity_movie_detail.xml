@@ -140,6 +140,40 @@
                 </LinearLayout>
 
                 <LinearLayout
+                        android:id="@+id/creditSectionContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="vertical">
+
+                    <TextView
+                            style="@style/MovieDetailTitleStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="@string/section_credits" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/creditListView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:items="@{viewmodel.credits}"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:listitem="@layout/item_credit"
+                            tools:itemCount="5"/>
+
+                    <TextView
+                            style="@style/MovieDetailInfoError"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/error_not_available"
+                            app:visible="@{viewmodel.hasNotCredits}"
+                            tools:visibility="visible"/>
+
+                </LinearLayout>
+
+                <LinearLayout
                         android:id="@+id/trailerSectionContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

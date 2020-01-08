@@ -11,8 +11,9 @@
     <!-- Descriptions -->
     <string name="content_description_movie_poster_item">Movie poster item</string>
     <string name="content_description_movie_detail_poster_item">Movie detail poster item</string>
-    <string name="content_description_trailer_thumbnail">ServerTrailer thumbnail</string>
-    <string name="content_description_trailer_play_button">ServerTrailer play button</string>
+    <string name="content_description_trailer_thumbnail">Trailer thumbnail</string>
+    <string name="content_description_credit_thumbnail">Credit thumbnail</string>
+    <string name="content_description_trailer_play_button">Trailer play button</string>
     <string name="content_lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
     <!-- Message Errors -->
@@ -28,6 +29,7 @@
 
     <!-- Sections -->
     <string name="section_keywords">Keywords</string>
+    <string name="section_credits">Credits</string>
     <string name="section_trailers">Trailers</string>
     <string name="section_reviews">Reviews</string>
     <string name="menu_movie_favorite">Favorite Movie</string>
@@ -36,10 +38,15 @@
     <string name="error_not_available">Not available</string>
     <string name="error_unable_to_fetch_movies">Unable to fetch movies!</string>
     <string name="error_unable_to_fetch_keywords">Unable to fetch keywords!</string>
+    <string name="error_unable_to_fetch_credits">Unable to fetch credits!</string>
     <string name="error_unable_to_fetch_trailers">Unable to fetch trailers!</string>
     <string name="error_unable_to_fetch_reviews">Unable to fetch reviews!</string>
     <string name="error_during_fetching_movies">Error occurred during fetching movies!</string>
     <string name="error_during_fetching_keywords">Error occurred during fetching keywords!</string>
+    <string name="error_during_fetching_credits">Error occurred during fetching keywords!</string>
     <string name="error_during_fetching_trailers">Error occurred during fetching trailers!</string>
     <string name="error_during_fetching_reviews">Error occurred during fetching reviews!</string>
+
+    <!-- Options -->
+    <string name="option_see_more">See more</string>
 </resources>

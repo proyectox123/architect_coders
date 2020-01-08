@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+                name="credit"
+                type="com.example.android.domain.Credit" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:paddingEnd="4dp"
+            android:paddingStart="0dp"
+            android:paddingTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="4dp">
+
+        <ImageView
+                android:id="@+id/ivCreditProfilePhoto"
+                android:layout_width="@dimen/credit_thumbnail_width"
+                android:layout_height="@dimen/credit_thumbnail_height"
+                android:contentDescription="@string/content_description_credit_thumbnail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:urlCircular="@{credit.profilePath}"
+                tools:src="@mipmap/ic_launcher_round" />
+
+        <TextView
+                style="@style/CreditContentStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLength="@integer/max_length_credit_name"
+                android:text="@{credit.name}"
+                app:layout_constraintEnd_toEndOf="@id/ivCreditProfilePhoto"
+                app:layout_constraintStart_toStartOf="@id/ivCreditProfilePhoto"
+                app:layout_constraintTop_toBottomOf="@id/ivCreditProfilePhoto"
+                tools:text="Clint Eastwood"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

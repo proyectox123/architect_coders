@@ -5,27 +5,38 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.android.domain.Keyword
+import com.example.android.domain.*
 import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
-import com.example.android.domain.Movie
-import com.example.android.domain.Review
-import com.example.android.domain.Trailer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mho.training.R
+import com.mho.training.adapters.credit.CreditListAdapter
 import com.mho.training.adapters.keyword.KeywordListAdapter
 import com.mho.training.utils.loadUrl
+import com.mho.training.utils.loadUrlCircular
 
 @BindingAdapter("url")
 fun ImageView.bindUrl(url: String?) {
     if (url != null) loadUrl(url)
 }
 
+@BindingAdapter("urlCircular")
+fun ImageView.bindUrlCircular(url: String?) {
+    if (url != null) loadUrlCircular(url)
+}
+
 @BindingAdapter("items")
 fun RecyclerView.setItems(movies: List<Movie>?) {
     (adapter as? MovieListAdapter)?.let {
         it.movies = movies ?: emptyList()
+    }
+}
+
+@BindingAdapter("items")
+fun RecyclerView.setCredits(credits: List<Credit>?) {
+    (adapter as? CreditListAdapter)?.let {
+        it.credits = credits ?: emptyList()
     }
 }
 
