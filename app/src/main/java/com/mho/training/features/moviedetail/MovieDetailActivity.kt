@@ -16,13 +16,11 @@ import com.mho.training.adapters.keyword.KeywordListAdapter
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
 import com.mho.training.databinding.ActivityMovieDetailBinding
+import com.mho.training.features.creditdetail.CreditDetailActivity
 import com.mho.training.features.moviedetail.MovieDetailViewModel.Navigation
 import com.mho.training.permissions.AndroidPermissionChecker
 import com.mho.training.sources.*
-import com.mho.training.utils.Constants
-import com.mho.training.utils.EventObserver
-import com.mho.training.utils.app
-import com.mho.training.utils.getViewModel
+import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 
 
@@ -132,6 +130,9 @@ class MovieDetailActivity : AppCompatActivity() {
 
     private fun openCredit(credit: Credit){
         Log.d(TAG, "openCredit -> $credit")
+        startActivity<CreditDetailActivity> {
+            putExtra(Constants.EXTRA_CREDIT, credit)
+        }
     }
 
     private fun openKeyword(keyword: Keyword){
