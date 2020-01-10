@@ -2,6 +2,8 @@ package com.example.android.framework.data.remote.requests.person
 
 import com.example.android.framework.data.remote.models.person.ServerPerson
 import com.example.android.framework.utils.Constants.REQUEST_GET_PERSON_BY_CREDIT_ID
+import com.example.android.framework.utils.Constants.REQUEST_PARAM_API_KEY
+import com.example.android.framework.utils.Constants.REQUEST_PARAM_PERSON_ID
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -11,7 +13,7 @@ interface PersonService {
 
     @GET(REQUEST_GET_PERSON_BY_CREDIT_ID)
     suspend fun getPersonByCreditIdAsync(
-        @Path("person_id") personId: Int,
-        @Query("api_key") apiKey: String
+        @Path(REQUEST_PARAM_PERSON_ID) personId: Int,
+        @Query(REQUEST_PARAM_API_KEY) apiKey: String
     ): Response<ServerPerson>
 }

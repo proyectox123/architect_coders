@@ -2,7 +2,13 @@ package com.example.android.framework.data.remote.requests.movie
 
 import com.example.android.framework.data.remote.models.movie.MovieCreditsResult
 import com.example.android.framework.data.remote.models.movie.MovieResult
-import com.example.android.framework.utils.Constants
+import com.example.android.framework.utils.Constants.REQUEST_GET_IN_THEATERS_MOVIE_LIST
+import com.example.android.framework.utils.Constants.REQUEST_GET_MOVIE_LIST_BY_PERSON_ID
+import com.example.android.framework.utils.Constants.REQUEST_GET_POPULAR_MOVIE_LIST
+import com.example.android.framework.utils.Constants.REQUEST_GET_TOP_RATED_MOVIE_LIST
+import com.example.android.framework.utils.Constants.REQUEST_PARAM_API_KEY
+import com.example.android.framework.utils.Constants.REQUEST_PARAM_PERSON_ID
+import com.example.android.framework.utils.Constants.REQUEST_PARAM_REGION
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -10,27 +16,27 @@ import retrofit2.http.Query
 
 interface MovieService {
 
-    @GET("movie/popular")
+    @GET(REQUEST_GET_POPULAR_MOVIE_LIST)
     suspend fun getPopularMovieListAsync(
-        @Query("api_key") apiKey: String,
-        @Query("region") region: String
+        @Query(REQUEST_PARAM_API_KEY) apiKey: String,
+        @Query(REQUEST_PARAM_REGION) region: String
     ): Response<MovieResult>
 
-    @GET("movie/top_rated")
+    @GET(REQUEST_GET_TOP_RATED_MOVIE_LIST)
     suspend fun getTopRatedMovieListAsync(
-        @Query("api_key") apiKey: String,
-        @Query("region") region: String
+        @Query(REQUEST_PARAM_API_KEY) apiKey: String,
+        @Query(REQUEST_PARAM_REGION) region: String
     ): Response<MovieResult>
 
-    @GET("movie/now_playing")
+    @GET(REQUEST_GET_IN_THEATERS_MOVIE_LIST)
     suspend fun getInTheatersMovieListAsync(
-        @Query("api_key") apiKey: String,
-        @Query("region") region: String
+        @Query(REQUEST_PARAM_API_KEY) apiKey: String,
+        @Query(REQUEST_PARAM_REGION) region: String
     ): Response<MovieResult>
 
-    @GET(Constants.REQUEST_GET_MOVIE_LIST_BY_PERSON_ID)
+    @GET(REQUEST_GET_MOVIE_LIST_BY_PERSON_ID)
     suspend fun getMovieListByPersonAsync(
-        @Path("person_id") personId: Int,
-        @Query("api_key") apiKey: String
+        @Path(REQUEST_PARAM_PERSON_ID) personId: Int,
+        @Query(REQUEST_PARAM_API_KEY) apiKey: String
     ): Response<MovieCreditsResult>
 }
