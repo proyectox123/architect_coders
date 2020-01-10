@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mho.training.MoviesApp
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.properties.Delegates
 
 fun <T : ViewDataBinding> ViewGroup.bindingInflate(
@@ -55,8 +57,27 @@ fun ImageView.loadUrl(url: String, placeholder: Int = 0) {
     Glide.with(context).load(url).placeholder(placeholder).into(this)
 }
 
-fun ImageView.loadUrlCircular(url: String, placeholder: Int = 0) {
-    Glide.with(context).load(url).placeholder(placeholder).circleCrop().into(this)
+fun ImageView.loadUrlCircular(url: String, placeholder: Int = 0, errorPlaceholder: Int = 0) {
+    Glide.with(context)
+        .load(url)
+        .error(errorPlaceholder)
+        .placeholder(placeholder)
+        .circleCrop()
+        .into(this)
+}
+
+fun String.generateDateFormat(inputPatter: String, outputPatter: String): String{
+    val input = SimpleDateFormat(inputPatter, Locale.US)
+    val output = SimpleDateFormat(outputPatter, Locale.US)
+    try {
+        input.parse(this)?.let {
+            return output.format(it)
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+
+    return this
 }
 
 @Suppress("UNCHECKED_CAST")

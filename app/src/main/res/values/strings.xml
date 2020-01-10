@@ -46,12 +46,15 @@
     <string name="error_unable_to_fetch_credits">Unable to fetch credits!</string>
     <string name="error_unable_to_fetch_trailers">Unable to fetch trailers!</string>
     <string name="error_unable_to_fetch_reviews">Unable to fetch reviews!</string>
+    <string name="error_unable_to_fetch_person">Unable to fetch person!</string>
     <string name="error_during_fetching_movies">Error occurred during fetching movies!</string>
     <string name="error_during_fetching_keywords">Error occurred during fetching keywords!</string>
     <string name="error_during_fetching_credits">Error occurred during fetching keywords!</string>
     <string name="error_during_fetching_trailers">Error occurred during fetching trailers!</string>
     <string name="error_during_fetching_reviews">Error occurred during fetching reviews!</string>
+    <string name="error_during_fetching_person">Error occurred during fetching person!</string>
 
     <!-- Options -->
+    <string name="option_see_less">See less</string>
     <string name="option_see_more">See more</string>
 </resources>

@@ -25,12 +25,12 @@ fun ImageView.bindUrl(url: String?) {
     }
 }
 
-@BindingAdapter("creditPhoto")
-fun ImageView.bindCreditPhotoUrl(url: String?) {
+@BindingAdapter("circularPhoto")
+fun ImageView.bindCircularPhotoUrl(url: String?) {
     if (url.isNullOrBlank()) {
         setImageResource(R.drawable.ic_camera)
     } else {
-        loadUrlCircular(url)
+        loadUrlCircular(url, R.drawable.ic_camera, R.drawable.ic_broken_image)
     }
 }
 

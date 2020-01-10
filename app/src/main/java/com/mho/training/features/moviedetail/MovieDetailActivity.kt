@@ -16,8 +16,8 @@ import com.mho.training.adapters.keyword.KeywordListAdapter
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
 import com.mho.training.databinding.ActivityMovieDetailBinding
-import com.mho.training.features.creditdetail.CreditDetailActivity
 import com.mho.training.features.moviedetail.MovieDetailViewModel.Navigation
+import com.mho.training.features.persondetail.PersonDetailActivity
 import com.mho.training.permissions.AndroidPermissionChecker
 import com.mho.training.sources.*
 import com.mho.training.utils.*
@@ -130,8 +130,8 @@ class MovieDetailActivity : AppCompatActivity() {
 
     private fun openCredit(credit: Credit){
         Log.d(TAG, "openCredit -> $credit")
-        startActivity<CreditDetailActivity> {
-            putExtra(Constants.EXTRA_CREDIT, credit)
+        startActivity<PersonDetailActivity> {
+            putExtra(Constants.EXTRA_CREDIT_ID, credit.id)
         }
     }
 
