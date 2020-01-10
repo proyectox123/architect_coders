@@ -4,20 +4,31 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.example.android.data.repositories.MovieRepository
 import com.example.android.data.repositories.PersonRepository
+import com.example.android.data.repositories.RegionRepository
+import com.example.android.domain.Movie
+import com.example.android.usecases.GetMovieListByPersonUseCase
 import com.example.android.usecases.GetPersonInformationUseCase
 import com.mho.training.R
+import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.databinding.ActivityPersonDetailBinding
+import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.features.persondetail.PersonDetailViewModel.Navigation
+import com.mho.training.permissions.AndroidPermissionChecker
+import com.mho.training.sources.MovieDataSource
 import com.mho.training.sources.PersonDataSource
-import com.mho.training.utils.Constants
-import com.mho.training.utils.EventObserver
-import com.mho.training.utils.getViewModel
+import com.mho.training.sources.PlayServicesLocationDataSource
+import com.mho.training.sources.RoomDataSource
+import com.mho.training.utils.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class PersonDetailActivity : AppCompatActivity() {
 
     //region Fields
+
+    private lateinit var movieListAdapter: MovieListAdapter
 
     private lateinit var viewModel: PersonDetailViewModel
 
@@ -37,6 +48,19 @@ class PersonDetailActivity : AppCompatActivity() {
                             resources
                         )
                     )
+                ),
+                GetMovieListByPersonUseCase(
+                    MovieRepository(
+                        RoomDataSource(
+                            app.db,
+                            resources
+                        ), MovieDataSource(
+                            resources
+                        ), RegionRepository(
+                            PlayServicesLocationDataSource(app),
+                            AndroidPermissionChecker(app)
+                        )
+                    )
                 )
             )
         }
@@ -46,6 +70,10 @@ class PersonDetailActivity : AppCompatActivity() {
             viewmodel = viewModel
             lifecycleOwner = this@PersonDetailActivity
         }
+
+        movieListAdapter = MovieListAdapter(viewModel::onMovieClicked)
+
+        rvMovieList.adapter = movieListAdapter
 
         viewModel.events.observe(this, EventObserver(::validateEvents))
 
@@ -67,7 +95,14 @@ class PersonDetailActivity : AppCompatActivity() {
 
     private fun validateEvents(navigation: Navigation){
         when(navigation){
+            is Navigation.NavigateToMovie -> navigation.run { openMovieDetails(movie) }
             Navigation.CloseActivity -> finish()
+        }
+    }
+
+    private fun openMovieDetails(movie: Movie){
+        startActivity<MovieDetailActivity> {
+            putExtra(Constants.EXTRA_MOVIE, movie)
         }
     }
 

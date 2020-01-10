@@ -2,9 +2,9 @@ package com.mho.training.data.translators
 
 import android.content.res.Resources
 import com.example.android.domain.Movie
-import com.example.android.framework.data.remote.models.ServerMovie
-import com.mho.training.R
 import com.example.android.framework.data.local.database.tables.MovieEntity
+import com.example.android.framework.data.remote.models.movie.ServerMovie
+import com.mho.training.R
 import com.mho.training.utils.Constants
 
 fun MovieEntity.toDomainMovie(resources: Resources): Movie =
@@ -22,7 +22,7 @@ fun ServerMovie.toDomainMovie(resources: Resources): Movie =
     Movie(
         id,
         title,
-        releaseDate,
+        generateReleaseDate(releaseDate),
         generateMoviePosterAbsolutePath(posterPath),
         voteAverage,
         getVoteAverageLabel(resources, voteAverage),
@@ -33,11 +33,15 @@ fun Movie.toEntityMovie(): MovieEntity =
     MovieEntity(
         id,
         title,
-        releaseDate,
+        generateReleaseDate(releaseDate),
         posterPath,
         voteAverage,
         plotSynopsis
     )
+
+private fun generateReleaseDate(releaseDate: String?): String{
+    return if(releaseDate.isNullOrBlank()) "-" else releaseDate
+}
 
 private fun getVoteAverageLabel(resources: Resources, voteAverage: Double): String {
     val voteAverageLabel = "$voteAverage/10"

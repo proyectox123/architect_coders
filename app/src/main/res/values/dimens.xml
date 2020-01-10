@@ -3,6 +3,9 @@
     <dimen name="poster_detail_width">148dp</dimen> <!-- Poster detail width original 185 -->
     <dimen name="poster_detail_height">216dp</dimen> <!-- Poster detail height original 270 -->
 
+    <dimen name="poster_detail_linear_width">90dp</dimen>
+    <dimen name="poster_detail_linear_height">120dp</dimen>
+
     <dimen name="credit_detail_width">148dp</dimen>
     <dimen name="credit_detail_height">148dp</dimen>
 

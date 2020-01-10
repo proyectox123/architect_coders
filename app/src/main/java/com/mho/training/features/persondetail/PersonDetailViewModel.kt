@@ -3,8 +3,10 @@ package com.mho.training.features.persondetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.android.domain.Movie
 import com.example.android.domain.Person
 import com.example.android.framework.data.remote.requests.Result
+import com.example.android.usecases.GetMovieListByPersonUseCase
 import com.example.android.usecases.GetPersonInformationUseCase
 import com.mho.training.utils.Constants.LESS_LINES_BIOGRAPHY
 import com.mho.training.utils.Constants.MAX_LINES_BIOGRAPHY
@@ -14,7 +16,8 @@ import kotlinx.coroutines.launch
 
 class PersonDetailViewModel(
     private val creditId: Int,
-    private val getPersonInformationUseCase: GetPersonInformationUseCase
+    private val getPersonInformationUseCase: GetPersonInformationUseCase,
+    private val getMovieListByPersonUseCase: GetMovieListByPersonUseCase
 ) : ViewModel(), Scope by Scope.Impl() {
 
     //region Constructors
@@ -29,6 +32,9 @@ class PersonDetailViewModel(
 
     private val _infoPerson = MutableLiveData<Person>()
     val infoPerson: LiveData<Person> get() = _infoPerson
+
+    private val _movies = MutableLiveData<List<Movie>>()
+    val movies: LiveData<List<Movie>> get() = _movies
 
     private val _hasPersonInformation = MutableLiveData<Boolean>()
     val hasPersonInformation: LiveData<Boolean> get() = _hasPersonInformation
@@ -70,7 +76,12 @@ class PersonDetailViewModel(
     fun onCreditInformation(){
         launch {
             validatePersonResult(getPersonInformationUseCase.invoke(creditId))
+            validateMovieResult(getMovieListByPersonUseCase.invoke(creditId))
         }
+    }
+
+    fun onMovieClicked(movie: Movie) {
+        _events.value = Event(Navigation.NavigateToMovie(movie))
     }
 
     fun showMoreBiography(){
@@ -100,11 +111,23 @@ class PersonDetailViewModel(
         }
     }
 
+    private fun validateMovieResult(movieListResult: Result<List<Movie>>){
+        when(movieListResult){
+            is Result.Success -> {
+                _movies.value = movieListResult.data
+            }
+            is Result.Error -> {
+                _movies.value = mutableListOf()
+            }
+        }
+    }
+
     //endregion
 
     //region Inner Classes & Interfaces
 
     sealed class Navigation {
+        class NavigateToMovie(val movie: Movie): Navigation()
         object CloseActivity: Navigation()
     }
 

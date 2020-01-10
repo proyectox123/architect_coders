@@ -31,8 +31,8 @@
                     android:layout_height="wrap_content"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:spanCount="3"
-                    app:items="@{viewmodel.movies}"
-                    tools:listitem="@layout/item_movie"
+                    app:itemsGrid="@{viewmodel.movies}"
+                    tools:listitem="@layout/item_grid_movie"
                     tools:visibility="visible" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
