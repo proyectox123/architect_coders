@@ -1,4 +1,4 @@
-package com.example.android.framework.data.remote.models
+package com.example.android.framework.data.remote.models.person
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

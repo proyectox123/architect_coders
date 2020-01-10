@@ -1,16 +1,8 @@
-package com.example.android.framework.data.remote.models
+package com.example.android.framework.data.remote.models.review
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-
-data class ReviewResult(
-    val id: Int,
-    val page: Int,
-    val results: List<ServerReview>,
-    @SerializedName("total_pages") val totalPages: Int,
-    @SerializedName("total_results") val totalResults: Int
-)
 
 @Parcelize
 data class ServerReview(

@@ -1,6 +1,6 @@
 package com.example.android.framework.data.remote.requests.credit
 
-import com.example.android.framework.data.remote.models.CreditResult
+import com.example.android.framework.data.remote.models.credit.CreditResult
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

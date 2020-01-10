@@ -1,13 +1,8 @@
-package com.example.android.framework.data.remote.models
+package com.example.android.framework.data.remote.models.trailer
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-
-data class TrailerResult(
-    val id: Int,
-    val results: List<ServerTrailer>
-)
 
 @Parcelize
 data class ServerTrailer(
