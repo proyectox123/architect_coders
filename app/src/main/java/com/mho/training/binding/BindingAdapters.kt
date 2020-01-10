@@ -10,6 +10,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mho.training.R
 import com.mho.training.adapters.credit.CreditListAdapter
 import com.mho.training.adapters.keyword.KeywordListAdapter
+import com.mho.training.adapters.movie.MovieGridAdapter
 import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
@@ -19,9 +20,9 @@ import com.mho.training.utils.loadUrlCircular
 @BindingAdapter("url")
 fun ImageView.bindUrl(url: String?) {
     if (url.isNullOrBlank()){
-        setImageResource(R.drawable.ic_broken_image)
+        setImageResource(R.drawable.ic_camera)
     }else{
-        loadUrl(url)
+        loadUrl(url, R.drawable.ic_camera, R.drawable.ic_broken_image)
     }
 }
 
@@ -34,8 +35,15 @@ fun ImageView.bindCircularPhotoUrl(url: String?) {
     }
 }
 
-@BindingAdapter("items")
-fun RecyclerView.setItems(movies: List<Movie>?) {
+@BindingAdapter("itemsGrid")
+fun RecyclerView.setMovieItemsToGrid(movies: List<Movie>?) {
+    (adapter as? MovieGridAdapter)?.let {
+        it.movies = movies ?: emptyList()
+    }
+}
+
+@BindingAdapter("itemsList")
+fun RecyclerView.setMovieItemsToList(movies: List<Movie>?) {
     (adapter as? MovieListAdapter)?.let {
         it.movies = movies ?: emptyList()
     }

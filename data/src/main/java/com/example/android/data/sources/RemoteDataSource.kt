@@ -7,4 +7,5 @@ interface RemoteDataSource {
     suspend fun getTopRatedMovieList(region: String): Result<List<Movie>>
     suspend fun getPopularMovieList(region: String): Result<List<Movie>>
     suspend fun getInTheatersMovieList(region: String): Result<List<Movie>>
+    suspend fun getMovieListByPerson(personId: Int): Result<List<Movie>>
 }

@@ -12,9 +12,10 @@ import com.example.android.data.repositories.RegionRepository
 import com.example.android.domain.Movie
 import com.example.android.usecases.*
 import com.mho.training.R
-import com.mho.training.adapters.movie.MovieListAdapter
+import com.mho.training.adapters.movie.MovieGridAdapter
 import com.mho.training.databinding.ActivityMainBinding
 import com.mho.training.enums.MovieCategoryEnum
+import com.mho.training.features.main.MainViewModel.Navigation
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.permissions.AndroidPermissionChecker
 import com.mho.training.permissions.PermissionRequester
@@ -23,14 +24,13 @@ import com.mho.training.sources.PlayServicesLocationDataSource
 import com.mho.training.sources.RoomDataSource
 import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
-import com.mho.training.features.main.MainViewModel.Navigation as Navigation
 
 
 class MainActivity : AppCompatActivity() {
 
     //region Fields
 
-    private lateinit var movieListAdapter: MovieListAdapter
+    private lateinit var movieGridAdapter: MovieGridAdapter
     private lateinit var viewModel: MainViewModel
 
     private val coarsePermissionRequester = PermissionRequester(this)
@@ -58,9 +58,9 @@ class MainActivity : AppCompatActivity() {
             lifecycleOwner = this@MainActivity
         }
 
-        movieListAdapter = MovieListAdapter(viewModel::onMovieClicked)
+        movieGridAdapter = MovieGridAdapter(viewModel::onMovieClicked)
 
-        rvMovieList.adapter = movieListAdapter
+        rvMovieList.adapter = movieGridAdapter
 
         srwMovieList.setOnRefreshListener { viewModel.onMovieListRefresh() }
 

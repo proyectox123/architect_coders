@@ -1,15 +1,8 @@
-package com.example.android.framework.data.remote.models
+package com.example.android.framework.data.remote.models.movie
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-
-data class MovieResult(
-    val page: Int,
-    val results: List<ServerMovie>,
-    @SerializedName("total_pages") val totalPages: Int,
-    @SerializedName("total_results") val totalResults: Int
-)
 
 @Parcelize
 data class ServerMovie(

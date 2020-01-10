@@ -1,8 +1,11 @@
 package com.example.android.framework.data.remote.requests.movie
 
-import com.example.android.framework.data.remote.models.MovieResult
+import com.example.android.framework.data.remote.models.movie.MovieCreditsResult
+import com.example.android.framework.data.remote.models.movie.MovieResult
+import com.example.android.framework.utils.Constants
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieService {
@@ -24,4 +27,10 @@ interface MovieService {
         @Query("api_key") apiKey: String,
         @Query("region") region: String
     ): Response<MovieResult>
+
+    @GET(Constants.REQUEST_GET_MOVIE_LIST_BY_PERSON_ID)
+    suspend fun getMovieListByPersonAsync(
+        @Path("person_id") personId: Int,
+        @Query("api_key") apiKey: String
+    ): Response<MovieCreditsResult>
 }

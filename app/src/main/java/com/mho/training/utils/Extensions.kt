@@ -53,8 +53,12 @@ inline fun <VH : RecyclerView.ViewHolder, T> RecyclerView.Adapter<VH>.basicDiffU
         }).dispatchUpdatesTo(this@basicDiffUtil)
     }
 
-fun ImageView.loadUrl(url: String, placeholder: Int = 0) {
-    Glide.with(context).load(url).placeholder(placeholder).into(this)
+fun ImageView.loadUrl(url: String, placeholder: Int = 0, errorPlaceholder: Int = 0) {
+    Glide.with(context)
+        .load(url)
+        .error(errorPlaceholder)
+        .placeholder(placeholder)
+        .into(this)
 }
 
 fun ImageView.loadUrlCircular(url: String, placeholder: Int = 0, errorPlaceholder: Int = 0) {

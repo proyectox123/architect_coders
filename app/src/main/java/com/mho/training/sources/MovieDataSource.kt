@@ -40,6 +40,13 @@ class MovieDataSource(
         )
     }
 
+    override suspend fun getMovieListByPerson(personId: Int): Result<List<Movie>> = withContext(Dispatchers.IO) {
+        safeApiCall(
+            call = { requestMovieListByPerson(personId) },
+            errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
+        )
+    }
+
     //endregion
 
     //region Private Methods
@@ -75,6 +82,20 @@ class MovieDataSource(
     private suspend fun requestInTheatersMovieList(region: String): Result<List<Movie>> {
         val response = MovieRequest.service
             .getInTheatersMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
+
+        if(response.isSuccessful){
+            val results = response.body()?.results
+            if (!results.isNullOrEmpty()) {
+                return Result.Success(results.map { it.toDomainMovie(resources) })
+            }
+        }
+
+        return Result.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
+    }
+
+    private suspend fun requestMovieListByPerson(personId: Int): Result<List<Movie>> {
+        val response = MovieRequest.service
+            .getMovieListByPersonAsync(personId, BuildConfig.MOVIE_DB_API_KEY)
 
         if(response.isSuccessful){
             val results = response.body()?.results

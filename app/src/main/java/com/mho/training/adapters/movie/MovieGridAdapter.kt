@@ -7,8 +7,8 @@ import com.mho.training.R
 import com.mho.training.utils.basicDiffUtil
 import com.mho.training.utils.bindingInflate
 
-class MovieListAdapter(private val listener: (Movie) -> Unit) :
-    RecyclerView.Adapter<MovieListViewHolder>() {
+class MovieGridAdapter(private val listener: (Movie) -> Unit) :
+    RecyclerView.Adapter<MovieGridViewHolder>() {
 
     var movies: List<Movie> by basicDiffUtil(
         emptyList(),
@@ -16,11 +16,11 @@ class MovieListAdapter(private val listener: (Movie) -> Unit) :
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        MovieListViewHolder(parent.bindingInflate(R.layout.item_linear_movie, false), listener)
+        MovieGridViewHolder(parent.bindingInflate(R.layout.item_grid_movie, false), listener)
 
     override fun getItemCount(): Int = movies.size
 
-    override fun onBindViewHolder(holderGrid: MovieListViewHolder, position: Int) {
+    override fun onBindViewHolder(holderGrid: MovieGridViewHolder, position: Int) {
         holderGrid.bind(movies[position])
     }
 }

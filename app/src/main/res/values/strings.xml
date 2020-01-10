@@ -37,6 +37,7 @@
     <string name="section_credits">Credits</string>
     <string name="section_trailers">Trailers</string>
     <string name="section_reviews">Reviews</string>
+    <string name="section_related_movies_by_credit">Related movies</string>
     <string name="menu_movie_favorite">Favorite Movie</string>
 
     <!-- Errors -->
