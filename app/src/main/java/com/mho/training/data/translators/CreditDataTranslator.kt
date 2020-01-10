@@ -1,7 +1,7 @@
 package com.mho.training.data.translators
 
 import com.example.android.domain.Credit
-import com.example.android.framework.data.remote.models.ServerCredit
+import com.example.android.framework.data.remote.models.credit.ServerCredit
 import com.mho.training.utils.Constants
 
 fun ServerCredit.toDomainCredit(): Credit =

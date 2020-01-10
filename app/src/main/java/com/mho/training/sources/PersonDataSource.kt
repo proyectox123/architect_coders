@@ -3,7 +3,7 @@ package com.mho.training.sources
 import android.content.res.Resources
 import com.example.android.data.sources.RemotePersonDataSource
 import com.example.android.domain.Person
-import com.example.android.framework.data.remote.models.ServerPerson
+import com.example.android.framework.data.remote.models.person.ServerPerson
 import com.example.android.framework.data.remote.requests.Result
 import com.example.android.framework.data.remote.requests.person.PersonRequest
 import com.example.android.framework.data.remote.requests.safeApiCall

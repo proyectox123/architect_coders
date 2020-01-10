@@ -1,6 +1,6 @@
 package com.example.android.framework.data.remote.requests.trailer
 
-import com.example.android.framework.data.remote.models.TrailerResult
+import com.example.android.framework.data.remote.models.trailer.TrailerResult
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

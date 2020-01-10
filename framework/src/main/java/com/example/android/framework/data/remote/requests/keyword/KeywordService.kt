@@ -1,6 +1,6 @@
 package com.example.android.framework.data.remote.requests.keyword
 
-import com.example.android.framework.data.remote.models.KeywordResult
+import com.example.android.framework.data.remote.models.keyword.KeywordResult
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
