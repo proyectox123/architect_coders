@@ -119,6 +119,12 @@
                             android:layout_marginBottom="8dp"
                             android:text="@string/section_keywords" />
 
+                    <ProgressBar
+                            android:layout_width="@dimen/progress_bar_detail_width"
+                            android:layout_height="@dimen/progress_bar_detail_height"
+                            android:layout_gravity="center"
+                            app:visible="@{viewmodel.loadingKeywords}"/>
+
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/keywordListView"
                             android:layout_width="match_parent"
@@ -152,6 +158,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
                             android:text="@string/section_credits" />
+
+                    <ProgressBar
+                            android:layout_width="@dimen/progress_bar_detail_width"
+                            android:layout_height="@dimen/progress_bar_detail_height"
+                            android:layout_gravity="center"
+                            app:visible="@{viewmodel.loadingCredits}"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/creditListView"
@@ -187,6 +199,12 @@
                             android:layout_marginBottom="8dp"
                             android:text="@string/section_trailers" />
 
+                    <ProgressBar
+                            android:layout_width="@dimen/progress_bar_detail_width"
+                            android:layout_height="@dimen/progress_bar_detail_height"
+                            android:layout_gravity="center"
+                            app:visible="@{viewmodel.loadingTrailers}"/>
+
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/trailerListView"
                             android:layout_width="match_parent"
@@ -219,6 +237,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
                             android:text="@string/section_reviews" />
+
+                    <ProgressBar
+                            android:layout_width="@dimen/progress_bar_detail_width"
+                            android:layout_height="@dimen/progress_bar_detail_height"
+                            android:layout_gravity="center"
+                            app:visible="@{viewmodel.loadingReviews}"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/reviewListView"

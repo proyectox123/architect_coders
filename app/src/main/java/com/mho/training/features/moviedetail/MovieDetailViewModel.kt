@@ -37,11 +37,17 @@ class MovieDetailViewModel(
     private val _credits = MutableLiveData<List<Credit>>()
     val credits: LiveData<List<Credit>> get() = _credits
 
+    private val _loadingCredits = MutableLiveData<Boolean>()
+    val loadingCredits: LiveData<Boolean> get() = _loadingCredits
+
     private val _hasNotCredits = MutableLiveData<Boolean>()
     val hasNotCredits: LiveData<Boolean> get() = _hasNotCredits
 
     private val _keywords = MutableLiveData<List<Keyword>>()
     val keywords: LiveData<List<Keyword>> get() = _keywords
+
+    private val _loadingKeywords = MutableLiveData<Boolean>()
+    val loadingKeywords: LiveData<Boolean> get() = _loadingKeywords
 
     private val _hasNotKeywords = MutableLiveData<Boolean>()
     val hasNotKeywords: LiveData<Boolean> get() = _hasNotKeywords
@@ -49,11 +55,17 @@ class MovieDetailViewModel(
     private val _reviews = MutableLiveData<List<Review>>()
     val reviews: LiveData<List<Review>> get() = _reviews
 
+    private val _loadingReviews = MutableLiveData<Boolean>()
+    val loadingReviews: LiveData<Boolean> get() = _loadingReviews
+
     private val _hasNotReviews = MutableLiveData<Boolean>()
     val hasNotReviews: LiveData<Boolean> get() = _hasNotReviews
 
     private val _trailers = MutableLiveData<List<Trailer>>()
     val trailers: LiveData<List<Trailer>> get() = _trailers
+
+    private val _loadingTrailers = MutableLiveData<Boolean>()
+    val loadingTrailers: LiveData<Boolean> get() = _loadingTrailers
 
     private val _hasNotTrailers = MutableLiveData<Boolean>()
     val hasNotTrailers: LiveData<Boolean> get() = _hasNotTrailers
@@ -87,10 +99,21 @@ class MovieDetailViewModel(
         _infoMovie.value = movie
 
         launch {
+            _loadingCredits.value = true
             validateCreditResult(getCreditListUseCase.invoke(movie.id))
+            _loadingCredits.value = false
+
+            _loadingKeywords.value = true
             validateKeywordResult(getKeywordListUseCase.invoke(movie.id))
+            _loadingKeywords.value = false
+
+            _loadingTrailers.value = true
             validateTrailerResult(getTrailerListUseCase.invoke(movie.id))
+            _loadingTrailers.value = false
+
+            _loadingReviews.value = true
             validateReviewResult(getReviewListUseCase.invoke(movie.id))
+            _loadingReviews.value = false
         }
     }
 
