@@ -55,6 +55,12 @@
                             app:layout_constraintStart_toEndOf="@+id/personDetailPhotoImageView"
                             app:layout_constraintTop_toTopOf="@+id/personDetailPhotoImageView">
 
+                        <ProgressBar
+                                android:layout_width="@dimen/progress_bar_detail_width"
+                                android:layout_height="@dimen/progress_bar_detail_height"
+                                android:layout_gravity="center"
+                                app:visible="@{viewmodel.loadingPerson}"/>
+
                         <TextView
                                 style="@style/PersonDetailTitleStyle"
                                 android:layout_width="match_parent"
@@ -140,6 +146,12 @@
                             android:layout_marginBottom="8dp"
                             android:text="@string/section_related_movies_by_credit" />
 
+                    <ProgressBar
+                            android:layout_width="@dimen/progress_bar_detail_width"
+                            android:layout_height="@dimen/progress_bar_detail_height"
+                            android:layout_gravity="center"
+                            app:visible="@{viewmodel.loadingPerson}"/>
+
                     <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvMovieList"
                             android:layout_width="match_parent"
@@ -149,6 +161,14 @@
                             app:spanCount="3"
                             app:itemsList="@{viewmodel.movies}"
                             tools:listitem="@layout/item_linear_movie" />
+
+                    <TextView
+                            style="@style/MovieDetailInfoError"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/error_not_available"
+                            app:visible="@{viewmodel.hasNotMovies}"
+                            tools:visibility="visible"/>
 
                 </LinearLayout>
 

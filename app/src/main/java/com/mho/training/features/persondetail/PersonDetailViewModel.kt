@@ -1,5 +1,6 @@
 package com.mho.training.features.persondetail
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,8 +34,14 @@ class PersonDetailViewModel(
     private val _infoPerson = MutableLiveData<Person>()
     val infoPerson: LiveData<Person> get() = _infoPerson
 
+    private val _loadingPerson = MutableLiveData<Boolean>()
+    val loadingPerson: LiveData<Boolean> get() = _loadingPerson
+
     private val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>> get() = _movies
+
+    private val _hasNotMovies = MutableLiveData<Boolean>()
+    val hasNotMovies: LiveData<Boolean> get() = _hasNotMovies
 
     private val _hasPersonInformation = MutableLiveData<Boolean>()
     val hasPersonInformation: LiveData<Boolean> get() = _hasPersonInformation
@@ -75,7 +82,10 @@ class PersonDetailViewModel(
 
     fun onCreditInformation(){
         launch {
+            _loadingPerson.value = true
             validatePersonResult(getPersonInformationUseCase.invoke(creditId))
+            _loadingPerson.value = false
+
             validateMovieResult(getMovieListByPersonUseCase.invoke(creditId))
         }
     }
@@ -105,6 +115,7 @@ class PersonDetailViewModel(
                 _infoPerson.value = personResult.data
             }
             is Result.Error -> {
+                Log.d(TAG, "validateMovieResult error message -> ${personResult.exception.message}")
                 _hasPersonInformation.value = false
                 _events.value = Event(Navigation.CloseActivity)
             }
@@ -115,9 +126,12 @@ class PersonDetailViewModel(
         when(movieListResult){
             is Result.Success -> {
                 _movies.value = movieListResult.data
+                _hasNotMovies.value = false
             }
             is Result.Error -> {
+                Log.d(TAG, "validateMovieResult error message -> ${movieListResult.exception.message}")
                 _movies.value = mutableListOf()
+                _hasNotMovies.value = true
             }
         }
     }
