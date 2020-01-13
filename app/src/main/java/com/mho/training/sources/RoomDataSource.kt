@@ -1,8 +1,6 @@
 package com.mho.training.sources
 
 import android.content.res.Resources
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import com.example.android.data.sources.LocalDataSource
 import com.example.android.domain.Movie
 import com.example.android.framework.data.local.database.MovieDatabase
@@ -13,6 +11,8 @@ import com.mho.training.R
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.data.translators.toEntityMovie
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
@@ -36,10 +36,8 @@ class RoomDataSource(
         )
     }
 
-    override fun getFavoriteMovieListWithChanges(): LiveData<List<Movie>> =
-        Transformations.map(movieDao.getAllWithChanges()){ movieEntityList ->
-            movieEntityList.map { it.toDomainMovie(resources) }
-        }
+    override fun getFavoriteMovieListWithChanges(): Flow<List<Movie>> =
+        movieDao.getAllWithChanges().map { movieList -> movieList.map { it.toDomainMovie(resources) } }
 
     override suspend fun getFavoriteMovieStatus(movie: Movie): Boolean = withContext(Dispatchers.IO) {
         movieDao.findById(movie.id) != null

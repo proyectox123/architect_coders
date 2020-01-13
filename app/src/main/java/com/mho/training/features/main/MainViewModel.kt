@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.example.android.domain.Movie
 import com.example.android.framework.data.remote.requests.Result
 import com.example.android.usecases.*
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val getFavoriteMovieListUseCase: GetFavoriteMovieListUseCase,
-    getFavoriteMovieListWithChangesUseCase: GetFavoriteMovieListWithChangesUseCase,
+    private val getFavoriteMovieListWithChangesUseCase: GetFavoriteMovieListWithChangesUseCase,
     private val getPopularMovieListUseCase: GetPopularMovieListUseCase,
     private val getTopRatedMovieListUseCase: GetTopRatedMovieListUseCase,
     private val getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase
@@ -34,8 +35,7 @@ class MainViewModel(
     private val _movies = MutableLiveData<List<Movie>>()
     val movies: LiveData<List<Movie>> get() = _movies
 
-    private val _favoriteMovies = getFavoriteMovieListWithChangesUseCase.invoke()
-    val favoriteMovies: LiveData<List<Movie>> get() = _favoriteMovies
+    val favoriteMovies: LiveData<List<Movie>> get() = getFavoriteMovieListWithChangesUseCase.invoke().asLiveData()
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading

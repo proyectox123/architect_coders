@@ -32,9 +32,8 @@ androidExtensions {
 dependencies {
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    //Live Data
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0'
+    //Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
 
     //Retrofit
     implementation 'com.squareup.okhttp3:logging-interceptor:4.0.1'
@@ -44,5 +43,6 @@ dependencies {
 
     //Room
     api 'androidx.room:room-runtime:2.2.3'
+    implementation 'androidx.room:room-ktx:2.2.3'
     kapt 'androidx.room:room-compiler:2.2.3'
 }

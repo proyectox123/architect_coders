@@ -1,10 +1,10 @@
 package com.example.android.data.repositories
 
-import androidx.lifecycle.LiveData
 import com.example.android.data.sources.LocalDataSource
 import com.example.android.data.sources.RemoteDataSource
 import com.example.android.domain.Movie
 import com.example.android.framework.data.remote.requests.Result
+import kotlinx.coroutines.flow.Flow
 
 class MovieRepository(
     private val localDataSource: LocalDataSource,
@@ -29,7 +29,7 @@ class MovieRepository(
     suspend fun getFavoriteMovieList(): Result<List<Movie>> =
         localDataSource.getFavoriteMovieList()
 
-    fun getFavoriteMovieListWithChanges(): LiveData<List<Movie>> =
+    fun getFavoriteMovieListWithChanges(): Flow<List<Movie>> =
         localDataSource.getFavoriteMovieListWithChanges()
 
     suspend fun getFavoriteMovieStatus(movie: Movie) =

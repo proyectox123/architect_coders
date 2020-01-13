@@ -12,7 +12,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -87,11 +86,11 @@ fun String.generateDateFormat(inputPatter: String, outputPatter: String): String
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline factory: () -> T): T {
 
-    val vmFactory = object : ViewModelProvider.Factory {
+    val vmFactory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
         override fun <U : ViewModel> create(modelClass: Class<U>): U = factory() as U
     }
 
-    return ViewModelProviders.of(this, vmFactory)[T::class.java]
+    return ViewModelProvider(this.viewModelStore, vmFactory)[T::class.java]
 }
 
 val Context.app: MoviesApp

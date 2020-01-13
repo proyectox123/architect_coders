@@ -1,10 +1,10 @@
 package com.example.android.usecases
 
-import androidx.lifecycle.LiveData
 import com.example.android.data.repositories.MovieRepository
 import com.example.android.domain.Movie
+import kotlinx.coroutines.flow.Flow
 
 class GetFavoriteMovieListWithChangesUseCase(private val movieRepository: MovieRepository){
-    fun invoke(): LiveData<List<Movie>> =
+    fun invoke(): Flow<List<Movie>> =
         movieRepository.getFavoriteMovieListWithChanges()
 }
