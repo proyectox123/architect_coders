@@ -4,7 +4,8 @@ This is a project for the Architect Coders' Training. With this application user
 
 ### Screenshots
 
-![Kiku](screenshots/movies_capture_1.jpeg)![Kiku](screenshots/movies_capture_2.jpeg)<br/>![Kiku](screenshots/movies_capture_3.jpeg)![Kiku](screenshots/movies_capture_4.jpeg)
+![Kiku](screenshots/movies_capture_1.jpeg)![Kiku](screenshots/movies_capture_2.jpeg)![Kiku](screenshots/movies_capture_3.jpeg)<br/>
+![Kiku](screenshots/movies_capture_4.jpeg)![Kiku](screenshots/movies_capture_5.jpeg)
 
 ### User Experience
 
