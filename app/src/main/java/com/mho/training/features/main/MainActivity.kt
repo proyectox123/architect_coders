@@ -150,6 +150,7 @@ class MainActivity : AppCompatActivity() {
         startActivity<MovieDetailActivity> {
             putExtra(Constants.EXTRA_MOVIE, movie)
         }
+        overridePendingTransition(R.anim.anim_entry, R.anim.anim_exit)
     }
 
     private fun checkLocationPermission() {

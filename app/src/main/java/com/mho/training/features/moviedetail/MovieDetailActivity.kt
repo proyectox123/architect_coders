@@ -133,6 +133,7 @@ class MovieDetailActivity : AppCompatActivity() {
         startActivity<PersonDetailActivity> {
             putExtra(Constants.EXTRA_CREDIT_ID, credit.id)
         }
+        overridePendingTransition(R.anim.anim_entry, R.anim.anim_exit)
     }
 
     private fun openKeyword(keyword: Keyword){
