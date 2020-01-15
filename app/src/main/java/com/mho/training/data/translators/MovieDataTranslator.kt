@@ -5,6 +5,7 @@ import com.example.android.domain.Movie
 import com.example.android.framework.data.local.database.tables.MovieEntity
 import com.example.android.framework.data.remote.models.movie.ServerMovie
 import com.mho.training.R
+import com.mho.training.models.ParcelableMovie
 import com.mho.training.utils.Constants
 
 fun MovieEntity.toDomainMovie(resources: Resources): Movie =
@@ -36,6 +37,28 @@ fun Movie.toEntityMovie(): MovieEntity =
         generateReleaseDate(releaseDate),
         posterPath,
         voteAverage,
+        plotSynopsis
+    )
+
+fun Movie.toParcelableMovie(): ParcelableMovie =
+    ParcelableMovie(
+        id,
+        title,
+        releaseDate,
+        posterPath,
+        voteAverage,
+        voteAverageLabel,
+        plotSynopsis
+    )
+
+fun ParcelableMovie.toDomainMovie(): Movie =
+    Movie(
+        id,
+        title,
+        releaseDate,
+        posterPath,
+        voteAverage,
+        voteAverageLabel,
         plotSynopsis
     )
 

@@ -1,6 +1,10 @@
-package com.example.android.domain
+package com.mho.training.models
 
-data class Movie(
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class ParcelableMovie(
     val id: Int,
     val title: String,
     val releaseDate: String?,
@@ -8,4 +12,4 @@ data class Movie(
     val voteAverage: Double,
     val voteAverageLabel: String,
     val plotSynopsis: String
-)
+): Parcelable

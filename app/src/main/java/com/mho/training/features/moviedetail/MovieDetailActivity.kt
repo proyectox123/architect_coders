@@ -8,16 +8,21 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.android.data.repositories.*
-import com.example.android.domain.*
+import com.example.android.domain.Credit
+import com.example.android.domain.Keyword
+import com.example.android.domain.Review
+import com.example.android.domain.Trailer
 import com.example.android.usecases.*
 import com.mho.training.R
 import com.mho.training.adapters.credit.CreditListAdapter
 import com.mho.training.adapters.keyword.KeywordListAdapter
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
+import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.databinding.ActivityMovieDetailBinding
 import com.mho.training.features.moviedetail.MovieDetailViewModel.Navigation
 import com.mho.training.features.persondetail.PersonDetailActivity
+import com.mho.training.models.ParcelableMovie
 import com.mho.training.permissions.AndroidPermissionChecker
 import com.mho.training.sources.*
 import com.mho.training.utils.*
@@ -46,7 +51,7 @@ class MovieDetailActivity : AppCompatActivity() {
 
         viewModel = getViewModel {
             MovieDetailViewModel(
-                intent.getParcelableExtra(Constants.EXTRA_MOVIE) as Movie?,
+                (intent.getParcelableExtra(Constants.EXTRA_MOVIE) as ParcelableMovie?)?.toDomainMovie(),
                 GetFavoriteMovieStatus(
                     MovieRepository(
                         RoomDataSource(

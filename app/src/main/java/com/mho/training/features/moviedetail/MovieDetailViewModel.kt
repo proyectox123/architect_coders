@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.domain.*
-import com.example.android.framework.data.remote.requests.Result
+import com.example.android.domain.result.DataResult
 import com.example.android.usecases.*
 import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
@@ -99,6 +99,8 @@ class MovieDetailViewModel(
         _infoMovie.value = movie
 
         launch {
+            validateMovieDetailResult()
+
             _loadingCredits.value = true
             validateCreditResult(getCreditListUseCase.invoke(movie.id))
             _loadingCredits.value = false
@@ -133,13 +135,17 @@ class MovieDetailViewModel(
 
     //region Private Methods
 
-    private fun validateCreditResult(creditListResult: Result<List<Credit>>){
+    private fun validateMovieDetailResult(){
+
+    }
+
+    private fun validateCreditResult(creditListResult: DataResult<List<Credit>>){
         when(creditListResult){
-            is Result.Success -> {
+            is DataResult.Success -> {
                 _credits.value = creditListResult.data
                 _hasNotCredits.value = false
             }
-            is Result.Error -> {
+            is DataResult.Error -> {
                 Log.d(TAG, "validateCreditResult error message -> ${creditListResult.exception.message}")
                 _credits.value = emptyList()
                 _hasNotCredits.value = true
@@ -147,13 +153,13 @@ class MovieDetailViewModel(
         }
     }
 
-    private fun validateKeywordResult(keywordListResult: Result<List<Keyword>>){
+    private fun validateKeywordResult(keywordListResult: DataResult<List<Keyword>>){
         when(keywordListResult){
-            is Result.Success -> {
+            is DataResult.Success -> {
                 _keywords.value = keywordListResult.data
                 _hasNotKeywords.value = false
             }
-            is Result.Error -> {
+            is DataResult.Error -> {
                 Log.d(TAG, "validateKeywordResult error message -> ${keywordListResult.exception.message}")
                 _keywords.value = emptyList()
                 _hasNotKeywords.value = true
@@ -161,13 +167,13 @@ class MovieDetailViewModel(
         }
     }
 
-    private fun validateTrailerResult(trailerListResult: Result<List<Trailer>>){
+    private fun validateTrailerResult(trailerListResult: DataResult<List<Trailer>>){
         when(trailerListResult){
-            is Result.Success -> {
+            is DataResult.Success -> {
                 _trailers.value = trailerListResult.data
                 _hasNotTrailers.value = false
             }
-            is Result.Error -> {
+            is DataResult.Error -> {
                 Log.d(TAG, "validateTrailerResult error message -> ${trailerListResult.exception.message}")
                 _trailers.value = emptyList()
                 _hasNotTrailers.value = true
@@ -175,13 +181,13 @@ class MovieDetailViewModel(
         }
     }
 
-    private fun validateReviewResult(reviewListResult: Result<List<Review>>){
+    private fun validateReviewResult(reviewListResult: DataResult<List<Review>>){
         when(reviewListResult){
-            is Result.Success -> {
+            is DataResult.Success -> {
                 _reviews.value = reviewListResult.data
                 _hasNotReviews.value = false
             }
-            is Result.Error -> {
+            is DataResult.Error -> {
                 Log.d(TAG, "validateReviewResult error message -> ${reviewListResult.exception.message}")
                 _reviews.value = emptyList()
                 _hasNotReviews.value = true

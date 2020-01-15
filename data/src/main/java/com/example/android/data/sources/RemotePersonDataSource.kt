@@ -1,8 +1,8 @@
 package com.example.android.data.sources
 
 import com.example.android.domain.Person
-import com.example.android.framework.data.remote.requests.Result
+import com.example.android.domain.result.DataResult
 
 interface RemotePersonDataSource {
-    suspend fun getPerson(personId: Int): Result<Person>
+    suspend fun getPerson(personId: Int): DataResult<Person>
 }

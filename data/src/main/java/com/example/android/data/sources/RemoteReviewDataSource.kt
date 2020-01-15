@@ -1,8 +1,8 @@
 package com.example.android.data.sources
 
 import com.example.android.domain.Review
-import com.example.android.framework.data.remote.requests.Result
+import com.example.android.domain.result.DataResult
 
 interface RemoteReviewDataSource {
-    suspend fun getReviewList(movieId: Int): Result<List<Review>>
+    suspend fun getReviewList(movieId: Int): DataResult<List<Review>>
 }

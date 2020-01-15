@@ -3,10 +3,10 @@ package com.mho.training.sources
 import android.content.res.Resources
 import com.example.android.data.sources.LocalDataSource
 import com.example.android.domain.Movie
+import com.example.android.domain.result.DataResult
+import com.example.android.domain.result.safeApiCall
 import com.example.android.framework.data.local.database.MovieDatabase
 import com.example.android.framework.data.local.database.tables.MovieEntity
-import com.example.android.framework.data.remote.requests.Result
-import com.example.android.framework.data.remote.requests.safeApiCall
 import com.mho.training.R
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.data.translators.toEntityMovie
@@ -29,7 +29,7 @@ class RoomDataSource(
 
     //region Override Methods & Callbacks
 
-    override suspend fun getFavoriteMovieList(): Result<List<Movie>> = withContext(Dispatchers.IO) {
+    override suspend fun getFavoriteMovieList(): DataResult<List<Movie>> = withContext(Dispatchers.IO) {
         safeApiCall(
             call = { requestFavoriteMovieList() },
             errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
@@ -58,14 +58,14 @@ class RoomDataSource(
 
     //region Private Methods
 
-    private fun requestFavoriteMovieList(): Result<List<Movie>> {
+    private fun requestFavoriteMovieList(): DataResult<List<Movie>> {
         val results = movieDao.getAll()
 
         if (!results.isNullOrEmpty()) {
-            return Result.Success(results.map { it.toDomainMovie(resources) })
+            return DataResult.Success(results.map { it.toDomainMovie(resources) })
         }
 
-        return Result.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
+        return DataResult.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
     }
 
     //endregion
