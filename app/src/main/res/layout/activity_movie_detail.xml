@@ -32,7 +32,8 @@
 
                 <include
                         layout="@layout/section_movie_info"
-                        bind:movie="@{viewmodel.infoMovie}" />
+                        bind:movie="@{viewmodel.infoMovie}"
+                        bind:movieDetail="@{viewmodel.movieDetail}"/>
 
                 <include
                         layout="@layout/section_keyword_list"

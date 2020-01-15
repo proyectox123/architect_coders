@@ -3,12 +3,15 @@ package com.mho.training.sources
 import android.content.res.Resources
 import com.example.android.data.sources.RemoteDataSource
 import com.example.android.domain.Movie
+import com.example.android.domain.MovieDetail
 import com.example.android.domain.result.DataResult
 import com.example.android.domain.result.safeApiCall
+import com.example.android.framework.data.remote.models.movie.MovieDetailResult
 import com.example.android.framework.data.remote.requests.movie.MovieRequest
 import com.mho.training.BuildConfig
 import com.mho.training.R
 import com.mho.training.data.translators.toDomainMovie
+import com.mho.training.data.translators.toMovieDetailDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -43,6 +46,13 @@ class MovieDataSource(
     override suspend fun getMovieListByPerson(personId: Int): DataResult<List<Movie>> = withContext(Dispatchers.IO) {
         safeApiCall(
             call = { requestMovieListByPerson(personId) },
+            errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
+        )
+    }
+
+    override suspend fun getMovieDetailById(movieId: Int): DataResult<MovieDetail> = withContext(Dispatchers.IO) {
+        safeApiCall(
+            call = { requestMovieDetailById(movieId) },
             errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
         )
     }
@@ -101,6 +111,20 @@ class MovieDataSource(
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
                 return DataResult.Success(results.map { it.toDomainMovie(resources) })
+            }
+        }
+
+        return DataResult.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
+    }
+
+    private suspend fun requestMovieDetailById(movieId: Int): DataResult<MovieDetail> {
+        val response = MovieRequest.service
+            .getMovieDetailByIdAsync(movieId, BuildConfig.MOVIE_DB_API_KEY)
+
+        if(response.isSuccessful){
+            val result: MovieDetailResult? = response.body()
+            if (result != null) {
+                return DataResult.Success(result.toMovieDetailDomain())
             }
         }
 

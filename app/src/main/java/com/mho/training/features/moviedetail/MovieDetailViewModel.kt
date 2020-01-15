@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 
 class MovieDetailViewModel(
     private val movie: Movie?,
+    private val getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase,
     private val getFavoriteMovieStatus: GetFavoriteMovieStatus,
     private val updateFavoriteMovieStatus: UpdateFavoriteMovieStatus,
     private val getKeywordListUseCase: GetKeywordListUseCase,
@@ -33,6 +34,9 @@ class MovieDetailViewModel(
 
     private val _infoMovie = MutableLiveData<Movie>()
     val infoMovie: LiveData<Movie> get() = _infoMovie
+
+    private val _movieDetail = MutableLiveData<MovieDetail>()
+    val movieDetail: LiveData<MovieDetail> get() = _movieDetail
 
     private val _credits = MutableLiveData<List<Credit>>()
     val credits: LiveData<List<Credit>> get() = _credits
@@ -99,7 +103,7 @@ class MovieDetailViewModel(
         _infoMovie.value = movie
 
         launch {
-            validateMovieDetailResult()
+            validateMovieDetailResult(getMovieDetailByIdUseCase.invoke(movie.id))
 
             _loadingCredits.value = true
             validateCreditResult(getCreditListUseCase.invoke(movie.id))
@@ -135,8 +139,15 @@ class MovieDetailViewModel(
 
     //region Private Methods
 
-    private fun validateMovieDetailResult(){
-
+    private fun validateMovieDetailResult(movieDetailResult: DataResult<MovieDetail>){
+        when(movieDetailResult){
+            is DataResult.Success -> {
+                _movieDetail.value = movieDetailResult.data
+            }
+            is DataResult.Error -> {
+                _movieDetail.value = null
+            }
+        }
     }
 
     private fun validateCreditResult(creditListResult: DataResult<List<Credit>>){

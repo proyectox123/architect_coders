@@ -26,6 +26,9 @@ class MovieRepository(
     suspend fun getMovieListByPerson(personId: Int): DataResult<List<Movie>> =
         remoteDataSource.getMovieListByPerson(personId)
 
+    suspend fun getMovieDetailById(movieId: Int) =
+        remoteDataSource.getMovieDetailById(movieId)
+
     suspend fun getFavoriteMovieList(): DataResult<List<Movie>> =
         localDataSource.getFavoriteMovieList()
 
