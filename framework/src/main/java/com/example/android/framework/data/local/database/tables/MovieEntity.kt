@@ -12,6 +12,4 @@ data class MovieEntity(
     @ColumnInfo(name = "movie_poster_path") var posterPath: String,
     @ColumnInfo(name = "movie_vote_average") var voteAverage: Double,
     @ColumnInfo(name = "movie_plot_synopsis") var plotSynopsis: String
-){
-    constructor(): this(0, "", "", "", 0.0, "")
-}
+)
