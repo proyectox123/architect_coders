@@ -11,6 +11,7 @@ object Constants {
     const val REQUEST_GET_REVIEW_LIST_BY_MOVIE_ID = "movie/{movie_id}/reviews"
     const val REQUEST_GET_TOP_RATED_MOVIE_LIST = "movie/top_rated"
     const val REQUEST_GET_TRAILER_LIST_BY_MOVIE_ID = "movie/{movie_id}/videos"
+    const val REQUEST_GET_MOVIE_DETAIL_BY_ID = "movie/{movie_id}"
 
     const val REQUEST_PARAM_API_KEY = "api_key"
     const val REQUEST_PARAM_MOVIE_ID = "movie_id"

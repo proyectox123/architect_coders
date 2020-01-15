@@ -42,6 +42,20 @@ class MovieDetailActivity : AppCompatActivity() {
     private lateinit var reviewListAdapter: ReviewListAdapter
     private lateinit var trailerListAdapter: TrailerListAdapter
 
+    private val movieRepository: MovieRepository by lazy {
+        MovieRepository(
+            RoomDataSource(
+                app.db,
+                resources
+            ), MovieDataSource(
+                resources
+            ), RegionRepository(
+                PlayServicesLocationDataSource(app),
+                AndroidPermissionChecker(app)
+            )
+        )
+    }
+
     //endregion
 
     //region Override Methods & Callbacks
@@ -52,31 +66,14 @@ class MovieDetailActivity : AppCompatActivity() {
         viewModel = getViewModel {
             MovieDetailViewModel(
                 (intent.getParcelableExtra(Constants.EXTRA_MOVIE) as ParcelableMovie?)?.toDomainMovie(),
+                GetMovieDetailByIdUseCase(
+                    movieRepository
+                ),
                 GetFavoriteMovieStatus(
-                    MovieRepository(
-                        RoomDataSource(
-                            app.db,
-                            resources
-                        ), MovieDataSource(
-                            resources
-                        ), RegionRepository(
-                            PlayServicesLocationDataSource(app),
-                            AndroidPermissionChecker(app)
-                        )
-                    )
+                    movieRepository
                 ),
                 UpdateFavoriteMovieStatus(
-                    MovieRepository(
-                        RoomDataSource(
-                            app.db,
-                            resources
-                        ), MovieDataSource(
-                            resources
-                        ), RegionRepository(
-                            PlayServicesLocationDataSource(app),
-                            AndroidPermissionChecker(app)
-                        )
-                    )
+                    movieRepository
                 ),
                 GetKeywordListUseCase(
                     KeywordRepository(
