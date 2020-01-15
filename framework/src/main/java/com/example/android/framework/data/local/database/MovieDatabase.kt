@@ -17,7 +17,7 @@ abstract class MovieDatabase : RoomDatabase() {
 
     companion object {
 
-        const val DATABASE_NAME = "movie-db"
+        private const val DATABASE_NAME = "movie-db"
 
         @Synchronized
         fun getDatabase(context: Context): MovieDatabase = Room.databaseBuilder<MovieDatabase>(

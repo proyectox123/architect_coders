@@ -1,6 +1,7 @@
 package com.mho.training.features.persondetail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -94,6 +95,7 @@ class PersonDetailActivity : AppCompatActivity() {
     //region Private Methods
 
     private fun validateEvents(navigation: Navigation){
+        Log.d(TAG, "validateEvents navigation -> $navigation")
         when(navigation){
             is Navigation.NavigateToMovie -> navigation.run { openMovieDetails(movie) }
             Navigation.CloseActivity -> finish()

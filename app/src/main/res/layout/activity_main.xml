@@ -19,6 +19,7 @@
                 android:id="@+id/srwMovieList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/background"
                 app:refreshing="@{viewmodel.loading}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -21,7 +21,10 @@ import com.mho.training.features.persondetail.PersonDetailActivity
 import com.mho.training.permissions.AndroidPermissionChecker
 import com.mho.training.sources.*
 import com.mho.training.utils.*
-import kotlinx.android.synthetic.main.activity_movie_detail.*
+import kotlinx.android.synthetic.main.section_credit_list.*
+import kotlinx.android.synthetic.main.section_keyword_list.*
+import kotlinx.android.synthetic.main.section_review_list.*
+import kotlinx.android.synthetic.main.section_trailer_list.*
 
 
 class MovieDetailActivity : AppCompatActivity() {
