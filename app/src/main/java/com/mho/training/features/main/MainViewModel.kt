@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.example.android.domain.Movie
-import com.example.android.framework.data.remote.requests.Result
+import com.example.android.domain.result.DataResult
 import com.example.android.usecases.*
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.utils.Event
@@ -136,13 +136,13 @@ class MainViewModel(
         }
     }
 
-    private fun validateMovieResult(movieListResult: Result<List<Movie>>){
+    private fun validateMovieResult(movieListResult: DataResult<List<Movie>>){
         when(movieListResult){
-            is Result.Success -> {
+            is DataResult.Success -> {
                 _error.value = false
                 _movies.value = movieListResult.data
             }
-            is Result.Error -> {
+            is DataResult.Error -> {
                 _error.value = true
                 _movies.value = mutableListOf()
             }

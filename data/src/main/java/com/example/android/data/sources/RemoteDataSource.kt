@@ -1,11 +1,11 @@
 package com.example.android.data.sources
 
 import com.example.android.domain.Movie
-import com.example.android.framework.data.remote.requests.Result
+import com.example.android.domain.result.DataResult
 
 interface RemoteDataSource {
-    suspend fun getTopRatedMovieList(region: String): Result<List<Movie>>
-    suspend fun getPopularMovieList(region: String): Result<List<Movie>>
-    suspend fun getInTheatersMovieList(region: String): Result<List<Movie>>
-    suspend fun getMovieListByPerson(personId: Int): Result<List<Movie>>
+    suspend fun getTopRatedMovieList(region: String): DataResult<List<Movie>>
+    suspend fun getPopularMovieList(region: String): DataResult<List<Movie>>
+    suspend fun getInTheatersMovieList(region: String): DataResult<List<Movie>>
+    suspend fun getMovieListByPerson(personId: Int): DataResult<List<Movie>>
 }

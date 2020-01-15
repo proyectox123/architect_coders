@@ -13,6 +13,7 @@ import com.example.android.usecases.GetMovieListByPersonUseCase
 import com.example.android.usecases.GetPersonInformationUseCase
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
+import com.mho.training.data.translators.toParcelableMovie
 import com.mho.training.databinding.ActivityPersonDetailBinding
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.features.persondetail.PersonDetailViewModel.Navigation
@@ -104,7 +105,7 @@ class PersonDetailActivity : AppCompatActivity() {
 
     private fun openMovieDetails(movie: Movie){
         startActivity<MovieDetailActivity> {
-            putExtra(Constants.EXTRA_MOVIE, movie)
+            putExtra(Constants.EXTRA_MOVIE, movie.toParcelableMovie())
         }
     }
 

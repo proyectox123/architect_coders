@@ -2,7 +2,7 @@ package com.example.android.data.repositories
 
 import com.example.android.data.sources.RemoteCreditDataSource
 import com.example.android.domain.Credit
-import com.example.android.framework.data.remote.requests.Result
+import com.example.android.domain.result.DataResult
 
 class CreditRepository(
     private val remoteCreditDataSource: RemoteCreditDataSource
@@ -10,7 +10,7 @@ class CreditRepository(
 
     //region Public Methods
 
-    suspend fun getTrailerList(movieId: Int): Result<List<Credit>> =
+    suspend fun getTrailerList(movieId: Int): DataResult<List<Credit>> =
         remoteCreditDataSource.getCreditList(movieId)
 
     //endregion

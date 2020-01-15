@@ -3,7 +3,7 @@ package com.example.android.data.repositories
 import com.example.android.data.sources.LocalDataSource
 import com.example.android.data.sources.RemoteDataSource
 import com.example.android.domain.Movie
-import com.example.android.framework.data.remote.requests.Result
+import com.example.android.domain.result.DataResult
 import kotlinx.coroutines.flow.Flow
 
 class MovieRepository(
@@ -14,19 +14,19 @@ class MovieRepository(
 
     //region Public Methods
 
-    suspend fun getTopRatedMovieList(): Result<List<Movie>> =
+    suspend fun getTopRatedMovieList(): DataResult<List<Movie>> =
         remoteDataSource.getTopRatedMovieList(regionRepository.findLastRegion())
 
-    suspend fun getPopularMovieList(): Result<List<Movie>> =
+    suspend fun getPopularMovieList(): DataResult<List<Movie>> =
         remoteDataSource.getPopularMovieList(regionRepository.findLastRegion())
 
-    suspend fun getInTheatersMovieList(): Result<List<Movie>> =
+    suspend fun getInTheatersMovieList(): DataResult<List<Movie>> =
         remoteDataSource.getInTheatersMovieList(regionRepository.findLastRegion())
 
-    suspend fun getMovieListByPerson(personId: Int): Result<List<Movie>> =
+    suspend fun getMovieListByPerson(personId: Int): DataResult<List<Movie>> =
         remoteDataSource.getMovieListByPerson(personId)
 
-    suspend fun getFavoriteMovieList(): Result<List<Movie>> =
+    suspend fun getFavoriteMovieList(): DataResult<List<Movie>> =
         localDataSource.getFavoriteMovieList()
 
     fun getFavoriteMovieListWithChanges(): Flow<List<Movie>> =

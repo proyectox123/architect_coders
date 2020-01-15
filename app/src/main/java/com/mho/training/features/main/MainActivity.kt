@@ -13,6 +13,7 @@ import com.example.android.domain.Movie
 import com.example.android.usecases.*
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieGridAdapter
+import com.mho.training.data.translators.toParcelableMovie
 import com.mho.training.databinding.ActivityMainBinding
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.main.MainViewModel.Navigation
@@ -148,7 +149,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openMovieDetails(movie: Movie){
         startActivity<MovieDetailActivity> {
-            putExtra(Constants.EXTRA_MOVIE, movie)
+            putExtra(Constants.EXTRA_MOVIE, movie.toParcelableMovie())
         }
         overridePendingTransition(R.anim.anim_entry, R.anim.anim_exit)
     }

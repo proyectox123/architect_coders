@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.android.domain.Movie
 import com.example.android.domain.Person
-import com.example.android.framework.data.remote.requests.Result
+import com.example.android.domain.result.DataResult
 import com.example.android.usecases.GetMovieListByPersonUseCase
 import com.example.android.usecases.GetPersonInformationUseCase
 import com.mho.training.utils.Constants.LESS_LINES_BIOGRAPHY
@@ -108,13 +108,13 @@ class PersonDetailViewModel(
 
     //region Private Methods
 
-    private fun validatePersonResult(personResult: Result<Person>){
+    private fun validatePersonResult(personResult: DataResult<Person>){
         when(personResult){
-            is Result.Success -> {
+            is DataResult.Success -> {
                 _hasPersonInformation.value = true
                 _infoPerson.value = personResult.data
             }
-            is Result.Error -> {
+            is DataResult.Error -> {
                 Log.d(TAG, "validateMovieResult error message -> ${personResult.exception.message}")
                 _hasPersonInformation.value = false
                 _events.value = Event(Navigation.CloseActivity)
@@ -122,13 +122,13 @@ class PersonDetailViewModel(
         }
     }
 
-    private fun validateMovieResult(movieListResult: Result<List<Movie>>){
+    private fun validateMovieResult(movieListResult: DataResult<List<Movie>>){
         when(movieListResult){
-            is Result.Success -> {
+            is DataResult.Success -> {
                 _movies.value = movieListResult.data
                 _hasNotMovies.value = false
             }
-            is Result.Error -> {
+            is DataResult.Error -> {
                 Log.d(TAG, "validateMovieResult error message -> ${movieListResult.exception.message}")
                 _movies.value = mutableListOf()
                 _hasNotMovies.value = true
