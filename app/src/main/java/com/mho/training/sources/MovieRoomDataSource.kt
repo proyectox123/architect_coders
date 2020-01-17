@@ -7,7 +7,6 @@ import com.example.android.domain.result.DataResult
 import com.example.android.domain.result.safeApiCall
 import com.example.android.framework.data.local.database.MovieDatabase
 import com.example.android.framework.data.local.database.tables.MovieEntity
-import com.mho.training.R
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.data.translators.toEntityMovie
 import kotlinx.coroutines.Dispatchers
@@ -16,9 +15,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-class RoomDataSource(
+class MovieRoomDataSource(
     db: MovieDatabase,
-    private val resources: Resources
+    private val resources: Resources,
+    private val errorUnableToFetchMovies: String,
+    private val errorDuringFetchingMovies: String
 ) : LocalDataSource {
 
     //region Fields
@@ -32,7 +33,7 @@ class RoomDataSource(
     override suspend fun getFavoriteMovieList(): DataResult<List<Movie>> = withContext(Dispatchers.IO) {
         safeApiCall(
             call = { requestFavoriteMovieList() },
-            errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
+            errorMessage = errorUnableToFetchMovies
         )
     }
 
@@ -65,7 +66,7 @@ class RoomDataSource(
             return DataResult.Success(results.map { it.toDomainMovie(resources) })
         }
 
-        return DataResult.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
+        return DataResult.Error(IOException(errorDuringFetchingMovies))
     }
 
     //endregion

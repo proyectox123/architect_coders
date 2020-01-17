@@ -1,24 +1,25 @@
 package com.mho.training.sources
 
-import android.content.res.Resources
 import com.example.android.data.sources.RemoteReviewDataSource
 import com.example.android.domain.Review
 import com.example.android.domain.result.DataResult
 import com.example.android.domain.result.safeApiCall
 import com.example.android.framework.data.remote.requests.review.ReviewRequest
 import com.mho.training.BuildConfig
-import com.mho.training.R
 import com.mho.training.data.translators.toDomainReview
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-class ReviewDataSource(private val resources: Resources) : RemoteReviewDataSource {
+class ReviewServerDataSource(
+    private val errorUnableToFetchReviews: String,
+    private val errorDuringFetchingReviews: String
+) : RemoteReviewDataSource {
 
     override suspend fun getReviewList(movieId: Int): DataResult<List<Review>> = withContext(Dispatchers.IO) {
         safeApiCall(
             call = { requestReviewList(movieId) },
-            errorMessage = resources.getString(R.string.error_unable_to_fetch_reviews)
+            errorMessage = errorUnableToFetchReviews
         )
     }
 
@@ -33,6 +34,6 @@ class ReviewDataSource(private val resources: Resources) : RemoteReviewDataSourc
             }
         }
 
-        return DataResult.Error(IOException(resources.getString(R.string.error_during_fetching_reviews)))
+        return DataResult.Error(IOException(errorDuringFetchingReviews))
     }
 }

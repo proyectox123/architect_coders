@@ -44,11 +44,15 @@ class MovieDetailActivity : AppCompatActivity() {
 
     private val movieRepository: MovieRepository by lazy {
         MovieRepository(
-            RoomDataSource(
+            MovieRoomDataSource(
                 app.db,
-                resources
-            ), MovieDataSource(
-                resources
+                resources,
+                resources.getString(R.string.error_unable_to_fetch_movies),
+                resources.getString(R.string.error_during_fetching_movies)
+            ), MovieServerDataSource(
+                resources,
+                resources.getString(R.string.error_unable_to_fetch_movies),
+                resources.getString(R.string.error_during_fetching_movies)
             ), RegionRepository(
                 PlayServicesLocationDataSource(app),
                 AndroidPermissionChecker(app)
@@ -77,22 +81,34 @@ class MovieDetailActivity : AppCompatActivity() {
                 ),
                 GetKeywordListUseCase(
                     KeywordRepository(
-                        KeywordDataSource(resources)
+                        KeywordServerDataSource(
+                            resources.getString(R.string.error_unable_to_fetch_keywords),
+                            resources.getString(R.string.error_during_fetching_keywords)
+                        )
                     )
                 ),
                 GetCreditListUseCase(
                     CreditRepository(
-                        CreditDataSource(resources)
+                        CreditServerDataSource(
+                            resources.getString(R.string.error_unable_to_fetch_credits),
+                            resources.getString(R.string.error_during_fetching_credits)
+                        )
                     )
                 ),
                 GetTrailerListUseCase(
                     TrailerRepository(
-                        TrailerDataSource(resources)
+                        TrailerServerDataSource(
+                            resources.getString(R.string.error_unable_to_fetch_trailers),
+                            resources.getString(R.string.error_during_fetching_trailers)
+                        )
                     )
                 ),
                 GetReviewListUseCase(
                     ReviewRepository(
-                        ReviewDataSource(resources)
+                        ReviewServerDataSource(
+                            resources.getString(R.string.error_unable_to_fetch_reviews),
+                            resources.getString(R.string.error_during_fetching_reviews)
+                        )
                     )
                 )
             )

@@ -9,15 +9,16 @@ import com.example.android.domain.result.safeApiCall
 import com.example.android.framework.data.remote.models.movie.MovieDetailResult
 import com.example.android.framework.data.remote.requests.movie.MovieRequest
 import com.mho.training.BuildConfig
-import com.mho.training.R
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.data.translators.toMovieDetailDomain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-class MovieDataSource(
-    private val resources: Resources
+class MovieServerDataSource(
+    private val resources: Resources,
+    private val errorUnableToFetchMovies: String,
+    private val errorDuringFetchingMovies: String
 ): RemoteDataSource {
 
     //region Override Methods & Callbacks
@@ -25,35 +26,35 @@ class MovieDataSource(
     override suspend fun getTopRatedMovieList(region: String): DataResult<List<Movie>> = withContext(Dispatchers.IO) {
         safeApiCall(
             call = { requestTopRatedMovieList(region) },
-            errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
+            errorMessage = errorUnableToFetchMovies
         )
     }
 
     override suspend fun getPopularMovieList(region: String): DataResult<List<Movie>> = withContext(Dispatchers.IO) {
         safeApiCall(
             call = { requestPopularMovieList(region) },
-            errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
+            errorMessage = errorUnableToFetchMovies
         )
     }
 
     override suspend fun getInTheatersMovieList(region: String): DataResult<List<Movie>> = withContext(Dispatchers.IO) {
         safeApiCall(
             call = { requestInTheatersMovieList(region) },
-            errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
+            errorMessage = errorUnableToFetchMovies
         )
     }
 
     override suspend fun getMovieListByPerson(personId: Int): DataResult<List<Movie>> = withContext(Dispatchers.IO) {
         safeApiCall(
             call = { requestMovieListByPerson(personId) },
-            errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
+            errorMessage = errorUnableToFetchMovies
         )
     }
 
     override suspend fun getMovieDetailById(movieId: Int): DataResult<MovieDetail> = withContext(Dispatchers.IO) {
         safeApiCall(
             call = { requestMovieDetailById(movieId) },
-            errorMessage = resources.getString(R.string.error_unable_to_fetch_movies)
+            errorMessage = errorUnableToFetchMovies
         )
     }
 
@@ -72,7 +73,7 @@ class MovieDataSource(
             }
         }
 
-        return DataResult.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
+        return DataResult.Error(IOException(errorDuringFetchingMovies))
     }
 
     private suspend fun requestPopularMovieList(region: String): DataResult<List<Movie>> {
@@ -86,7 +87,7 @@ class MovieDataSource(
             }
         }
 
-        return DataResult.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
+        return DataResult.Error(IOException(errorDuringFetchingMovies))
     }
 
     private suspend fun requestInTheatersMovieList(region: String): DataResult<List<Movie>> {
@@ -100,7 +101,7 @@ class MovieDataSource(
             }
         }
 
-        return DataResult.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
+        return DataResult.Error(IOException(errorDuringFetchingMovies))
     }
 
     private suspend fun requestMovieListByPerson(personId: Int): DataResult<List<Movie>> {
@@ -114,7 +115,7 @@ class MovieDataSource(
             }
         }
 
-        return DataResult.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
+        return DataResult.Error(IOException(errorDuringFetchingMovies))
     }
 
     private suspend fun requestMovieDetailById(movieId: Int): DataResult<MovieDetail> {
@@ -128,7 +129,7 @@ class MovieDataSource(
             }
         }
 
-        return DataResult.Error(IOException(resources.getString(R.string.error_during_fetching_movies)))
+        return DataResult.Error(IOException(errorDuringFetchingMovies))
     }
 
     //endregion
