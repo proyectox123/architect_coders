@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.io.IOException
 
-class PersonDataSource(private val resources: Resources) : RemotePersonDataSource {
+class PersonServerDataSource(private val resources: Resources) : RemotePersonDataSource {
 
     override suspend fun getPerson(personId: Int): DataResult<Person> = withContext(Dispatchers.IO) {
         safeApiCall(
@@ -24,9 +24,9 @@ class PersonDataSource(private val resources: Resources) : RemotePersonDataSourc
         )
     }
 
-    private suspend fun requestPerson(movieId: Int): DataResult<Person> {
+    private suspend fun requestPerson(personId: Int): DataResult<Person> {
         val response: Response<ServerPerson> = PersonRequest.service
-            .getPersonByCreditIdAsync(movieId, BuildConfig.MOVIE_DB_API_KEY)
+            .getPersonByCreditIdAsync(personId, BuildConfig.MOVIE_DB_API_KEY)
 
         if(response.isSuccessful){
             val result: ServerPerson? = response.body()

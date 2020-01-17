@@ -20,9 +20,9 @@ import com.mho.training.features.main.MainViewModel.Navigation
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.permissions.AndroidPermissionChecker
 import com.mho.training.permissions.PermissionRequester
-import com.mho.training.sources.MovieDataSource
+import com.mho.training.sources.MovieServerDataSource
 import com.mho.training.sources.PlayServicesLocationDataSource
-import com.mho.training.sources.RoomDataSource
+import com.mho.training.sources.MovieRoomDataSource
 import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -104,11 +104,15 @@ class MainActivity : AppCompatActivity() {
     //region Private Methods
 
     private fun getMovieRepository() = MovieRepository(
-        RoomDataSource(
+        MovieRoomDataSource(
             app.db,
-            resources
-        ), MovieDataSource(
-            resources
+            resources,
+            resources.getString(R.string.error_unable_to_fetch_movies),
+            resources.getString(R.string.error_during_fetching_movies)
+        ), MovieServerDataSource(
+            resources,
+            resources.getString(R.string.error_unable_to_fetch_movies),
+            resources.getString(R.string.error_during_fetching_movies)
         ), RegionRepository(
             PlayServicesLocationDataSource(app),
             AndroidPermissionChecker(app)

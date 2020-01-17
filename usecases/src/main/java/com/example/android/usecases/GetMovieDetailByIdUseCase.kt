@@ -5,6 +5,6 @@ import com.example.android.domain.MovieDetail
 import com.example.android.domain.result.DataResult
 
 class GetMovieDetailByIdUseCase(private val movieRepository: MovieRepository){
-    suspend fun invoke(personId: Int): DataResult<MovieDetail> =
-        movieRepository.getMovieDetailById(personId)
+    suspend fun invoke(movieId: Int): DataResult<MovieDetail> =
+        movieRepository.getMovieDetailById(movieId)
 }
