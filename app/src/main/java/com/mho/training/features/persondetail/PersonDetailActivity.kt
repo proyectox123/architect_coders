@@ -18,10 +18,10 @@ import com.mho.training.databinding.ActivityPersonDetailBinding
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.features.persondetail.PersonDetailViewModel.Navigation
 import com.mho.training.permissions.AndroidPermissionChecker
+import com.mho.training.sources.MovieRoomDataSource
 import com.mho.training.sources.MovieServerDataSource
 import com.mho.training.sources.PersonServerDataSource
 import com.mho.training.sources.PlayServicesLocationDataSource
-import com.mho.training.sources.MovieRoomDataSource
 import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -47,7 +47,8 @@ class PersonDetailActivity : AppCompatActivity() {
                 GetPersonInformationUseCase(
                     PersonRepository(
                         PersonServerDataSource(
-                            resources
+                            resources.getString(R.string.error_unable_to_fetch_person),
+                            resources.getString(R.string.error_during_fetching_person)
                         )
                     )
                 ),

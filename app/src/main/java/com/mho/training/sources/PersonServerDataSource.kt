@@ -1,6 +1,5 @@
 package com.mho.training.sources
 
-import android.content.res.Resources
 import com.example.android.data.sources.RemotePersonDataSource
 import com.example.android.domain.Person
 import com.example.android.domain.result.DataResult
@@ -8,19 +7,21 @@ import com.example.android.domain.result.safeApiCall
 import com.example.android.framework.data.remote.models.person.ServerPerson
 import com.example.android.framework.data.remote.requests.person.PersonRequest
 import com.mho.training.BuildConfig
-import com.mho.training.R
 import com.mho.training.data.translators.toDomainPerson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.io.IOException
 
-class PersonServerDataSource(private val resources: Resources) : RemotePersonDataSource {
+class PersonServerDataSource(
+    private val errorUnableToFetchPerson: String,
+    private val errorDuringFetchingPerson: String
+) : RemotePersonDataSource {
 
     override suspend fun getPerson(personId: Int): DataResult<Person> = withContext(Dispatchers.IO) {
         safeApiCall(
             call = { requestPerson(personId) },
-            errorMessage = resources.getString(R.string.error_unable_to_fetch_person)
+            errorMessage = errorUnableToFetchPerson
         )
     }
 
@@ -35,6 +36,6 @@ class PersonServerDataSource(private val resources: Resources) : RemotePersonDat
             }
         }
 
-        return DataResult.Error(IOException(resources.getString(R.string.error_during_fetching_person)))
+        return DataResult.Error(IOException(errorDuringFetchingPerson))
     }
 }
