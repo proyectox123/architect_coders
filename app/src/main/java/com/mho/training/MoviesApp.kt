@@ -2,11 +2,12 @@ package com.mho.training
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.android.framework.data.local.database.MovieDatabase
+import com.mho.training.di.DaggerMyMoviesComponent
+import com.mho.training.di.MyMoviesComponent
 
 class MoviesApp : Application() {
 
-    lateinit var db: MovieDatabase
+    lateinit var component: MyMoviesComponent
         private set
 
     override fun onCreate() {
@@ -14,6 +15,8 @@ class MoviesApp : Application() {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
-        db = MovieDatabase.getDatabase(this)
+        component = DaggerMyMoviesComponent
+            .factory()
+            .create(this)
     }
 }

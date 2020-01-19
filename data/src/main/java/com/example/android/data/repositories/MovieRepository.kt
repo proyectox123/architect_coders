@@ -1,45 +1,45 @@
 package com.example.android.data.repositories
 
-import com.example.android.data.sources.LocalDataSource
-import com.example.android.data.sources.RemoteDataSource
+import com.example.android.data.sources.LocalMovieDataSource
+import com.example.android.data.sources.RemoteMovieDataSource
 import com.example.android.domain.Movie
 import com.example.android.domain.result.DataResult
 import kotlinx.coroutines.flow.Flow
 
 class MovieRepository(
-    private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource,
+    private val localMovieDataSource: LocalMovieDataSource,
+    private val remoteMovieDataSource: RemoteMovieDataSource,
     private val regionRepository: RegionRepository
 ) {
 
     //region Public Methods
 
     suspend fun getTopRatedMovieList(): DataResult<List<Movie>> =
-        remoteDataSource.getTopRatedMovieList(regionRepository.findLastRegion())
+        remoteMovieDataSource.getTopRatedMovieList(regionRepository.findLastRegion())
 
     suspend fun getPopularMovieList(): DataResult<List<Movie>> =
-        remoteDataSource.getPopularMovieList(regionRepository.findLastRegion())
+        remoteMovieDataSource.getPopularMovieList(regionRepository.findLastRegion())
 
     suspend fun getInTheatersMovieList(): DataResult<List<Movie>> =
-        remoteDataSource.getInTheatersMovieList(regionRepository.findLastRegion())
+        remoteMovieDataSource.getInTheatersMovieList(regionRepository.findLastRegion())
 
     suspend fun getMovieListByPerson(personId: Int): DataResult<List<Movie>> =
-        remoteDataSource.getMovieListByPerson(personId)
+        remoteMovieDataSource.getMovieListByPerson(personId)
 
     suspend fun getMovieDetailById(movieId: Int) =
-        remoteDataSource.getMovieDetailById(movieId)
+        remoteMovieDataSource.getMovieDetailById(movieId)
 
     suspend fun getFavoriteMovieList(): DataResult<List<Movie>> =
-        localDataSource.getFavoriteMovieList()
+        localMovieDataSource.getFavoriteMovieList()
 
     fun getFavoriteMovieListWithChanges(): Flow<List<Movie>> =
-        localDataSource.getFavoriteMovieListWithChanges()
+        localMovieDataSource.getFavoriteMovieListWithChanges()
 
     suspend fun getFavoriteMovieStatus(movie: Movie) =
-        localDataSource.getFavoriteMovieStatus(movie)
+        localMovieDataSource.getFavoriteMovieStatus(movie)
 
     suspend fun updateFavoriteMovieStatus(movie: Movie) =
-        localDataSource.updateFavoriteMovieStatus(movie)
+        localMovieDataSource.updateFavoriteMovieStatus(movie)
 
     //endregion
 
