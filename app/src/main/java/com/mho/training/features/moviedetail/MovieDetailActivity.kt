@@ -46,13 +46,13 @@ class MovieDetailActivity : AppCompatActivity() {
         MovieRepository(
             MovieRoomDataSource(
                 app.db,
-                resources,
                 resources.getString(R.string.error_unable_to_fetch_movies),
-                resources.getString(R.string.error_during_fetching_movies)
+                resources.getString(R.string.error_during_fetching_movies),
+                resources.getString(R.string.text_movie_detail_vote_average)
             ), MovieServerDataSource(
-                resources,
                 resources.getString(R.string.error_unable_to_fetch_movies),
-                resources.getString(R.string.error_during_fetching_movies)
+                resources.getString(R.string.error_during_fetching_movies),
+                resources.getString(R.string.text_movie_detail_vote_average)
             ), RegionRepository(
                 PlayServicesLocationDataSource(app),
                 AndroidPermissionChecker(app)

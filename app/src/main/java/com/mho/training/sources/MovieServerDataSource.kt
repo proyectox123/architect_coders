@@ -1,6 +1,5 @@
 package com.mho.training.sources
 
-import android.content.res.Resources
 import com.example.android.data.sources.RemoteDataSource
 import com.example.android.domain.Movie
 import com.example.android.domain.MovieDetail
@@ -16,9 +15,9 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 
 class MovieServerDataSource(
-    private val resources: Resources,
     private val errorUnableToFetchMovies: String,
-    private val errorDuringFetchingMovies: String
+    private val errorDuringFetchingMovies: String,
+    private val voteAverageLabel: String
 ): RemoteDataSource {
 
     //region Override Methods & Callbacks
@@ -69,7 +68,7 @@ class MovieServerDataSource(
         if(response.isSuccessful){
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
-                return DataResult.Success(results.map { it.toDomainMovie(resources) })
+                return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
             }
         }
 
@@ -83,7 +82,7 @@ class MovieServerDataSource(
         if(response.isSuccessful){
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
-                return DataResult.Success(results.map { it.toDomainMovie(resources) })
+                return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
             }
         }
 
@@ -97,7 +96,7 @@ class MovieServerDataSource(
         if(response.isSuccessful){
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
-                return DataResult.Success(results.map { it.toDomainMovie(resources) })
+                return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
             }
         }
 
@@ -111,7 +110,7 @@ class MovieServerDataSource(
         if(response.isSuccessful){
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
-                return DataResult.Success(results.map { it.toDomainMovie(resources) })
+                return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
             }
         }
 

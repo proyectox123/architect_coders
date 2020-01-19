@@ -1,6 +1,5 @@
 package com.mho.training.sources
 
-import android.content.res.Resources
 import com.example.android.data.sources.LocalDataSource
 import com.example.android.domain.Movie
 import com.example.android.domain.result.DataResult
@@ -17,9 +16,9 @@ import java.io.IOException
 
 class MovieRoomDataSource(
     db: MovieDatabase,
-    private val resources: Resources,
     private val errorUnableToFetchMovies: String,
-    private val errorDuringFetchingMovies: String
+    private val errorDuringFetchingMovies: String,
+    private val voteAverageLabel: String
 ) : LocalDataSource {
 
     //region Fields
@@ -38,7 +37,7 @@ class MovieRoomDataSource(
     }
 
     override fun getFavoriteMovieListWithChanges(): Flow<List<Movie>> =
-        movieDao.getAllWithChanges().map { movieList -> movieList.map { it.toDomainMovie(resources) } }
+        movieDao.getAllWithChanges().map { movieList -> movieList.map { it.toDomainMovie(voteAverageLabel) } }
 
     override suspend fun getFavoriteMovieStatus(movie: Movie): Boolean = withContext(Dispatchers.IO) {
         movieDao.findById(movie.id) != null
@@ -63,7 +62,7 @@ class MovieRoomDataSource(
         val results = movieDao.getAll()
 
         if (!results.isNullOrEmpty()) {
-            return DataResult.Success(results.map { it.toDomainMovie(resources) })
+            return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
         }
 
         return DataResult.Error(IOException(errorDuringFetchingMovies))

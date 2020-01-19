@@ -1,32 +1,30 @@
 package com.mho.training.data.translators
 
-import android.content.res.Resources
 import com.example.android.domain.Movie
 import com.example.android.framework.data.local.database.tables.MovieEntity
 import com.example.android.framework.data.remote.models.movie.ServerMovie
-import com.mho.training.R
 import com.mho.training.models.ParcelableMovie
 import com.mho.training.utils.Constants
 
-fun MovieEntity.toDomainMovie(resources: Resources): Movie =
+fun MovieEntity.toDomainMovie(voteAverageLabel: String): Movie =
     Movie(
         id,
         title,
         releaseDate,
         posterPath,
         voteAverage,
-        getVoteAverageLabel(resources, voteAverage),
+        getVoteAverageLabel(voteAverage, voteAverageLabel),
         plotSynopsis
     )
 
-fun ServerMovie.toDomainMovie(resources: Resources): Movie =
+fun ServerMovie.toDomainMovie(voteAverageLabel: String): Movie =
     Movie(
         id,
         title,
         generateReleaseDate(releaseDate),
         generateMoviePosterAbsolutePath(posterPath),
         voteAverage,
-        getVoteAverageLabel(resources, voteAverage),
+        getVoteAverageLabel(voteAverage, voteAverageLabel),
         plotSynopsis
     )
 
@@ -62,14 +60,11 @@ fun ParcelableMovie.toDomainMovie(): Movie =
         plotSynopsis
     )
 
-private fun generateReleaseDate(releaseDate: String?): String{
-    return if(releaseDate.isNullOrBlank()) "-" else releaseDate
-}
+private fun generateReleaseDate(releaseDate: String?) =
+    if(releaseDate.isNullOrBlank()) "-" else releaseDate
 
-private fun getVoteAverageLabel(resources: Resources, voteAverage: Double): String {
-    val voteAverageLabel = "$voteAverage/10"
-    return resources.getString(R.string.text_movie_detail_vote_average, voteAverageLabel)
-}
+private fun getVoteAverageLabel(voteAverage: Double, voteAverageLabel: String) =
+    voteAverageLabel.format("$voteAverage/10")
 
-private fun generateMoviePosterAbsolutePath(posterPath: String)
-        = Constants.URL_IMAGE_TBMD + posterPath
+private fun generateMoviePosterAbsolutePath(posterPath: String) =
+    Constants.URL_IMAGE_TBMD + posterPath
