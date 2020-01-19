@@ -7,12 +7,10 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.example.android.data.repositories.*
 import com.example.android.domain.Credit
 import com.example.android.domain.Keyword
 import com.example.android.domain.Review
 import com.example.android.domain.Trailer
-import com.example.android.usecases.*
 import com.mho.training.R
 import com.mho.training.adapters.credit.CreditListAdapter
 import com.mho.training.adapters.keyword.KeywordListAdapter
@@ -23,8 +21,6 @@ import com.mho.training.databinding.ActivityMovieDetailBinding
 import com.mho.training.features.moviedetail.MovieDetailViewModel.Navigation
 import com.mho.training.features.persondetail.PersonDetailActivity
 import com.mho.training.models.ParcelableMovie
-import com.mho.training.permissions.AndroidPermissionChecker
-import com.mho.training.sources.*
 import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.section_credit_list.*
 import kotlinx.android.synthetic.main.section_keyword_list.*
@@ -36,28 +32,14 @@ class MovieDetailActivity : AppCompatActivity() {
 
     //region Fields
 
-    private lateinit var viewModel: MovieDetailViewModel
     private lateinit var creditListAdapter: CreditListAdapter
     private lateinit var keywordListAdapter: KeywordListAdapter
     private lateinit var reviewListAdapter: ReviewListAdapter
     private lateinit var trailerListAdapter: TrailerListAdapter
+    private lateinit var component: MovieDetailActivityComponent
 
-    private val movieRepository: MovieRepository by lazy {
-        MovieRepository(
-            MovieRoomDataSource(
-                app.db,
-                resources,
-                resources.getString(R.string.error_unable_to_fetch_movies),
-                resources.getString(R.string.error_during_fetching_movies)
-            ), MovieServerDataSource(
-                resources,
-                resources.getString(R.string.error_unable_to_fetch_movies),
-                resources.getString(R.string.error_during_fetching_movies)
-            ), RegionRepository(
-                PlayServicesLocationDataSource(app),
-                AndroidPermissionChecker(app)
-            )
-        )
+    private val viewModel: MovieDetailViewModel by lazy {
+        getViewModel { component.movieDetailViewModel }
     }
 
     //endregion
@@ -67,52 +49,9 @@ class MovieDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = getViewModel {
-            MovieDetailViewModel(
-                (intent.getParcelableExtra(Constants.EXTRA_MOVIE) as ParcelableMovie?)?.toDomainMovie(),
-                GetMovieDetailByIdUseCase(
-                    movieRepository
-                ),
-                GetFavoriteMovieStatus(
-                    movieRepository
-                ),
-                UpdateFavoriteMovieStatus(
-                    movieRepository
-                ),
-                GetKeywordListUseCase(
-                    KeywordRepository(
-                        KeywordServerDataSource(
-                            resources.getString(R.string.error_unable_to_fetch_keywords),
-                            resources.getString(R.string.error_during_fetching_keywords)
-                        )
-                    )
-                ),
-                GetCreditListUseCase(
-                    CreditRepository(
-                        CreditServerDataSource(
-                            resources.getString(R.string.error_unable_to_fetch_credits),
-                            resources.getString(R.string.error_during_fetching_credits)
-                        )
-                    )
-                ),
-                GetTrailerListUseCase(
-                    TrailerRepository(
-                        TrailerServerDataSource(
-                            resources.getString(R.string.error_unable_to_fetch_trailers),
-                            resources.getString(R.string.error_during_fetching_trailers)
-                        )
-                    )
-                ),
-                GetReviewListUseCase(
-                    ReviewRepository(
-                        ReviewServerDataSource(
-                            resources.getString(R.string.error_unable_to_fetch_reviews),
-                            resources.getString(R.string.error_during_fetching_reviews)
-                        )
-                    )
-                )
-            )
-        }
+        component = app.component.plus(MovieDetailActivityModule(
+            (intent.getParcelableExtra(Constants.EXTRA_MOVIE) as ParcelableMovie?)?.toDomainMovie()
+        ))
 
         val binding: ActivityMovieDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail)
         binding.apply {

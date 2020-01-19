@@ -1,7 +1,6 @@
 package com.mho.training.sources
 
-import android.content.res.Resources
-import com.example.android.data.sources.RemoteDataSource
+import com.example.android.data.sources.RemoteMovieDataSource
 import com.example.android.domain.Movie
 import com.example.android.domain.MovieDetail
 import com.example.android.domain.result.DataResult
@@ -15,11 +14,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-class MovieServerDataSource(
-    private val resources: Resources,
+class MovieServerMovieDataSource(
     private val errorUnableToFetchMovies: String,
-    private val errorDuringFetchingMovies: String
-): RemoteDataSource {
+    private val errorDuringFetchingMovies: String,
+    private val voteAverageLabel: String
+): RemoteMovieDataSource {
 
     //region Override Methods & Callbacks
 
@@ -69,7 +68,7 @@ class MovieServerDataSource(
         if(response.isSuccessful){
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
-                return DataResult.Success(results.map { it.toDomainMovie(resources) })
+                return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
             }
         }
 
@@ -83,7 +82,7 @@ class MovieServerDataSource(
         if(response.isSuccessful){
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
-                return DataResult.Success(results.map { it.toDomainMovie(resources) })
+                return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
             }
         }
 
@@ -97,7 +96,7 @@ class MovieServerDataSource(
         if(response.isSuccessful){
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
-                return DataResult.Success(results.map { it.toDomainMovie(resources) })
+                return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
             }
         }
 
@@ -111,7 +110,7 @@ class MovieServerDataSource(
         if(response.isSuccessful){
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
-                return DataResult.Success(results.map { it.toDomainMovie(resources) })
+                return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
             }
         }
 

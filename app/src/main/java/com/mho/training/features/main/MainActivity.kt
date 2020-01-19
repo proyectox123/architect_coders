@@ -7,10 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.example.android.data.repositories.MovieRepository
-import com.example.android.data.repositories.RegionRepository
 import com.example.android.domain.Movie
-import com.example.android.usecases.*
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieGridAdapter
 import com.mho.training.data.translators.toParcelableMovie
@@ -18,11 +15,7 @@ import com.mho.training.databinding.ActivityMainBinding
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.main.MainViewModel.Navigation
 import com.mho.training.features.moviedetail.MovieDetailActivity
-import com.mho.training.permissions.AndroidPermissionChecker
 import com.mho.training.permissions.PermissionRequester
-import com.mho.training.sources.MovieServerDataSource
-import com.mho.training.sources.PlayServicesLocationDataSource
-import com.mho.training.sources.MovieRoomDataSource
 import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -32,7 +25,11 @@ class MainActivity : AppCompatActivity() {
     //region Fields
 
     private lateinit var movieGridAdapter: MovieGridAdapter
-    private lateinit var viewModel: MainViewModel
+    private lateinit var component: MainActivityComponent
+
+    private val viewModel: MainViewModel by lazy {
+        getViewModel { component.mainViewModel }
+    }
 
     private val coarsePermissionRequester = PermissionRequester(this)
 
@@ -43,15 +40,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = getViewModel {
-            MainViewModel(
-                GetFavoriteMovieListUseCase(getMovieRepository()),
-                GetFavoriteMovieListWithChangesUseCase(getMovieRepository()),
-                GetPopularMovieListUseCase(getMovieRepository()),
-                GetTopRatedMovieListUseCase(getMovieRepository()),
-                GetInTheatersMovieListUseCase(getMovieRepository())
-            )
-        }
+        component = app.component.plus(MainActivityModule())
 
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.apply {
@@ -102,22 +91,6 @@ class MainActivity : AppCompatActivity() {
     //endregion
 
     //region Private Methods
-
-    private fun getMovieRepository() = MovieRepository(
-        MovieRoomDataSource(
-            app.db,
-            resources,
-            resources.getString(R.string.error_unable_to_fetch_movies),
-            resources.getString(R.string.error_during_fetching_movies)
-        ), MovieServerDataSource(
-            resources,
-            resources.getString(R.string.error_unable_to_fetch_movies),
-            resources.getString(R.string.error_during_fetching_movies)
-        ), RegionRepository(
-            PlayServicesLocationDataSource(app),
-            AndroidPermissionChecker(app)
-        )
-    )
 
     private fun onOptionsMovieMostPopularSelected(): Boolean {
         viewModel.onMoviePopularListRefresh()
