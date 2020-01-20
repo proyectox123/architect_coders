@@ -24,17 +24,17 @@ class AppModule {
         db: MovieDatabase,
         @Named("errorUnableToFetchMovies") errorUnableToFetchMovies: String,
         @Named("errorDuringFetchingMovies") errorDuringFetchingMovies: String,
-        @Named("voteAverageLabel") voteAverageLabel: String
+        @Named("formatVoteAverage") formatVoteAverage: String
     ): LocalMovieDataSource =
-        MovieRoomMovieDataSource(db, errorUnableToFetchMovies, errorDuringFetchingMovies, voteAverageLabel)
+        MovieRoomMovieDataSource(db, errorUnableToFetchMovies, errorDuringFetchingMovies, formatVoteAverage)
 
     @Provides
     fun remoteMovieDataSourceProvider(
         @Named("errorUnableToFetchMovies") errorUnableToFetchMovies: String,
         @Named("errorDuringFetchingMovies") errorDuringFetchingMovies: String,
-        @Named("voteAverageLabel") voteAverageLabel: String
+        @Named("formatVoteAverage") formatVoteAverage: String
     ): RemoteMovieDataSource =
-        MovieServerMovieDataSource(errorUnableToFetchMovies, errorDuringFetchingMovies, voteAverageLabel)
+        MovieServerMovieDataSource(errorUnableToFetchMovies, errorDuringFetchingMovies, formatVoteAverage)
 
     @Provides
     fun remoteCreditDataSourceProvider(

@@ -18,7 +18,7 @@ class MovieRoomMovieDataSource(
     db: MovieDatabase,
     private val errorUnableToFetchMovies: String,
     private val errorDuringFetchingMovies: String,
-    private val voteAverageLabel: String
+    private val formatVoteAverage: String
 ) : LocalMovieDataSource {
 
     //region Fields
@@ -37,7 +37,7 @@ class MovieRoomMovieDataSource(
     }
 
     override fun getFavoriteMovieListWithChanges(): Flow<List<Movie>> =
-        movieDao.getAllWithChanges().map { movieList -> movieList.map { it.toDomainMovie(voteAverageLabel) } }
+        movieDao.getAllWithChanges().map { movieList -> movieList.map { it.toDomainMovie(formatVoteAverage) } }
 
     override suspend fun getFavoriteMovieStatus(movie: Movie): Boolean = withContext(Dispatchers.IO) {
         movieDao.findById(movie.id) != null
@@ -62,7 +62,7 @@ class MovieRoomMovieDataSource(
         val results = movieDao.getAll()
 
         if (!results.isNullOrEmpty()) {
-            return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
+            return DataResult.Success(results.map { it.toDomainMovie(formatVoteAverage) })
         }
 
         return DataResult.Error(IOException(errorDuringFetchingMovies))

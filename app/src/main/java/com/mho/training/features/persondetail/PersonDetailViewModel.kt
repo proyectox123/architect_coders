@@ -16,7 +16,7 @@ import com.mho.training.utils.Scope
 import kotlinx.coroutines.launch
 
 class PersonDetailViewModel(
-    private val creditId: Int,
+    private val personId: Int,
     private val getPersonInformationUseCase: GetPersonInformationUseCase,
     private val getMovieListByPersonUseCase: GetMovieListByPersonUseCase
 ) : ViewModel(), Scope by Scope.Impl() {
@@ -83,10 +83,10 @@ class PersonDetailViewModel(
     fun onCreditInformation(){
         launch {
             _loadingPerson.value = true
-            validatePersonResult(getPersonInformationUseCase.invoke(creditId))
+            validatePersonResult(getPersonInformationUseCase.invoke(personId))
             _loadingPerson.value = false
 
-            validateMovieResult(getMovieListByPersonUseCase.invoke(creditId))
+            validateMovieResult(getMovieListByPersonUseCase.invoke(personId))
         }
     }
 

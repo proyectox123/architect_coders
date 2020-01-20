@@ -84,7 +84,7 @@ class ResourcesModule {
 
     @Provides
     @Singleton
-    @Named("voteAverageLabel")
-    fun voteAverageLabelProvider(app: Application): String =
+    @Named("formatVoteAverage")
+    fun formatVoteAverageProvider(app: Application): String =
         app.getString(R.string.text_movie_detail_vote_average)
 }
