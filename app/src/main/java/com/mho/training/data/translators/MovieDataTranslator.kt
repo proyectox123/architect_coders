@@ -6,25 +6,25 @@ import com.example.android.framework.data.remote.models.movie.ServerMovie
 import com.mho.training.models.ParcelableMovie
 import com.mho.training.utils.Constants
 
-fun MovieEntity.toDomainMovie(voteAverageLabel: String): Movie =
+fun MovieEntity.toDomainMovie(formatVoteAverage: String): Movie =
     Movie(
         id,
         title,
         releaseDate,
         posterPath,
         voteAverage,
-        getVoteAverageLabel(voteAverage, voteAverageLabel),
+        getVoteAverageLabel(voteAverage, formatVoteAverage),
         plotSynopsis
     )
 
-fun ServerMovie.toDomainMovie(voteAverageLabel: String): Movie =
+fun ServerMovie.toDomainMovie(formatVoteAverage: String): Movie =
     Movie(
         id,
         title,
         generateReleaseDate(releaseDate),
         generateMoviePosterAbsolutePath(posterPath),
         voteAverage,
-        getVoteAverageLabel(voteAverage, voteAverageLabel),
+        getVoteAverageLabel(voteAverage, formatVoteAverage),
         plotSynopsis
     )
 
@@ -63,8 +63,8 @@ fun ParcelableMovie.toDomainMovie(): Movie =
 private fun generateReleaseDate(releaseDate: String?) =
     if(releaseDate.isNullOrBlank()) "-" else releaseDate
 
-private fun getVoteAverageLabel(voteAverage: Double, voteAverageLabel: String) =
-    voteAverageLabel.format("$voteAverage/10")
+private fun getVoteAverageLabel(voteAverage: Double, formatVoteAverage: String) =
+    formatVoteAverage.format("$voteAverage/10")
 
 private fun generateMoviePosterAbsolutePath(posterPath: String) =
     Constants.URL_IMAGE_TBMD + posterPath

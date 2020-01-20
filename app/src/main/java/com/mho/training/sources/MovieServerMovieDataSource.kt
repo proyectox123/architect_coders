@@ -17,7 +17,7 @@ import java.io.IOException
 class MovieServerMovieDataSource(
     private val errorUnableToFetchMovies: String,
     private val errorDuringFetchingMovies: String,
-    private val voteAverageLabel: String
+    private val formatVoteAverage: String
 ): RemoteMovieDataSource {
 
     //region Override Methods & Callbacks
@@ -68,7 +68,7 @@ class MovieServerMovieDataSource(
         if(response.isSuccessful){
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
-                return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
+                return DataResult.Success(results.map { it.toDomainMovie(formatVoteAverage) })
             }
         }
 
@@ -82,7 +82,7 @@ class MovieServerMovieDataSource(
         if(response.isSuccessful){
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
-                return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
+                return DataResult.Success(results.map { it.toDomainMovie(formatVoteAverage) })
             }
         }
 
@@ -96,7 +96,7 @@ class MovieServerMovieDataSource(
         if(response.isSuccessful){
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
-                return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
+                return DataResult.Success(results.map { it.toDomainMovie(formatVoteAverage) })
             }
         }
 
@@ -110,7 +110,7 @@ class MovieServerMovieDataSource(
         if(response.isSuccessful){
             val results = response.body()?.results
             if (!results.isNullOrEmpty()) {
-                return DataResult.Success(results.map { it.toDomainMovie(voteAverageLabel) })
+                return DataResult.Success(results.map { it.toDomainMovie(formatVoteAverage) })
             }
         }
 

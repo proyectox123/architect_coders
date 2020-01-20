@@ -10,7 +10,7 @@ import dagger.Subcomponent
 
 @Module
 class PersonDetailActivityModule(
-    private val creditId: Int
+    private val personId: Int
 ){
 
     @Provides
@@ -18,7 +18,7 @@ class PersonDetailActivityModule(
         getPersonInformationUseCase: GetPersonInformationUseCase,
         getMovieListByPersonUseCase: GetMovieListByPersonUseCase
     ) = PersonDetailViewModel(
-        creditId,
+        personId,
         getPersonInformationUseCase,
         getMovieListByPersonUseCase
     )
