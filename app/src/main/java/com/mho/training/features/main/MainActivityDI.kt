@@ -1,7 +1,8 @@
 package com.mho.training.features.main
 
 import com.example.android.data.repositories.MovieRepository
-import com.example.android.usecases.*
+import com.example.android.usecases.GetFavoriteMovieListWithChangesUseCase
+import com.example.android.usecases.GetMovieCarouselListUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
@@ -11,38 +12,20 @@ class MainActivityModule {
 
     @Provides
     fun mainViewModelProvider(
-        getFavoriteMovieListUseCase: GetFavoriteMovieListUseCase,
         getFavoriteMovieListWithChangesUseCase: GetFavoriteMovieListWithChangesUseCase,
-        getPopularMovieListUseCase: GetPopularMovieListUseCase,
-        getTopRatedMovieListUseCase: GetTopRatedMovieListUseCase,
-        getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase
+        getMovieCarouselListUseCase: GetMovieCarouselListUseCase
     ) = MainViewModel(
-        getFavoriteMovieListUseCase,
         getFavoriteMovieListWithChangesUseCase,
-        getPopularMovieListUseCase,
-        getTopRatedMovieListUseCase,
-        getInTheatersMovieListUseCase
+        getMovieCarouselListUseCase
     )
-
-    @Provides
-    fun getFavoriteMovieListUseCaseProvider(movieRepository: MovieRepository) =
-        GetFavoriteMovieListUseCase(movieRepository)
 
     @Provides
     fun getFavoriteMovieListWithChangesUseCaseProvider(movieRepository: MovieRepository) =
         GetFavoriteMovieListWithChangesUseCase(movieRepository)
 
     @Provides
-    fun getPopularMovieListUseCaseProvider(movieRepository: MovieRepository) =
-        GetPopularMovieListUseCase(movieRepository)
-
-    @Provides
-    fun getTopRatedMovieListUseCaseProvider(movieRepository: MovieRepository) =
-        GetTopRatedMovieListUseCase(movieRepository)
-
-    @Provides
-    fun getInTheatersMovieListUseCaseProvider(movieRepository: MovieRepository) =
-        GetInTheatersMovieListUseCase(movieRepository)
+    fun getMovieCarouselListUseCaseProvider(movieRepository: MovieRepository) =
+        GetMovieCarouselListUseCase(movieRepository)
 }
 
 @Subcomponent(modules = [(MainActivityModule::class)])

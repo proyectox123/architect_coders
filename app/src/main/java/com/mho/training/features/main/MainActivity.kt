@@ -3,16 +3,15 @@ package com.mho.training.features.main
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.android.domain.Movie
+import com.example.android.domain.MovieCarousel
 import com.mho.training.R
-import com.mho.training.adapters.movie.MovieGridAdapter
+import com.mho.training.adapters.movie.MovieCarouselAdapter
 import com.mho.training.data.translators.toParcelableMovie
 import com.mho.training.databinding.ActivityMainBinding
-import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.main.MainViewModel.Navigation
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.permissions.PermissionRequester
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     //region Fields
 
-    private lateinit var movieGridAdapter: MovieGridAdapter
+    private lateinit var movieCarouselAdapter: MovieCarouselAdapter
     private lateinit var component: MainActivityComponent
 
     private val viewModel: MainViewModel by lazy {
@@ -48,15 +47,16 @@ class MainActivity : AppCompatActivity() {
             lifecycleOwner = this@MainActivity
         }
 
-        movieGridAdapter = MovieGridAdapter(viewModel::onMovieClicked)
+        movieCarouselAdapter = MovieCarouselAdapter(viewModel::onMovieClicked)
 
-        rvMovieList.adapter = movieGridAdapter
+        rvMovieList.adapter = movieCarouselAdapter
 
         srwMovieList.setOnRefreshListener { viewModel.onMovieListRefresh() }
 
-        viewModel.movieCategory.observe(this, Observer(::updateMovieCategory))
-        viewModel.favoriteMovies.observe(this, Observer { viewModel.onMovieFavoriteListUpdate(it) })
+        viewModel.favoriteMovies.observe(this, Observer(::validateFavoriteMovies))
         viewModel.events.observe(this, EventObserver(::validateEvents))
+
+        viewModel.onMovieListRefresh()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -66,55 +66,21 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onMenuOpened(featureId: Int, menu: Menu): Boolean {
-        val menuItemId = when(viewModel.onMovieCategory()){
-            MovieCategoryEnum.FAVORITE -> R.id.menu_movie_favorites
-            MovieCategoryEnum.POPULAR -> R.id.menu_movie_most_popular
-            MovieCategoryEnum.IN_THEATERS -> R.id.menu_movie_in_theaters
-            MovieCategoryEnum.TOP_RATED -> R.id.menu_movie_highest_rated
-            else -> -1
-        }
-
-        menu.findItem(menuItemId)?.isChecked = true
-
-        return super.onMenuOpened(featureId, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-            R.id.menu_movie_most_popular -> onOptionsMovieMostPopularSelected()
-            R.id.menu_movie_highest_rated -> onOptionsMovieHighestRatedSelected()
-            R.id.menu_movie_favorites -> onOptionsMovieFavoritesSelected()
-            R.id.menu_movie_in_theaters -> onOptionsMovieInTheatersSelected()
-            else -> super.onOptionsItemSelected(item)
-    }
-
     //endregion
 
     //region Private Methods
 
-    private fun onOptionsMovieMostPopularSelected(): Boolean {
-        viewModel.onMoviePopularListRefresh()
-        return true
-    }
+    private fun validateFavoriteMovies(listMovie: List<Movie>){
+        val favoriteCarouselIndex = movieCarouselAdapter.movieCarouselList
+            .indices
+            .firstOrNull { movieCarouselAdapter.movieCarouselList[it].name == "Favorites" } ?: -1
 
-    private fun onOptionsMovieHighestRatedSelected(): Boolean {
-        viewModel.onMovieHighestRatedListRefresh()
-        return true
-    }
-
-    private fun onOptionsMovieFavoritesSelected(): Boolean {
-        viewModel.onMovieFavoriteListRefresh()
-        return true
-    }
-
-    private fun onOptionsMovieInTheatersSelected(): Boolean {
-        viewModel.onMovieInTheatersListRefresh()
-        return true
-    }
-
-    private fun updateMovieCategory(movieCategory: MovieCategoryEnum){
-        Log.d(TAG, "updateMovieCategory movieCategory -> $movieCategory")
-        viewModel.onMovieListRefresh()
+        if (favoriteCarouselIndex != -1) {
+            movieCarouselAdapter.movieCarouselList =
+                movieCarouselAdapter.movieCarouselList.toMutableList().apply {
+                    this[favoriteCarouselIndex] = MovieCarousel(this[favoriteCarouselIndex].name, listMovie)
+                }
+        }
     }
 
     private fun validateEvents(navigation: Navigation){
@@ -125,6 +91,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openMovieDetails(movie: Movie){
+        Log.d(TAG, "openMovieDetails movie -> $movie")
         startActivity<MovieDetailActivity> {
             putExtra(Constants.EXTRA_MOVIE, movie.toParcelableMovie())
         }

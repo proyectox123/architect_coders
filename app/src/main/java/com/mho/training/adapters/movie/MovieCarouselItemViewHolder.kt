@@ -4,8 +4,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.domain.Movie
 import com.mho.training.databinding.ItemCarouselItemMovieBinding
 
-class MovieListViewHolder(private val dataBinding: ItemCarouselItemMovieBinding,
-                          private val listener: (Movie) -> Unit) :
+class MovieCarouselItemViewHolder(
+    private val dataBinding: ItemCarouselItemMovieBinding,
+    private val listener: (Movie) -> Unit
+) :
     RecyclerView.ViewHolder(dataBinding.root){
 
     fun bind(movie: Movie){

@@ -10,11 +10,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mho.training.R
 import com.mho.training.adapters.credit.CreditListAdapter
 import com.mho.training.adapters.keyword.KeywordListAdapter
+import com.mho.training.adapters.movie.MovieCarouselAdapter
 import com.mho.training.adapters.movie.MovieGridAdapter
 import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
 import com.mho.training.utils.loadUrl
+import com.mho.training.utils.loadUrlCenterCrop
 import com.mho.training.utils.loadUrlCircular
 
 @BindingAdapter("url")
@@ -23,6 +25,15 @@ fun ImageView.bindUrl(url: String?) {
         setImageResource(R.drawable.ic_camera)
     }else{
         loadUrl(url, R.drawable.ic_camera, R.drawable.ic_broken_image)
+    }
+}
+
+@BindingAdapter("carouselUrl")
+fun ImageView.bindCarouselUrl(url: String?) {
+    if (url.isNullOrBlank()){
+        setImageResource(R.drawable.ic_camera)
+    }else{
+        loadUrlCenterCrop(url, R.drawable.ic_camera, R.drawable.ic_broken_image)
     }
 }
 
@@ -39,6 +50,13 @@ fun ImageView.bindCircularPhotoUrl(url: String?) {
 fun RecyclerView.setMovieItemsToGrid(movies: List<Movie>?) {
     (adapter as? MovieGridAdapter)?.let {
         it.movies = movies ?: emptyList()
+    }
+}
+
+@BindingAdapter("itemsCarousel")
+fun RecyclerView.setMovieItemsToCarousel(movieCarouselList: List<MovieCarousel>?) {
+    (adapter as? MovieCarouselAdapter)?.let {
+        it.movieCarouselList = movieCarouselList ?: emptyList()
     }
 }
 

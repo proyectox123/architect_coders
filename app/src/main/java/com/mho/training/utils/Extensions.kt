@@ -60,6 +60,15 @@ fun ImageView.loadUrl(url: String, placeholder: Int = 0, errorPlaceholder: Int =
         .into(this)
 }
 
+fun ImageView.loadUrlCenterCrop(url: String, placeholder: Int = 0, errorPlaceholder: Int = 0) {
+    Glide.with(context)
+        .load(url)
+        .error(errorPlaceholder)
+        .placeholder(placeholder)
+        .centerCrop()
+        .into(this)
+}
+
 fun ImageView.loadUrlCircular(url: String, placeholder: Int = 0, errorPlaceholder: Int = 0) {
     Glide.with(context)
         .load(url)

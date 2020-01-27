@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="java.util.List"/>
+
+        <variable
+                name="movies"
+                type="List&lt;com.example.android.domain.Movie>"/>
+
+    </data>
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        <TextView
+                style="@style/CarouselTitleStyle"
+                android:id="@+id/tvCarouselTitle"
+                android:layout_margin="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name" />
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCarouselMovie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:spanCount="6"
+                app:itemsList="@{movies}"
+                tools:listitem="@layout/item_carousel_item_movie"
+                tools:visibility="visible" />
+
+    </LinearLayout>
+</layout>

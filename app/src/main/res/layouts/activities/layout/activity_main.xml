@@ -30,10 +30,11 @@
                     android:id="@+id/rvMovieList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="3"
-                    app:itemsGrid="@{viewmodel.movies}"
-                    tools:listitem="@layout/item_grid_movie"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:spanCount="5"
+                    app:itemsCarousel="@{viewmodel.movieCarousels}"
+                    tools:listitem="@layout/item_carousel_movie"
                     tools:visibility="visible" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
