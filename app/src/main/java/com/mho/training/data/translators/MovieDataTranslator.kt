@@ -1,8 +1,8 @@
 package com.mho.training.data.translators
 
 import com.example.android.domain.Movie
-import com.example.android.framework.data.local.database.tables.MovieEntity
-import com.example.android.framework.data.remote.models.movie.ServerMovie
+import com.example.android.frameworkroom.data.tables.MovieEntity
+import com.example.android.frameworkretrofit.data.models.movie.ServerMovie
 import com.mho.training.models.ParcelableMovie
 import com.mho.training.utils.Constants
 

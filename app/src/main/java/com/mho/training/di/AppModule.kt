@@ -3,7 +3,7 @@ package com.mho.training.di
 import android.app.Application
 import com.example.android.data.repositories.PermissionChecker
 import com.example.android.data.sources.*
-import com.example.android.framework.data.local.database.MovieDatabase
+import com.example.android.frameworkroom.data.MovieDatabase
 import com.mho.training.permissions.AndroidPermissionChecker
 import com.mho.training.sources.*
 import dagger.Module

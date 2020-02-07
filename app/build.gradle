@@ -52,7 +52,8 @@ androidExtensions {
 }
 
 dependencies {
-    implementation project(":framework")
+    implementation project(":frameworkretrofit")
+    implementation project(":frameworkroom")
     implementation project(":data")
     implementation project(":domain")
     implementation project(":usecases")

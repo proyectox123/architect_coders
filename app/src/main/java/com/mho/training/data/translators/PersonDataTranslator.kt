@@ -1,7 +1,7 @@
 package com.mho.training.data.translators
 
 import com.example.android.domain.Person
-import com.example.android.framework.data.remote.models.person.ServerPerson
+import com.example.android.frameworkretrofit.data.models.person.ServerPerson
 import com.mho.training.utils.Constants
 import com.mho.training.utils.Constants.DATE_FORMAT_PATTERN_INPUT
 import com.mho.training.utils.Constants.DATE_FORMAT_PATTERN_OUTPUT

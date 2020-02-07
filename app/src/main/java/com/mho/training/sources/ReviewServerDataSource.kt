@@ -4,7 +4,7 @@ import com.example.android.data.sources.RemoteReviewDataSource
 import com.example.android.domain.Review
 import com.example.android.domain.result.DataResult
 import com.example.android.domain.result.safeApiCall
-import com.example.android.framework.data.remote.requests.review.ReviewRequest
+import com.example.android.frameworkretrofit.data.requests.review.ReviewRequest
 import com.mho.training.BuildConfig
 import com.mho.training.data.translators.toDomainReview
 import kotlinx.coroutines.Dispatchers

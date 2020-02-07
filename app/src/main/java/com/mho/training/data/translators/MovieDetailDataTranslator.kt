@@ -1,7 +1,7 @@
 package com.mho.training.data.translators
 
 import com.example.android.domain.MovieDetail
-import com.example.android.framework.data.remote.models.movie.MovieDetailResult
+import com.example.android.frameworkretrofit.data.models.movie.MovieDetailResult
 
 fun MovieDetailResult.toMovieDetailDomain(): MovieDetail =
     MovieDetail(

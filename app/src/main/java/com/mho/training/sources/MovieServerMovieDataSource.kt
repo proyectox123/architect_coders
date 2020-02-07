@@ -5,8 +5,8 @@ import com.example.android.domain.Movie
 import com.example.android.domain.MovieDetail
 import com.example.android.domain.result.DataResult
 import com.example.android.domain.result.safeApiCall
-import com.example.android.framework.data.remote.models.movie.MovieDetailResult
-import com.example.android.framework.data.remote.requests.movie.MovieRequest
+import com.example.android.frameworkretrofit.data.models.movie.MovieDetailResult
+import com.example.android.frameworkretrofit.data.requests.movie.MovieRequest
 import com.mho.training.BuildConfig
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.data.translators.toMovieDetailDomain

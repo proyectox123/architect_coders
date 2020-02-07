@@ -4,8 +4,8 @@ import com.example.android.data.sources.RemotePersonDataSource
 import com.example.android.domain.Person
 import com.example.android.domain.result.DataResult
 import com.example.android.domain.result.safeApiCall
-import com.example.android.framework.data.remote.models.person.ServerPerson
-import com.example.android.framework.data.remote.requests.person.PersonRequest
+import com.example.android.frameworkretrofit.data.models.person.ServerPerson
+import com.example.android.frameworkretrofit.data.requests.person.PersonRequest
 import com.mho.training.BuildConfig
 import com.mho.training.data.translators.toDomainPerson
 import kotlinx.coroutines.Dispatchers

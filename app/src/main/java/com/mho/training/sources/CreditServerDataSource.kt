@@ -4,7 +4,7 @@ import com.example.android.data.sources.RemoteCreditDataSource
 import com.example.android.domain.Credit
 import com.example.android.domain.result.DataResult
 import com.example.android.domain.result.safeApiCall
-import com.example.android.framework.data.remote.requests.credit.CreditRequest
+import com.example.android.frameworkretrofit.data.requests.credit.CreditRequest
 import com.mho.training.BuildConfig
 import com.mho.training.data.translators.toDomainCredit
 import kotlinx.coroutines.Dispatchers

@@ -4,7 +4,7 @@ import com.example.android.data.sources.RemoteTrailerDataSource
 import com.example.android.domain.Trailer
 import com.example.android.domain.result.DataResult
 import com.example.android.domain.result.safeApiCall
-import com.example.android.framework.data.remote.requests.trailer.TrailerRequest
+import com.example.android.frameworkretrofit.data.requests.trailer.TrailerRequest
 import com.mho.training.BuildConfig
 import com.mho.training.data.translators.toDomainTrailer
 import kotlinx.coroutines.Dispatchers
