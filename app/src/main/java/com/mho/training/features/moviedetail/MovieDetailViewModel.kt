@@ -15,7 +15,7 @@ class MovieDetailViewModel(
     private val movie: Movie?,
     private val getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase,
     private val getFavoriteMovieStatus: GetFavoriteMovieStatus,
-    private val updateFavoriteMovieStatus: UpdateFavoriteMovieStatus,
+    private val updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase,
     private val getKeywordListUseCase: GetKeywordListUseCase,
     private val getCreditListUseCase: GetCreditListUseCase,
     private val getTrailerListUseCase: GetTrailerListUseCase,
@@ -131,7 +131,7 @@ class MovieDetailViewModel(
 
     fun updateFavoriteMovieStatus() {
         launch {
-            _isFavorite.value = updateFavoriteMovieStatus.invoke(movie!!)
+            _isFavorite.value = updateFavoriteMovieStatusUseCase.invoke(movie!!)
         }
     }
 
