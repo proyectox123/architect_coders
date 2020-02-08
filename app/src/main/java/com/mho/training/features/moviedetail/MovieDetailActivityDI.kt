@@ -16,7 +16,7 @@ class MovieDetailActivityModule(
     fun movieDetailViewModelProvider(
         getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase,
         getFavoriteMovieStatus: GetFavoriteMovieStatus,
-        updateFavoriteMovieStatus: UpdateFavoriteMovieStatus,
+        updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase,
         getKeywordListUseCase: GetKeywordListUseCase,
         getCreditListUseCase: GetCreditListUseCase,
         getTrailerListUseCase: GetTrailerListUseCase,
@@ -25,7 +25,7 @@ class MovieDetailActivityModule(
         movie,
         getMovieDetailByIdUseCase,
         getFavoriteMovieStatus,
-        updateFavoriteMovieStatus,
+        updateFavoriteMovieStatusUseCase,
         getKeywordListUseCase,
         getCreditListUseCase,
         getTrailerListUseCase,
@@ -42,7 +42,7 @@ class MovieDetailActivityModule(
 
     @Provides
     fun updateFavoriteMovieStatusProvider(movieRepository: MovieRepository) =
-        UpdateFavoriteMovieStatus(movieRepository)
+        UpdateFavoriteMovieStatusUseCase(movieRepository)
 
     @Provides
     fun getKeywordListUseCaseProvider(keywordRepository: KeywordRepository) =
