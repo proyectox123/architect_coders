@@ -41,4 +41,18 @@ class GetFavoriteMovieListWithChangesUseCaseTest {
         Assert.assertEquals(movieListFlow, result)
     }
 
+    @Test
+    fun `is favorite movie list with changes invoke fail`() {
+        // GIVEN
+        val movieListFlow: Flow<List<Movie>> = flow { emptyList<Movie>() }
+
+        whenever(movieRepository.getFavoriteMovieListWithChanges()).thenReturn(movieListFlow)
+
+        // WHEN
+        val result: Flow<List<Movie>> = getFavoriteMovieListWithChangesUseCase.invoke()
+
+        // THEN
+        Assert.assertEquals(movieListFlow, result)
+    }
+
 }
