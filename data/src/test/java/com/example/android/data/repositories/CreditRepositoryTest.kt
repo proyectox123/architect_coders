@@ -29,7 +29,6 @@ class CreditRepositoryTest {
         creditRepository = CreditRepository(remoteCreditDataSource)
     }
 
-
     @Test
     fun `getCreditList from remote data source should return expected success list of credit with given movie id`() {
         runBlocking {
