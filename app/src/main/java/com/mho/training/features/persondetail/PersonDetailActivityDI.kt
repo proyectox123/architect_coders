@@ -7,6 +7,7 @@ import com.example.android.usecases.GetPersonInformationUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
+import kotlinx.coroutines.Dispatchers
 
 @Module
 class PersonDetailActivityModule(
@@ -20,7 +21,8 @@ class PersonDetailActivityModule(
     ) = PersonDetailViewModel(
         personId,
         getPersonInformationUseCase,
-        getMovieListByPersonUseCase
+        getMovieListByPersonUseCase,
+        Dispatchers.Main
     )
 
     @Provides

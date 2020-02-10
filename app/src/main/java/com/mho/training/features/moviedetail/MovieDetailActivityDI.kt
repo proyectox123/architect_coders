@@ -6,6 +6,7 @@ import com.example.android.usecases.*
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
+import kotlinx.coroutines.Dispatchers
 
 @Module
 class MovieDetailActivityModule(
@@ -29,7 +30,8 @@ class MovieDetailActivityModule(
         getKeywordListUseCase,
         getCreditListUseCase,
         getTrailerListUseCase,
-        getReviewListUseCase
+        getReviewListUseCase,
+        Dispatchers.Main
     )
 
     @Provides

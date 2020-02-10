@@ -9,17 +9,20 @@ import com.example.android.domain.Person
 import com.example.android.domain.result.DataResult
 import com.example.android.usecases.GetMovieListByPersonUseCase
 import com.example.android.usecases.GetPersonInformationUseCase
+import com.mho.training.bases.BaseViewModel
 import com.mho.training.utils.Constants.LESS_LINES_BIOGRAPHY
 import com.mho.training.utils.Constants.MAX_LINES_BIOGRAPHY
 import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class PersonDetailViewModel(
     private val personId: Int,
     private val getPersonInformationUseCase: GetPersonInformationUseCase,
-    private val getMovieListByPersonUseCase: GetMovieListByPersonUseCase
-) : ViewModel(), Scope by Scope.Impl() {
+    private val getMovieListByPersonUseCase: GetMovieListByPersonUseCase,
+    uiDispatcher: CoroutineDispatcher
+) : BaseViewModel(uiDispatcher) {
 
     //region Constructors
 

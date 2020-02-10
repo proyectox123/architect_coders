@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModel
 import com.example.android.domain.*
 import com.example.android.domain.result.DataResult
 import com.example.android.usecases.*
+import com.mho.training.bases.BaseViewModel
 import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class MovieDetailViewModel(
@@ -19,8 +21,9 @@ class MovieDetailViewModel(
     private val getKeywordListUseCase: GetKeywordListUseCase,
     private val getCreditListUseCase: GetCreditListUseCase,
     private val getTrailerListUseCase: GetTrailerListUseCase,
-    private val getReviewListUseCase: GetReviewListUseCase
-) : ViewModel(), Scope by Scope.Impl() {
+    private val getReviewListUseCase: GetReviewListUseCase,
+    uiDispatcher: CoroutineDispatcher
+) : BaseViewModel(uiDispatcher) {
 
     //region Constructors
 

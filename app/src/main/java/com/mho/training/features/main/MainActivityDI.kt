@@ -5,6 +5,7 @@ import com.example.android.usecases.*
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
+import kotlinx.coroutines.Dispatchers
 
 @Module
 class MainActivityModule {
@@ -21,7 +22,8 @@ class MainActivityModule {
         getFavoriteMovieListWithChangesUseCase,
         getPopularMovieListUseCase,
         getTopRatedMovieListUseCase,
-        getInTheatersMovieListUseCase
+        getInTheatersMovieListUseCase,
+        Dispatchers.Main
     )
 
     @Provides

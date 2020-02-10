@@ -8,9 +8,11 @@ import androidx.lifecycle.asLiveData
 import com.example.android.domain.Movie
 import com.example.android.domain.result.DataResult
 import com.example.android.usecases.*
+import com.mho.training.bases.BaseViewModel
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.utils.Event
 import com.mho.training.utils.Scope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -18,9 +20,9 @@ class MainViewModel(
     private val getFavoriteMovieListWithChangesUseCase: GetFavoriteMovieListWithChangesUseCase,
     private val getPopularMovieListUseCase: GetPopularMovieListUseCase,
     private val getTopRatedMovieListUseCase: GetTopRatedMovieListUseCase,
-    private val getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase
-) :
-    ViewModel(), Scope by Scope.Impl() {
+    private val getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase,
+    uiDispatcher: CoroutineDispatcher
+) : BaseViewModel(uiDispatcher) {
 
     //region Constructors
 
