@@ -4,9 +4,10 @@ import com.example.android.data.sources.RemotePersonDataSource
 import com.example.android.domain.result.DataResult
 import com.example.android.mocks.mockedMovie
 import com.example.android.mocks.mockedPerson
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,41 +29,41 @@ class PersonRepositoryTest {
     }
 
     @Test
-    fun `is getPerson from remote data source success`(){
+    fun `getPerson from remote data source should return expected success person with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
             val person = mockedPerson.copy(id = 1)
 
-            val dataResult = DataResult.Success(person)
+            val expectedDataResult = DataResult.Success(person)
 
-            whenever(remotePersonDataSource.getPerson(movie.id)).thenReturn(dataResult)
+            given(remotePersonDataSource.getPerson(movie.id)).willReturn(expectedDataResult)
 
             //WHEN
             val result = personRepository.getPerson(movie.id)
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getPerson from remote data source fail`(){
+    fun `getPerson from remote data source should return expected error with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            val dataResult = DataResult.Error(IOException(""))
+            val expectedDataResult = DataResult.Error(IOException(""))
 
-            whenever(remotePersonDataSource.getPerson(movie.id)).thenReturn(dataResult)
+            given(remotePersonDataSource.getPerson(movie.id)).willReturn(expectedDataResult)
 
             //WHEN
             val result = personRepository.getPerson(movie.id)
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 

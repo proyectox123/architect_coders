@@ -4,9 +4,10 @@ import com.example.android.data.repositories.ReviewRepository
 import com.example.android.domain.result.DataResult
 import com.example.android.mocks.mockedMovie
 import com.example.android.mocks.mockedReview
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,43 +29,43 @@ class GetReviewListUseCaseTest {
     }
 
     @Test
-    fun `is review list invoke success`(){
+    fun `getReviewListUseCase should return expected success list of reviews with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
             val review = mockedReview.copy(id = "1")
 
-            val dataResult = DataResult.Success(listOf(review))
+            val expectedDataResult = DataResult.Success(listOf(review))
 
-            whenever(reviewRepository.getReviewList(movie.id)).thenReturn(dataResult)
+            given(reviewRepository.getReviewList(movie.id)).willReturn(expectedDataResult)
 
             //WHEN
 
             val result = getReviewListUseCase.invoke(movie.id)
 
             //THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is review list invoke fail`(){
+    fun `getReviewListUseCase should return expected error with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            val dataResult = DataResult.Error(IOException(""))
+            val expectedDataResult = DataResult.Error(IOException(""))
 
-            whenever(reviewRepository.getReviewList(movie.id)).thenReturn(dataResult)
+            given(reviewRepository.getReviewList(movie.id)).willReturn(expectedDataResult)
 
             //WHEN
 
             val result = getReviewListUseCase.invoke(movie.id)
 
             //THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 

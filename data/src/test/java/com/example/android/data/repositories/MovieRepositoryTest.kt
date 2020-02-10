@@ -7,11 +7,12 @@ import com.example.android.domain.result.DataResult
 import com.example.android.mocks.mockedMovie
 import com.example.android.mocks.mockedMovieDetail
 import com.example.android.mocks.mockedPerson
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -41,334 +42,338 @@ class MovieRepositoryTest {
     }
 
     @Test
-    fun `is getTopRatedMovieList from remote data source success`(){
+    fun `getTopRatedMovieList from remote data source should return expected success list of movies with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            val dataResult = DataResult.Success(listOf(movie))
+            val expectedDataResult = DataResult.Success(listOf(movie))
 
-            whenever(remoteMovieDataSource.getTopRatedMovieList(regionRepository.findLastRegion()))
-                .thenReturn(dataResult)
+            given(remoteMovieDataSource.getTopRatedMovieList(regionRepository.findLastRegion()))
+                .willReturn(expectedDataResult)
 
             //WHEN
             val result = movieRepository.getTopRatedMovieList()
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getTopRatedMovieList from remote data source fail`(){
+    fun `getTopRatedMovieList from remote data source should return expected error with given movie id`(){
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
+            val expectedDataResult = DataResult.Error(IOException(""))
 
-            val dataResult = DataResult.Error(IOException(""))
-
-            whenever(remoteMovieDataSource.getTopRatedMovieList(regionRepository.findLastRegion()))
-                .thenReturn(dataResult)
+            given(remoteMovieDataSource.getTopRatedMovieList(regionRepository.findLastRegion()))
+                .willReturn(expectedDataResult)
 
             //WHEN
             val result = movieRepository.getTopRatedMovieList()
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getPopularMovieList from remote data source success`(){
+    fun `getPopularMovieList from remote data source should return expected success list of movies with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            val dataResult = DataResult.Success(listOf(movie))
+            val expectedDataResult = DataResult.Success(listOf(movie))
 
-            whenever(remoteMovieDataSource.getPopularMovieList(regionRepository.findLastRegion()))
-                .thenReturn(dataResult)
+            given(remoteMovieDataSource.getPopularMovieList(regionRepository.findLastRegion()))
+                .willReturn(expectedDataResult)
 
             //WHEN
             val result = movieRepository.getPopularMovieList()
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getPopularMovieList from remote data source fail`(){
+    fun `getPopularMovieList from remote data source should return expected error with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            val dataResult = DataResult.Error(IOException(""))
+            val expectedDataResult = DataResult.Error(IOException(""))
 
-            whenever(remoteMovieDataSource.getPopularMovieList(regionRepository.findLastRegion()))
-                .thenReturn(dataResult)
+            given(remoteMovieDataSource.getPopularMovieList(regionRepository.findLastRegion()))
+                .willReturn(expectedDataResult)
 
             //WHEN
             val result = movieRepository.getPopularMovieList()
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getInTheatersMovieList from remote data source success`(){
+    fun `getInTheatersMovieList from remote data source should return expected success list of movies with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            val dataResult = DataResult.Success(listOf(movie))
+            val expectedDataResult = DataResult.Success(listOf(movie))
 
-            whenever(remoteMovieDataSource.getInTheatersMovieList(regionRepository.findLastRegion()))
-                .thenReturn(dataResult)
+            given(remoteMovieDataSource.getInTheatersMovieList(regionRepository.findLastRegion()))
+                .willReturn(expectedDataResult)
 
             //WHEN
             val result = movieRepository.getInTheatersMovieList()
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getInTheatersMovieList from remote data source fail`(){
+    fun `getInTheatersMovieList from remote data source should return expected error with given movie id`(){
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
+            val expectedDataResult = DataResult.Error(IOException(""))
 
-            val dataResult = DataResult.Error(IOException(""))
-
-            whenever(remoteMovieDataSource.getInTheatersMovieList(regionRepository.findLastRegion()))
-                .thenReturn(dataResult)
+            given(remoteMovieDataSource.getInTheatersMovieList(regionRepository.findLastRegion()))
+                .willReturn(expectedDataResult)
 
             //WHEN
             val result = movieRepository.getInTheatersMovieList()
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getMovieListByPerson from remote data source success`(){
+    fun `getMovieListByPerson from remote data source should return expected success list of movies with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
             val person = mockedPerson.copy(id = 1)
 
-            val dataResult = DataResult.Success(listOf(movie))
+            val expectedDataResult = DataResult.Success(listOf(movie))
 
-            whenever(remoteMovieDataSource.getMovieListByPerson(person.id)).thenReturn(dataResult)
+            given(remoteMovieDataSource.getMovieListByPerson(person.id)).willReturn(expectedDataResult)
 
             //WHEN
             val result = movieRepository.getMovieListByPerson(person.id)
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getMovieListByPerson from remote data source fail`(){
+    fun `getMovieListByPerson from remote data source should return expected error with given movie id`(){
         runBlocking {
 
             //GIVEN
             val person = mockedPerson.copy(id = 1)
 
-            val dataResult = DataResult.Error(IOException(""))
+            val expectedDataResult = DataResult.Error(IOException(""))
 
-            whenever(remoteMovieDataSource.getMovieListByPerson(person.id)).thenReturn(dataResult)
+            given(remoteMovieDataSource.getMovieListByPerson(person.id)).willReturn(expectedDataResult)
 
             //WHEN
             val result = movieRepository.getMovieListByPerson(person.id)
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getMovieDetailById from remote data source success`() {
+    fun `getMovieDetailById from remote data source should return expected success movie detail with given movie id`() {
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
             val movieDetail = mockedMovieDetail.copy(id = 1)
 
-            val dataResult = DataResult.Success(movieDetail)
+            val expectedDataResult = DataResult.Success(movieDetail)
 
-            whenever(remoteMovieDataSource.getMovieDetailById(movie.id)).thenReturn(dataResult)
-
-            //WHEN
-            val result = movieRepository.getMovieDetailById(movie.id)
-
-            //THEN
-            assertEquals(dataResult, result)
-        }
-    }
-
-    @Test
-    fun `is getMovieDetailById from remote data source fail`() {
-        runBlocking {
-
-            //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
-            val dataResult = DataResult.Error(IOException(""))
-
-            whenever(remoteMovieDataSource.getMovieDetailById(movie.id)).thenReturn(dataResult)
+            given(remoteMovieDataSource.getMovieDetailById(movie.id)).willReturn(expectedDataResult)
 
             //WHEN
             val result = movieRepository.getMovieDetailById(movie.id)
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getFavoriteMovieList from local data source success`() {
+    fun `getMovieDetailById from remote data source should return expected error with given movie id`() {
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            val dataResult = DataResult.Success(listOf(movie))
+            val expectedDataResult = DataResult.Error(IOException(""))
 
-            whenever(localMovieDataSource.getFavoriteMovieList()).thenReturn(dataResult)
+            given(remoteMovieDataSource.getMovieDetailById(movie.id)).willReturn(expectedDataResult)
 
             //WHEN
-            val result = movieRepository.getFavoriteMovieList()
+            val result = movieRepository.getMovieDetailById(movie.id)
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getFavoriteMovieList from local data source fail`() {
+    fun `getFavoriteMovieList from local data source should return expected success list of movies`() {
         runBlocking {
 
             //GIVEN
-            val dataResult = DataResult.Error(IOException(""))
+            val movie = mockedMovie.copy(id = 1)
 
-            whenever(localMovieDataSource.getFavoriteMovieList()).thenReturn(dataResult)
+            val expectedDataResult = DataResult.Success(listOf(movie))
+
+            given(localMovieDataSource.getFavoriteMovieList()).willReturn(expectedDataResult)
 
             //WHEN
             val result = movieRepository.getFavoriteMovieList()
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getFavoriteMovieListWithChanges from local data source success`() {
+    fun `getFavoriteMovieList from local data source should return expected error`() {
+        runBlocking {
+
+            //GIVEN
+            val expectedDataResult = DataResult.Error(IOException(""))
+
+            given(localMovieDataSource.getFavoriteMovieList()).willReturn(expectedDataResult)
+
+            //WHEN
+            val result = movieRepository.getFavoriteMovieList()
+
+            //THEN
+            assertThat(expectedDataResult, `is`(result))
+        }
+    }
+
+    @Test
+    fun `getFavoriteMovieListWithChanges from local data source should return expected success list of movies`() {
         //GIVEN
         val movie = mockedMovie.copy(id = 1)
 
-        val movieListFlow: Flow<List<Movie>> = flow { listOf(movie) }
+        val expectedDataResult: Flow<List<Movie>> = flow { listOf(movie) }
 
-        whenever(localMovieDataSource.getFavoriteMovieListWithChanges()).thenReturn(movieListFlow)
+        given(localMovieDataSource.getFavoriteMovieListWithChanges()).willReturn(expectedDataResult)
 
         //WHEN
         val result = movieRepository.getFavoriteMovieListWithChanges()
 
         //THEN
-        assertEquals(movieListFlow, result)
+        assertThat(expectedDataResult, `is`(result))
     }
 
     @Test
-    fun `is getFavoriteMovieListWithChanges from local data source fail`() {
+    fun `getFavoriteMovieListWithChanges from local data source should return expected empty list`() {
         //GIVEN
-        val movieListFlow: Flow<List<Movie>> = flow { emptyList<Movie>() }
+        val expectedDataResult: Flow<List<Movie>> = flow { emptyList<Movie>() }
 
-        whenever(localMovieDataSource.getFavoriteMovieListWithChanges()).thenReturn(movieListFlow)
+        given(localMovieDataSource.getFavoriteMovieListWithChanges()).willReturn(expectedDataResult)
 
         //WHEN
         val result = movieRepository.getFavoriteMovieListWithChanges()
 
         //THEN
-        assertEquals(movieListFlow, result)
+        assertThat(expectedDataResult, `is`(result))
     }
 
     @Test
-    fun `check if selected movie from local data source is favorite`() {
+    fun `getFavoriteMovieStatus from local data source should return true with a favorite movie`() {
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            whenever(localMovieDataSource.getFavoriteMovieStatus(movie)).thenReturn(true)
+            val expectedDataResult = true
+
+            given(localMovieDataSource.getFavoriteMovieStatus(movie)).willReturn(true)
 
             //WHEN
             val result = movieRepository.getFavoriteMovieStatus(movie)
 
             //THEN
-            assertEquals(true, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `check if selected movie from local data source is not favorite`() {
+    fun `getFavoriteMovieStatus from local data source should return false with a not favorite movie`() {
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            whenever(localMovieDataSource.getFavoriteMovieStatus(movie)).thenReturn(false)
+            val expectedDataResult = false
+
+            given(localMovieDataSource.getFavoriteMovieStatus(movie)).willReturn(false)
 
             //WHEN
             val result = movieRepository.getFavoriteMovieStatus(movie)
 
             //THEN
-            assertEquals(false, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `become selected movie from local data source favorite`() {
+    fun `updateFavoriteMovieStatus from local data source should return true when update favorite movie status with given movie`() {
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            whenever(localMovieDataSource.updateFavoriteMovieStatus(movie)).thenReturn(true)
+            val expectedDataResult = true
+
+            given(localMovieDataSource.updateFavoriteMovieStatus(movie)).willReturn(true)
 
             //WHEN
             val result = movieRepository.updateFavoriteMovieStatus(movie)
 
             //THEN
-            assertEquals(true, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `become selected movie from local data source not favorite`() {
+    fun `updateFavoriteMovieStatus from local data source should return false when update favorite movie status with given movie`() {
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            whenever(localMovieDataSource.updateFavoriteMovieStatus(movie)).thenReturn(false)
+            val expectedDataResult = false
+
+            given(localMovieDataSource.updateFavoriteMovieStatus(movie)).willReturn(false)
 
             //WHEN
             val result = movieRepository.updateFavoriteMovieStatus(movie)
 
             //THEN
-            assertEquals(false, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 }
