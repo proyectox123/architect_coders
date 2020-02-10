@@ -4,7 +4,8 @@ import com.example.android.data.repositories.MovieRepository
 import com.example.android.mocks.mockedMovie
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,36 +26,40 @@ class GetFavoriteMovieStatusTest {
     }
 
     @Test
-    fun `check if selected movie is favorite`() {
+    fun `getFavoriteMovieStatus should return expected success true with given favorite movie`(){
         runBlocking {
 
             // GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            whenever(movieRepository.getFavoriteMovieStatus(movie)).thenReturn(true)
+            val expectedDataResult = true
+
+            whenever(movieRepository.getFavoriteMovieStatus(movie)).thenReturn(expectedDataResult)
 
             // WHEN
             val result: Boolean = getFavoriteMovieStatus.invoke(movie)
 
             // THEN
-            Assert.assertEquals(true, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `check if selected movie is not favorite`() {
+    fun `getFavoriteMovieStatus should return expected success true with given not favorite movie`(){
         runBlocking {
 
             // GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            whenever(movieRepository.getFavoriteMovieStatus(movie)).thenReturn(false)
+            val expectedDataResult = false
+
+            whenever(movieRepository.getFavoriteMovieStatus(movie)).thenReturn(expectedDataResult)
 
             // WHEN
             val result: Boolean = getFavoriteMovieStatus.invoke(movie)
 
             // THEN
-            Assert.assertEquals(false, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 }

@@ -4,9 +4,10 @@ import com.example.android.data.sources.RemoteKeywordDataSource
 import com.example.android.domain.result.DataResult
 import com.example.android.mocks.mockedKeyword
 import com.example.android.mocks.mockedMovie
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,41 +29,41 @@ class KeywordRepositoryTest {
     }
 
     @Test
-    fun `is getKeywordList from remote data source success`(){
+    fun `getKeywordList from remote data source should return expected success list of keyword with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
             val keyword = mockedKeyword.copy(id = 1)
 
-            val dataResult = DataResult.Success(listOf(keyword))
+            val expectedDataResult = DataResult.Success(listOf(keyword))
 
-            whenever(remoteKeywordDataSource.getKeywordList(movie.id)).thenReturn(dataResult)
+            given(remoteKeywordDataSource.getKeywordList(movie.id)).willReturn(expectedDataResult)
 
             //WHEN
             val result = keywordRepository.getKeywordList(movie.id)
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getKeywordList from remote data source fail`(){
+    fun `getKeywordList from remote data source should return expected error with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            val dataResult = DataResult.Error(IOException(""))
+            val expectedDataResult = DataResult.Error(IOException(""))
 
-            whenever(remoteKeywordDataSource.getKeywordList(movie.id)).thenReturn(dataResult)
+            given(remoteKeywordDataSource.getKeywordList(movie.id)).willReturn(expectedDataResult)
 
             //WHEN
             val result = keywordRepository.getKeywordList(movie.id)
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 

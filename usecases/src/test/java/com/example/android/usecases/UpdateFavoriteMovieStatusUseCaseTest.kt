@@ -2,9 +2,10 @@ package com.example.android.usecases
 
 import com.example.android.data.repositories.MovieRepository
 import com.example.android.mocks.mockedMovie
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,36 +26,40 @@ class UpdateFavoriteMovieStatusUseCaseTest {
     }
 
     @Test
-    fun `become selected movie favorite`() {
+    fun `updateFavoriteMovieStatusUseCase should return true when update favorite movie status with given movie`() {
         runBlocking {
 
             // GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            whenever(movieRepository.updateFavoriteMovieStatus(movie)).thenReturn(true)
+            val expectedDataResult = true
+
+            given(movieRepository.updateFavoriteMovieStatus(movie)).willReturn(expectedDataResult)
 
             // WHEN
             val result: Boolean = updateFavoriteMovieStatusUseCase.invoke(movie)
 
             // THEN
-            Assert.assertEquals(true, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `become selected movie not favorite`() {
+    fun `updateFavoriteMovieStatusUseCase should return false when update favorite movie status with given movie`() {
         runBlocking {
 
             // GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            whenever(movieRepository.updateFavoriteMovieStatus(movie)).thenReturn(false)
+            val expectedDataResult = false
+
+            given(movieRepository.updateFavoriteMovieStatus(movie)).willReturn(expectedDataResult)
 
             // WHEN
             val result: Boolean = updateFavoriteMovieStatusUseCase.invoke(movie)
 
             // THEN
-            Assert.assertEquals(false, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 }
