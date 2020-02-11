@@ -22,7 +22,7 @@ class CreditRepositoryTest {
     @Mock
     lateinit var remoteCreditDataSource: RemoteCreditDataSource
 
-    lateinit var creditRepository: CreditRepository
+    private lateinit var creditRepository: CreditRepository
 
     @Before
     fun setUp() {

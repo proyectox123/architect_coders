@@ -21,7 +21,7 @@ class GetMovieDetailByIdUseCaseTest {
     @Mock
     lateinit var movieRepository: MovieRepository
 
-    lateinit var getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase
+    private lateinit var getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase
 
     @Before
     fun setUp(){

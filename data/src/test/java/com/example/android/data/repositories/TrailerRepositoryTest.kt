@@ -21,7 +21,7 @@ class TrailerRepositoryTest {
     @Mock
     lateinit var remoteTrailerDataSource: RemoteTrailerDataSource
 
-    lateinit var trailerRepository: TrailerRepository
+    private lateinit var trailerRepository: TrailerRepository
 
     @Before
     fun setUp(){

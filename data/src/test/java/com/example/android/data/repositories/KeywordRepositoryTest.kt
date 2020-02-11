@@ -21,7 +21,7 @@ class KeywordRepositoryTest {
     @Mock
     lateinit var remoteKeywordDataSource: RemoteKeywordDataSource
 
-    lateinit var keywordRepository: KeywordRepository
+    private lateinit var keywordRepository: KeywordRepository
 
     @Before
     fun setUp(){

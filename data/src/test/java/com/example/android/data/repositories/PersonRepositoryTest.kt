@@ -21,7 +21,7 @@ class PersonRepositoryTest {
     @Mock
     lateinit var remotePersonDataSource: RemotePersonDataSource
 
-    lateinit var personRepository: PersonRepository
+    private lateinit var personRepository: PersonRepository
 
     @Before
     fun setUp(){

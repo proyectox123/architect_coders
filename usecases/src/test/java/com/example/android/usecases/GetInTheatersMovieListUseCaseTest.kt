@@ -20,7 +20,7 @@ class GetInTheatersMovieListUseCaseTest {
     @Mock
     lateinit var movieRepository: MovieRepository
 
-    lateinit var getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase
+    private lateinit var getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase
 
     @Before
     fun setUp() {

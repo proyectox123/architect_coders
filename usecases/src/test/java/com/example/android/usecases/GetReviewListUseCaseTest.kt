@@ -21,7 +21,7 @@ class GetReviewListUseCaseTest {
     @Mock
     lateinit var reviewRepository: ReviewRepository
 
-    lateinit var getReviewListUseCase: GetReviewListUseCase
+    private lateinit var getReviewListUseCase: GetReviewListUseCase
 
     @Before
     fun setUp(){

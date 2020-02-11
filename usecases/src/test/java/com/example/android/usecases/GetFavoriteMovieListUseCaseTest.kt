@@ -21,7 +21,7 @@ class GetFavoriteMovieListUseCaseTest {
     @Mock
     lateinit var movieRepository: MovieRepository
 
-    lateinit var getFavoriteMovieListUseCase: GetFavoriteMovieListUseCase
+    private lateinit var getFavoriteMovieListUseCase: GetFavoriteMovieListUseCase
 
     @Before
     fun setUp() {
