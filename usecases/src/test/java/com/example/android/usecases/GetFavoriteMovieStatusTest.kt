@@ -18,7 +18,7 @@ class GetFavoriteMovieStatusTest {
     @Mock
     lateinit var movieRepository: MovieRepository
 
-    lateinit var getFavoriteMovieStatus: GetFavoriteMovieStatus
+    private lateinit var getFavoriteMovieStatus: GetFavoriteMovieStatus
 
     @Before
     fun setUp() {

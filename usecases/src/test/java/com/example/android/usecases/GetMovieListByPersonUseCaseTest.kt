@@ -21,7 +21,7 @@ class GetMovieListByPersonUseCaseTest {
     @Mock
     lateinit var movieRepository: MovieRepository
 
-    lateinit var getMovieListByPersonUseCase: GetMovieListByPersonUseCase
+    private lateinit var getMovieListByPersonUseCase: GetMovieListByPersonUseCase
 
     @Before
     fun setUp(){

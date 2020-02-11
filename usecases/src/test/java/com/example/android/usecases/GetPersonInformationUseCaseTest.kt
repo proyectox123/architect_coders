@@ -21,7 +21,7 @@ class GetPersonInformationUseCaseTest {
     @Mock
     lateinit var personRepository: PersonRepository
 
-    lateinit var getPersonInformationUseCase: GetPersonInformationUseCase
+    private lateinit var getPersonInformationUseCase: GetPersonInformationUseCase
 
     @Before
     fun setUp(){

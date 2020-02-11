@@ -18,7 +18,7 @@ class UpdateFavoriteMovieStatusUseCaseTest {
     @Mock
     lateinit var movieRepository: MovieRepository
 
-    lateinit var updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase
+    private lateinit var updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase
 
     @Before
     fun setUp() {

@@ -22,7 +22,7 @@ class GetCreditListUseCaseTest {
     @Mock
     lateinit var creditRepository: CreditRepository
 
-    lateinit var getCreditListUseCase: GetCreditListUseCase
+    private lateinit var getCreditListUseCase: GetCreditListUseCase
 
     @Before
     fun setUp() {

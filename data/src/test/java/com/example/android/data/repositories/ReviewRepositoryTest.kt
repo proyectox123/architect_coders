@@ -21,7 +21,7 @@ class ReviewRepositoryTest {
     @Mock
     lateinit var remoteReviewDataSource: RemoteReviewDataSource
 
-    lateinit var reviewRepository: ReviewRepository
+    private lateinit var reviewRepository: ReviewRepository
 
     @Before
     fun setUp(){

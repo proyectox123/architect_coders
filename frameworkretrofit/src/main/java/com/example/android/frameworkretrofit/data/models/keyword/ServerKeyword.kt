@@ -1,4 +1,4 @@
-package com.example.android.framework.data.remote.models.keyword
+package com.example.android.frameworkretrofit.data.models.keyword
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

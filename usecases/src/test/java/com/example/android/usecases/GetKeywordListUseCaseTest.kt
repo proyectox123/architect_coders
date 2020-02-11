@@ -21,7 +21,7 @@ class GetKeywordListUseCaseTest {
     @Mock
     lateinit var keywordRepository: KeywordRepository
 
-    lateinit var getKeywordListUseCase: GetKeywordListUseCase
+    private lateinit var getKeywordListUseCase: GetKeywordListUseCase
 
     @Before
     fun setUp(){

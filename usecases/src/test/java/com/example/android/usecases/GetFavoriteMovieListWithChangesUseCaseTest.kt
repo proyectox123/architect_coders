@@ -20,7 +20,7 @@ class GetFavoriteMovieListWithChangesUseCaseTest {
     @Mock
     lateinit var movieRepository: MovieRepository
 
-    lateinit var getFavoriteMovieListWithChangesUseCase: GetFavoriteMovieListWithChangesUseCase
+    private lateinit var getFavoriteMovieListWithChangesUseCase: GetFavoriteMovieListWithChangesUseCase
 
     @Before
     fun setUp() {

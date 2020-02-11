@@ -21,7 +21,7 @@ class GetTrailerListUseCaseTest {
     @Mock
     lateinit var trailerRepository: TrailerRepository
 
-    lateinit var getTrailerListUseCase: GetTrailerListUseCase
+    private lateinit var getTrailerListUseCase: GetTrailerListUseCase
 
     @Before
     fun setUp(){
