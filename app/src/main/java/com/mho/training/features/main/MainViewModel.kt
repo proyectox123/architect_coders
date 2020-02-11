@@ -3,7 +3,6 @@ package com.mho.training.features.main
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.example.android.domain.Movie
 import com.example.android.domain.result.DataResult
@@ -11,7 +10,6 @@ import com.example.android.usecases.*
 import com.mho.training.bases.BaseViewModel
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.utils.Event
-import com.mho.training.utils.Scope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
@@ -107,7 +105,6 @@ class MainViewModel(
     }
 
     fun onCoarsePermissionRequested(hasPermission: Boolean) {
-        Log.d(TAG, "onCoarsePermissionRequested hasPermission -> $hasPermission")
         if(hasPermission){
             refresh(_movieCategory.value ?: MovieCategoryEnum.TOP_RATED)
             return
@@ -122,7 +119,6 @@ class MainViewModel(
     //region Private Methods
 
     private fun refresh(movieCategory: MovieCategoryEnum){
-        Log.d(TAG, "refresh movieCategory -> $movieCategory")
         launch {
             _loading.value = true
             _error.value = false
@@ -141,7 +137,6 @@ class MainViewModel(
     private fun validateMovieResult(movieListResult: DataResult<List<Movie>>){
         when(movieListResult){
             is DataResult.Success -> {
-                _error.value = false
                 _movies.value = movieListResult.data
             }
             is DataResult.Error -> {
