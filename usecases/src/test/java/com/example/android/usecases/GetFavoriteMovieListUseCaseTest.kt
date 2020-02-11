@@ -6,7 +6,8 @@ import com.example.android.domain.result.DataResult
 import com.example.android.mocks.mockedMovie
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +21,7 @@ class GetFavoriteMovieListUseCaseTest {
     @Mock
     lateinit var movieRepository: MovieRepository
 
-    lateinit var getFavoriteMovieListUseCase: GetFavoriteMovieListUseCase
+    private lateinit var getFavoriteMovieListUseCase: GetFavoriteMovieListUseCase
 
     @Before
     fun setUp() {
@@ -28,37 +29,38 @@ class GetFavoriteMovieListUseCaseTest {
     }
 
     @Test
-    fun `is favorite movie list invoke success`() {
+    fun `getFavoriteMovieListUseCase should return expected success list of movies`(){
         runBlocking {
 
             // GIVEN
             val movie = mockedMovie.copy(id = 1)
-            val dataResult: DataResult<List<Movie>> = DataResult.Success(listOf(movie))
 
-            whenever(movieRepository.getFavoriteMovieList()).thenReturn(dataResult)
+            val expectedDataResult: DataResult<List<Movie>> = DataResult.Success(listOf(movie))
+
+            whenever(movieRepository.getFavoriteMovieList()).thenReturn(expectedDataResult)
 
             // WHEN
             val result: DataResult<List<Movie>> = getFavoriteMovieListUseCase.invoke()
 
             // THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is favorite movie list invoke fail`() {
+    fun `getFavoriteMovieListUseCase should return expected error`(){
         runBlocking {
 
             // GIVEN
-            val dataResult: DataResult<List<Movie>> = DataResult.Error(IOException(""))
+            val expectedDataResult: DataResult<List<Movie>> = DataResult.Error(IOException(""))
 
-            whenever(movieRepository.getFavoriteMovieList()).thenReturn(dataResult)
+            whenever(movieRepository.getFavoriteMovieList()).thenReturn(expectedDataResult)
 
             // WHEN
             val result = getFavoriteMovieListUseCase.invoke()
 
             // THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 }

@@ -5,9 +5,10 @@ import com.example.android.domain.Credit
 import com.example.android.domain.result.DataResult
 import com.example.android.mocks.mockedCredit
 import com.example.android.mocks.mockedMovie
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,7 +22,7 @@ class GetCreditListUseCaseTest {
     @Mock
     lateinit var creditRepository: CreditRepository
 
-    lateinit var getCreditListUseCase: GetCreditListUseCase
+    private lateinit var getCreditListUseCase: GetCreditListUseCase
 
     @Before
     fun setUp() {
@@ -29,41 +30,41 @@ class GetCreditListUseCaseTest {
     }
 
     @Test
-    fun `is credit list invoke success`() {
+    fun `getCreditListUseCase should return expected success list of credits with given movie id`(){
         runBlocking {
 
             // GIVEN
             val movie = mockedMovie.copy(id = 1)
             val credit = mockedCredit.copy(id = 1)
 
-            val dataResult: DataResult<List<Credit>> = DataResult.Success(listOf(credit))
+            val expectedDataResult: DataResult<List<Credit>> = DataResult.Success(listOf(credit))
 
-            whenever(creditRepository.getCreditList(movie.id)).thenReturn(dataResult)
+            given(creditRepository.getCreditList(movie.id)).willReturn(expectedDataResult)
 
             // WHEN
             val result = getCreditListUseCase.invoke(movie.id)
 
             // THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is credit list invoke fail`() {
+    fun `getCreditListUseCase should return expected error with given movie id`(){
         runBlocking {
 
             // GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            val dataResult: DataResult<List<Credit>> = DataResult.Error(IOException(""))
+            val expectedDataResult: DataResult<List<Credit>> = DataResult.Error(IOException(""))
 
-            whenever(creditRepository.getCreditList(movie.id)).thenReturn(dataResult)
+            given(creditRepository.getCreditList(movie.id)).willReturn(expectedDataResult)
 
             // WHEN
             val result = getCreditListUseCase.invoke(movie.id)
 
             // THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 }

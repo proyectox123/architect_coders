@@ -18,6 +18,4 @@ object Constants {
     const val REQUEST_PARAM_PERSON_ID = "person_id"
     const val REQUEST_PARAM_REGION = "region"
 
-    const val SIMPLE_DATE_FORMAT = "yyyy-MM-dd"
-
 }

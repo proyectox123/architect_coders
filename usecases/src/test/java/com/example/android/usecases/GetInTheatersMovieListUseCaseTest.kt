@@ -3,9 +3,10 @@ package com.example.android.usecases
 import com.example.android.data.repositories.MovieRepository
 import com.example.android.domain.result.DataResult
 import com.example.android.mocks.mockedMovie
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,7 +20,7 @@ class GetInTheatersMovieListUseCaseTest {
     @Mock
     lateinit var movieRepository: MovieRepository
 
-    lateinit var getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase
+    private lateinit var getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase
 
     @Before
     fun setUp() {
@@ -27,37 +28,38 @@ class GetInTheatersMovieListUseCaseTest {
     }
 
     @Test
-    fun `is in theaters movie list invoke success`() {
+    fun `getInTheatersMovieListUseCase should return expected success list of movies`(){
         runBlocking {
 
             // GIVEN
             val movie = mockedMovie.copy(id = 1)
-            val dataResult = DataResult.Success(listOf(movie))
 
-            whenever(movieRepository.getInTheatersMovieList()).thenReturn(dataResult)
+            val expectedDataResult = DataResult.Success(listOf(movie))
+
+            given(movieRepository.getInTheatersMovieList()).willReturn(expectedDataResult)
 
             // WHEN
             val result = getInTheatersMovieListUseCase.invoke()
 
             // THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is in theaters movie list invoke fail`() {
+    fun `getInTheatersMovieListUseCase should return expected error`(){
         runBlocking {
 
             // GIVEN
-            val dataResult = DataResult.Error(IOException(""))
+            val expectedDataResult = DataResult.Error(IOException(""))
 
-            whenever(movieRepository.getInTheatersMovieList()).thenReturn(dataResult)
+            given(movieRepository.getInTheatersMovieList()).willReturn(expectedDataResult)
 
             // WHEN
             val result = getInTheatersMovieListUseCase.invoke()
 
             // THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 }

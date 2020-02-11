@@ -4,9 +4,10 @@ import com.example.android.data.sources.RemoteReviewDataSource
 import com.example.android.domain.result.DataResult
 import com.example.android.mocks.mockedMovie
 import com.example.android.mocks.mockedReview
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +21,7 @@ class ReviewRepositoryTest {
     @Mock
     lateinit var remoteReviewDataSource: RemoteReviewDataSource
 
-    lateinit var reviewRepository: ReviewRepository
+    private lateinit var reviewRepository: ReviewRepository
 
     @Before
     fun setUp(){
@@ -28,41 +29,41 @@ class ReviewRepositoryTest {
     }
 
     @Test
-    fun `is getReviewList from remote data source success`(){
+    fun `getReviewList from remote data source should return expected success list of reviews with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
             val review = mockedReview.copy(id = "1")
 
-            val dataResult = DataResult.Success(listOf(review))
+            val expectedDataResult = DataResult.Success(listOf(review))
 
-            whenever(remoteReviewDataSource.getReviewList(movie.id)).thenReturn(dataResult)
+            given(remoteReviewDataSource.getReviewList(movie.id)).willReturn(expectedDataResult)
 
             //WHEN
             val result = reviewRepository.getReviewList(movie.id)
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is getReviewList from remote data source fail`(){
+    fun `getReviewList from remote data source should return expected error with given movie id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
 
-            val dataResult = DataResult.Error(IOException(""))
+            val expectedDataResult = DataResult.Error(IOException(""))
 
-            whenever(remoteReviewDataSource.getReviewList(movie.id)).thenReturn(dataResult)
+            given(remoteReviewDataSource.getReviewList(movie.id)).willReturn(expectedDataResult)
 
             //WHEN
             val result = reviewRepository.getReviewList(movie.id)
 
             //THEN
-            assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 

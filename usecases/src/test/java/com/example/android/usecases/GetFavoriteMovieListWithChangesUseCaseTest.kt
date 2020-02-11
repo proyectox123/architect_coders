@@ -3,10 +3,11 @@ package com.example.android.usecases
 import com.example.android.data.repositories.MovieRepository
 import com.example.android.domain.Movie
 import com.example.android.mocks.mockedMovie
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import org.junit.Assert
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,7 +20,7 @@ class GetFavoriteMovieListWithChangesUseCaseTest {
     @Mock
     lateinit var movieRepository: MovieRepository
 
-    lateinit var getFavoriteMovieListWithChangesUseCase: GetFavoriteMovieListWithChangesUseCase
+    private lateinit var getFavoriteMovieListWithChangesUseCase: GetFavoriteMovieListWithChangesUseCase
 
     @Before
     fun setUp() {
@@ -27,32 +28,33 @@ class GetFavoriteMovieListWithChangesUseCaseTest {
     }
 
     @Test
-    fun `is favorite movie list with changes invoke success`() {
+    fun `getFavoriteMovieListWithChangesUseCase should return expected success list of movies`(){
         // GIVEN
         val movie = mockedMovie.copy(id = 1)
-        val movieListFlow: Flow<List<Movie>> = flow { listOf(movie) }
 
-        whenever(movieRepository.getFavoriteMovieListWithChanges()).thenReturn(movieListFlow)
+        val expectedDataResult: Flow<List<Movie>> = flow { listOf(movie) }
+
+        given(movieRepository.getFavoriteMovieListWithChanges()).willReturn(expectedDataResult)
 
         // WHEN
         val result: Flow<List<Movie>> = getFavoriteMovieListWithChangesUseCase.invoke()
 
         // THEN
-        Assert.assertEquals(movieListFlow, result)
+        assertThat(expectedDataResult, `is`(result))
     }
 
     @Test
-    fun `is favorite movie list with changes invoke fail`() {
+    fun `getFavoriteMovieListWithChangesUseCase should return expected empty list`(){
         // GIVEN
-        val movieListFlow: Flow<List<Movie>> = flow { emptyList<Movie>() }
+        val expectedDataResult: Flow<List<Movie>> = flow { emptyList<Movie>() }
 
-        whenever(movieRepository.getFavoriteMovieListWithChanges()).thenReturn(movieListFlow)
+        given(movieRepository.getFavoriteMovieListWithChanges()).willReturn(expectedDataResult)
 
         // WHEN
         val result: Flow<List<Movie>> = getFavoriteMovieListWithChangesUseCase.invoke()
 
         // THEN
-        Assert.assertEquals(movieListFlow, result)
+        assertThat(expectedDataResult, `is`(result))
     }
 
 }

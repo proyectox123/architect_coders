@@ -4,9 +4,10 @@ import com.example.android.data.repositories.KeywordRepository
 import com.example.android.domain.result.DataResult
 import com.example.android.mocks.mockedKeyword
 import com.example.android.mocks.mockedMovie
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +21,7 @@ class GetKeywordListUseCaseTest {
     @Mock
     lateinit var keywordRepository: KeywordRepository
 
-    lateinit var getKeywordListUseCase: GetKeywordListUseCase
+    private lateinit var getKeywordListUseCase: GetKeywordListUseCase
 
     @Before
     fun setUp(){
@@ -28,39 +29,41 @@ class GetKeywordListUseCaseTest {
     }
 
     @Test
-    fun `is keyword list invoke success`(){
+    fun `getKeywordListUseCase should return expected success list of keywords with given movie id`(){
         runBlocking {
 
             // GIVEN
             val movie = mockedMovie.copy(id = 1)
             val keyword = mockedKeyword.copy(id = 1)
-            val dataResult = DataResult.Success(listOf(keyword))
 
-            whenever(keywordRepository.getKeywordList(movie.id)).thenReturn(dataResult)
+            val expectedDataResult = DataResult.Success(listOf(keyword))
+
+            given(keywordRepository.getKeywordList(movie.id)).willReturn(expectedDataResult)
 
             // WHEN
             val result = getKeywordListUseCase.invoke(movie.id)
 
             // THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is keyword list invoke fail`(){
+    fun `getKeywordListUseCase should return expected error with given movie id`(){
         runBlocking {
 
             // GIVEN
             val movie = mockedMovie.copy(id = 1)
-            val dataResult = DataResult.Error(IOException(""))
 
-            whenever(keywordRepository.getKeywordList(movie.id)).thenReturn(dataResult)
+            val expectedDataResult = DataResult.Error(IOException(""))
+
+            given(keywordRepository.getKeywordList(movie.id)).willReturn(expectedDataResult)
 
             // WHEN
             val result = getKeywordListUseCase.invoke(movie.id)
 
             // THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 

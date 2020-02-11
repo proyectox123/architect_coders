@@ -4,9 +4,10 @@ import com.example.android.data.repositories.MovieRepository
 import com.example.android.domain.result.DataResult
 import com.example.android.mocks.mockedMovie
 import com.example.android.mocks.mockedPerson
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +21,7 @@ class GetMovieListByPersonUseCaseTest {
     @Mock
     lateinit var movieRepository: MovieRepository
 
-    lateinit var getMovieListByPersonUseCase: GetMovieListByPersonUseCase
+    private lateinit var getMovieListByPersonUseCase: GetMovieListByPersonUseCase
 
     @Before
     fun setUp(){
@@ -28,41 +29,41 @@ class GetMovieListByPersonUseCaseTest {
     }
 
     @Test
-    fun `is movie list by person invoke success`(){
+    fun `getMovieListByPersonUseCase should return expected success list of movies with given person id`(){
         runBlocking {
 
             //GIVEN
             val movie = mockedMovie.copy(id = 1)
             val person = mockedPerson.copy(id = 1)
 
-            val dataResult = DataResult.Success(listOf(movie))
+            val expectedDataResult = DataResult.Success(listOf(movie))
 
-            whenever(movieRepository.getMovieListByPerson(person.id)).thenReturn(dataResult)
+            given(movieRepository.getMovieListByPerson(person.id)).willReturn(expectedDataResult)
 
             //WHEN
             val result = getMovieListByPersonUseCase.invoke(person.id)
 
             //THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is movie list by person invoke fail`(){
+    fun `getMovieListByPersonUseCase should return expected error with given person id`(){
         runBlocking {
 
             //GIVEN
             val person = mockedPerson.copy(id = 1)
 
-            val dataResult = DataResult.Error(IOException(""))
+            val expectedDataResult = DataResult.Error(IOException(""))
 
-            whenever(movieRepository.getMovieListByPerson(person.id)).thenReturn(dataResult)
+            given(movieRepository.getMovieListByPerson(person.id)).willReturn(expectedDataResult)
 
             //WHEN
             val result = getMovieListByPersonUseCase.invoke(person.id)
 
             //THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 

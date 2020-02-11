@@ -4,9 +4,10 @@ import com.example.android.data.repositories.PersonRepository
 import com.example.android.domain.result.DataResult
 import com.example.android.mocks.mockedCredit
 import com.example.android.mocks.mockedPerson
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,7 +21,7 @@ class GetPersonInformationUseCaseTest {
     @Mock
     lateinit var personRepository: PersonRepository
 
-    lateinit var getPersonInformationUseCase: GetPersonInformationUseCase
+    private lateinit var getPersonInformationUseCase: GetPersonInformationUseCase
 
     @Before
     fun setUp(){
@@ -28,43 +29,43 @@ class GetPersonInformationUseCaseTest {
     }
 
     @Test
-    fun `is person invoke success`(){
+    fun `getPersonInformationUseCase should return expected success person with given credit id`(){
         runBlocking {
 
             //GIVEN
             val credit = mockedCredit.copy(id = 1)
             val person = mockedPerson.copy(id = 1)
 
-            val dataResult = DataResult.Success(person)
+            val expectedDataResult = DataResult.Success(person)
 
-            whenever(personRepository.getPerson(credit.id)).thenReturn(dataResult)
+            given(personRepository.getPerson(credit.id)).willReturn(expectedDataResult)
 
             //WHEN
 
             val result = getPersonInformationUseCase.invoke(credit.id)
 
             //THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
     @Test
-    fun `is person invoke fail`(){
+    fun `getPersonInformationUseCase should return expected error with given credit id`(){
         runBlocking {
 
             //GIVEN
             val credit = mockedCredit.copy(id = 1)
 
-            val dataResult = DataResult.Error(IOException(""))
+            val expectedDataResult = DataResult.Error(IOException(""))
 
-            whenever(personRepository.getPerson(credit.id)).thenReturn(dataResult)
+            given(personRepository.getPerson(credit.id)).willReturn(expectedDataResult)
 
             //WHEN
 
             val result = getPersonInformationUseCase.invoke(credit.id)
 
             //THEN
-            Assert.assertEquals(dataResult, result)
+            assertThat(expectedDataResult, `is`(result))
         }
     }
 
