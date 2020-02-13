@@ -14,16 +14,21 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import java.io.IOException
 
+/*
+[functionName]Should[Call|Return|Throw|Insert|etc][Function|Object|Exception][WithGiven][When]
+ */
+
 @RunWith(MockitoJUnitRunner::class)
 class MainViewModelTest {
 
     @get:Rule
-    val rule = InstantTaskExecutorRule()
+    val rule: TestRule = InstantTaskExecutorRule()
 
     @Mock
     lateinit var getFavoriteMovieListUseCase: GetFavoriteMovieListUseCase
@@ -67,9 +72,11 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `observing LiveData launches location permission request`() {
+    fun `events live data should launches location permission request`() {
 
         viewModel.events.observeForever(observerEvents)
+
+        viewModel.onMovieListRefresh()
 
         verify(observerEvents).onChanged(Event(MainViewModel.Navigation.RequestLocationPermission))
     }
@@ -199,6 +206,106 @@ class MainViewModelTest {
 
             //WHEN
             viewModel.onMoviePopularListRefresh()
+            viewModel.onCoarsePermissionRequested(true)
+
+            //THEN
+            verify(observerLoading).onChanged(false)
+            verify(observerError).onChanged(true)
+            verify(observerMovies).onChanged(expectedResult)
+        }
+    }
+
+    @Test
+    fun `getInTheatersMovieListUseCase should return expected success list of movies after having the permission`() {
+        runBlocking {
+
+            //GIVEN
+            val movie = mockedMovie.copy(id = 1)
+
+            val expectedResult = listOf(movie)
+
+            given(getInTheatersMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResult))
+
+            viewModel.error.observeForever(observerError)
+            viewModel.loading.observeForever(observerLoading)
+            viewModel.movies.observeForever(observerMovies)
+
+            //WHEN
+            viewModel.onMovieInTheatersListRefresh()
+            viewModel.onCoarsePermissionRequested(true)
+
+            //THEN
+            verify(observerError).onChanged(false)
+            verify(observerLoading).onChanged(false)
+            verify(observerMovies).onChanged(expectedResult)
+        }
+    }
+
+    @Test
+    fun `getInTheatersMovieListUseCase should return expected error after having the permission`() {
+        runBlocking {
+
+            //GIVEN
+            val expectedResult = mutableListOf<Movie>()
+
+            given(getInTheatersMovieListUseCase.invoke()).willReturn(DataResult.Error(IOException("")))
+
+            viewModel.error.observeForever(observerError)
+            viewModel.loading.observeForever(observerLoading)
+            viewModel.movies.observeForever(observerMovies)
+
+            //WHEN
+            viewModel.onMovieInTheatersListRefresh()
+            viewModel.onCoarsePermissionRequested(true)
+
+            //THEN
+            verify(observerLoading).onChanged(false)
+            verify(observerError).onChanged(true)
+            verify(observerMovies).onChanged(expectedResult)
+        }
+    }
+
+    @Test
+    fun `getFavoriteMovieListUseCase should return expected success list of movies after having the permission`() {
+        runBlocking {
+
+            //GIVEN
+            val movie = mockedMovie.copy(id = 1)
+
+            val expectedResult = listOf(movie)
+
+            given(getFavoriteMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResult))
+
+            viewModel.error.observeForever(observerError)
+            viewModel.loading.observeForever(observerLoading)
+            viewModel.movies.observeForever(observerMovies)
+
+            //WHEN
+            viewModel.onMovieFavoriteListRefresh()
+            viewModel.onCoarsePermissionRequested(true)
+
+            //THEN
+            verify(observerError).onChanged(false)
+            verify(observerLoading).onChanged(false)
+            verify(observerMovies).onChanged(expectedResult)
+        }
+    }
+
+    @Test
+    fun `getFavoriteMovieListUseCase should return expected error after having the permission`() {
+        runBlocking {
+
+            //GIVEN
+            val expectedResult = mutableListOf<Movie>()
+
+            given(getFavoriteMovieListUseCase.invoke()).willReturn(DataResult.Error(IOException("")))
+
+            viewModel.error.observeForever(observerError)
+            viewModel.loading.observeForever(observerLoading)
+            viewModel.movies.observeForever(observerMovies)
+
+            //WHEN
+            viewModel.onMovieFavoriteListRefresh()
             viewModel.onCoarsePermissionRequested(true)
 
             //THEN

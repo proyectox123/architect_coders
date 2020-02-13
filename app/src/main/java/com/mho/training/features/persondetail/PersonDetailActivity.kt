@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.example.android.domain.Movie
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
@@ -12,7 +13,10 @@ import com.mho.training.data.translators.toParcelableMovie
 import com.mho.training.databinding.ActivityPersonDetailBinding
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.features.persondetail.PersonDetailViewModel.Navigation
-import com.mho.training.utils.*
+import com.mho.training.utils.Constants
+import com.mho.training.utils.app
+import com.mho.training.utils.getViewModel
+import com.mho.training.utils.startActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -48,7 +52,11 @@ class PersonDetailActivity : AppCompatActivity() {
 
         rvMovieList.adapter = movieListAdapter
 
-        viewModel.events.observe(this, EventObserver(::validateEvents))
+        viewModel.events.observe(this, Observer{ event ->
+            event.getContentIfNotHandled()?.let {
+                validateEvents(it)
+            }
+        })
 
         viewModel.onCreditInformation()
     }

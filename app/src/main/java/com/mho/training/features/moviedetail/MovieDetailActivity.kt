@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.example.android.domain.Credit
 import com.example.android.domain.Keyword
 import com.example.android.domain.Review
@@ -21,7 +22,10 @@ import com.mho.training.databinding.ActivityMovieDetailBinding
 import com.mho.training.features.moviedetail.MovieDetailViewModel.Navigation
 import com.mho.training.features.persondetail.PersonDetailActivity
 import com.mho.training.models.ParcelableMovie
-import com.mho.training.utils.*
+import com.mho.training.utils.Constants
+import com.mho.training.utils.app
+import com.mho.training.utils.getViewModel
+import com.mho.training.utils.startActivity
 import kotlinx.android.synthetic.main.section_credit_list.*
 import kotlinx.android.synthetic.main.section_keyword_list.*
 import kotlinx.android.synthetic.main.section_review_list.*
@@ -69,7 +73,11 @@ class MovieDetailActivity : AppCompatActivity() {
         reviewListView.adapter = reviewListAdapter
         trailerListView.adapter = trailerListAdapter
 
-        viewModel.events.observe(this, EventObserver(::validateEvents))
+        viewModel.events.observe(this, Observer{ event ->
+            event.getContentIfNotHandled()?.let {
+                validateEvents(it)
+            }
+        })
 
         viewModel.onMovieInformation()
         viewModel.onValidateFavoriteMovieStatus()
