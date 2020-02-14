@@ -399,18 +399,6 @@ class MovieDetailViewModelTest {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     @Test
     fun `updateFavoriteMovieStatusUseCase should return true with given movie`() {
         runBlocking {

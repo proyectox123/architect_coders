@@ -1,6 +1,5 @@
 package com.mho.training.features.persondetail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.android.domain.Movie
@@ -116,7 +115,6 @@ class PersonDetailViewModel(
                 _infoPerson.value = personResult.data
             }
             is DataResult.Error -> {
-                Log.d(TAG, "validateMovieResult error message -> ${personResult.exception.message}")
                 _hasPersonInformation.value = false
                 _events.value = Event(Navigation.CloseActivity)
             }
@@ -130,7 +128,6 @@ class PersonDetailViewModel(
                 _hasNotMovies.value = false
             }
             is DataResult.Error -> {
-                Log.d(TAG, "validateMovieResult error message -> ${movieListResult.exception.message}")
                 _movies.value = mutableListOf()
                 _hasNotMovies.value = true
             }
