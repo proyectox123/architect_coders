@@ -92,9 +92,9 @@ dependencies {
     implementation "com.karumi:dexter:$dexterVersion"
 
     testImplementation "junit:junit:$junitVersion"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
-    testImplementation "org.mockito:mockito-inline:2.28.2"
-    testImplementation "android.arch.core:core-testing:1.1.1"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoKotlinInlineVersion"
+    testImplementation "android.arch.core:core-testing:$coreTesting"
     androidTestImplementation "androidx.test:runner:$runnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
 }
