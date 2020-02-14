@@ -1,15 +1,12 @@
 package com.mho.training.features.moviedetail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.android.domain.*
 import com.example.android.domain.result.DataResult
 import com.example.android.usecases.*
 import com.mho.training.bases.BaseViewModel
 import com.mho.training.utils.Event
-import com.mho.training.utils.Scope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
@@ -97,7 +94,6 @@ class MovieDetailViewModel(
     //region Public Methods
 
     fun onMovieInformation(){
-        Log.d(TAG, "onMovieInformation movie -> $movie")
         if(movie == null){
             _events.value = Event(Navigation.CloseActivity)
             return
@@ -160,7 +156,6 @@ class MovieDetailViewModel(
                 _hasNotCredits.value = false
             }
             is DataResult.Error -> {
-                Log.d(TAG, "validateCreditResult error message -> ${creditListResult.exception.message}")
                 _credits.value = emptyList()
                 _hasNotCredits.value = true
             }
@@ -174,7 +169,6 @@ class MovieDetailViewModel(
                 _hasNotKeywords.value = false
             }
             is DataResult.Error -> {
-                Log.d(TAG, "validateKeywordResult error message -> ${keywordListResult.exception.message}")
                 _keywords.value = emptyList()
                 _hasNotKeywords.value = true
             }
@@ -188,7 +182,6 @@ class MovieDetailViewModel(
                 _hasNotTrailers.value = false
             }
             is DataResult.Error -> {
-                Log.d(TAG, "validateTrailerResult error message -> ${trailerListResult.exception.message}")
                 _trailers.value = emptyList()
                 _hasNotTrailers.value = true
             }
@@ -202,7 +195,6 @@ class MovieDetailViewModel(
                 _hasNotReviews.value = false
             }
             is DataResult.Error -> {
-                Log.d(TAG, "validateReviewResult error message -> ${reviewListResult.exception.message}")
                 _reviews.value = emptyList()
                 _hasNotReviews.value = true
             }

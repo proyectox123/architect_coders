@@ -151,7 +151,7 @@ class MainViewModel(
     //region Inner Classes & Interfaces
 
     sealed class Navigation {
-        class NavigateToMovie(val movie: Movie): Navigation()
+        data class NavigateToMovie(val movie: Movie): Navigation()
         object RequestLocationPermission: Navigation()
     }
 

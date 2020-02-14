@@ -1,8 +1,8 @@
-package com.example.android.mocks
+package com.example.android.testshared
 
 import com.example.android.domain.*
 
-internal val mockedMovie = Movie(
+val mockedMovie = Movie(
     0,
     "Title",
     "01/01/2025",
@@ -12,7 +12,7 @@ internal val mockedMovie = Movie(
     "Synopsis"
 )
 
-internal val mockedMovieDetail = MovieDetail(
+val mockedMovieDetail = MovieDetail(
     0,
     "title",
     "00:00",
@@ -24,19 +24,19 @@ internal val mockedMovieDetail = MovieDetail(
     )
 )
 
-internal val mockedCredit = Credit(
+val mockedCredit = Credit(
     0,
     "Credit",
     "Character",
     ""
 )
 
-internal val mockedKeyword = Keyword(
+val mockedKeyword = Keyword(
     0,
     "name"
 )
 
-internal val mockedPerson = Person(
+val mockedPerson = Person(
     0,
     "name",
     "knownForDepartment",
@@ -46,14 +46,14 @@ internal val mockedPerson = Person(
     ""
 )
 
-internal val mockedReview = Review(
+val mockedReview = Review(
     "0",
     "author",
     "content",
     ""
 )
 
-internal val mockedTrailer = Trailer(
+val mockedTrailer = Trailer(
     "0",
     "name",
     "",

@@ -3,7 +3,6 @@ package com.mho.training.features.persondetail
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.android.domain.Movie
 import com.example.android.domain.Person
 import com.example.android.domain.result.DataResult
@@ -13,7 +12,6 @@ import com.mho.training.bases.BaseViewModel
 import com.mho.training.utils.Constants.LESS_LINES_BIOGRAPHY
 import com.mho.training.utils.Constants.MAX_LINES_BIOGRAPHY
 import com.mho.training.utils.Event
-import com.mho.training.utils.Scope
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
@@ -144,7 +142,7 @@ class PersonDetailViewModel(
     //region Inner Classes & Interfaces
 
     sealed class Navigation {
-        class NavigateToMovie(val movie: Movie): Navigation()
+        data class NavigateToMovie(val movie: Movie): Navigation()
         object CloseActivity: Navigation()
     }
 

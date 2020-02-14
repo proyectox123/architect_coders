@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.domain.Movie
 import com.example.android.domain.result.DataResult
-import com.example.android.mocks.mockedMovie
+import com.example.android.testshared.mockedMovie
 import com.example.android.usecases.*
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.utils.Event
@@ -32,35 +32,17 @@ class MainViewModelTest {
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
 
-    @Mock
-    lateinit var getFavoriteMovieListUseCase: GetFavoriteMovieListUseCase
+    @Mock lateinit var getFavoriteMovieListUseCase: GetFavoriteMovieListUseCase
+    @Mock lateinit var getFavoriteMovieListWithChangesUseCase: GetFavoriteMovieListWithChangesUseCase
+    @Mock lateinit var getPopularMovieListUseCase: GetPopularMovieListUseCase
+    @Mock lateinit var getTopRatedMovieListUseCase: GetTopRatedMovieListUseCase
+    @Mock lateinit var getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase
 
-    @Mock
-    lateinit var getFavoriteMovieListWithChangesUseCase: GetFavoriteMovieListWithChangesUseCase
-
-    @Mock
-    lateinit var getPopularMovieListUseCase: GetPopularMovieListUseCase
-
-    @Mock
-    lateinit var getTopRatedMovieListUseCase: GetTopRatedMovieListUseCase
-
-    @Mock
-    lateinit var getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase
-
-    @Mock
-    lateinit var observerLoading: Observer<Boolean>
-
-    @Mock
-    lateinit var observerError: Observer<Boolean>
-
-    @Mock
-    lateinit var observerEvents: Observer<Event<MainViewModel.Navigation>>
-
-    @Mock
-    lateinit var observerMovies: Observer<List<Movie>>
-
-    @Mock
-    lateinit var observerMovieCategory: Observer<MovieCategoryEnum>
+    @Mock lateinit var observerLoading: Observer<Boolean>
+    @Mock lateinit var observerError: Observer<Boolean>
+    @Mock lateinit var observerEvents: Observer<Event<MainViewModel.Navigation>>
+    @Mock lateinit var observerMovies: Observer<List<Movie>>
+    @Mock lateinit var observerMovieCategory: Observer<MovieCategoryEnum>
 
     private lateinit var viewModel: MainViewModel
 
@@ -79,10 +61,13 @@ class MainViewModelTest {
     @Test
     fun `events live data should launches location permission request`() {
 
+        //GIVEN
         viewModel.events.observeForever(observerEvents)
 
+        //WHEN
         viewModel.onMovieListRefresh()
 
+        //THEN
         verify(observerEvents).onChanged(Event(MainViewModel.Navigation.RequestLocationPermission))
     }
 
@@ -335,4 +320,20 @@ class MainViewModelTest {
             verify(observerMovies).onChanged(expectedResult)
         }
     }
+
+    @Test
+    fun `onMovieClicked should open movie detail with given movie`(){
+        //GIVEN
+        val movie = mockedMovie.copy(id = 1)
+
+        viewModel.events.observeForever(observerEvents)
+
+        //WHEN
+        viewModel.onMovieClicked(movie)
+
+        //THEN
+        verify(observerEvents).onChanged(Event(MainViewModel.Navigation.NavigateToMovie(movie)))
+    }
+
+    //TODO Test for favoriteMovies LiveData
 }
