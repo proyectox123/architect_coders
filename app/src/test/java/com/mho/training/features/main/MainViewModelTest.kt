@@ -6,7 +6,9 @@ import com.example.android.domain.Movie
 import com.example.android.domain.result.DataResult
 import com.example.android.mocks.mockedMovie
 import com.example.android.usecases.*
+import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.utils.Event
+import com.nhaarman.mockitokotlin2.atLeast
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.Dispatchers
@@ -56,6 +58,9 @@ class MainViewModelTest {
 
     @Mock
     lateinit var observerMovies: Observer<List<Movie>>
+
+    @Mock
+    lateinit var observerMovieCategory: Observer<MovieCategoryEnum>
 
     private lateinit var viewModel: MainViewModel
 
@@ -126,6 +131,7 @@ class MainViewModelTest {
 
             given(getTopRatedMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResult))
 
+            viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
             viewModel.loading.observeForever(observerLoading)
             viewModel.movies.observeForever(observerMovies)
@@ -135,6 +141,7 @@ class MainViewModelTest {
             viewModel.onCoarsePermissionRequested(true)
 
             //THEN
+            verify(observerMovieCategory).onChanged(MovieCategoryEnum.TOP_RATED)
             verify(observerError).onChanged(false)
             verify(observerLoading).onChanged(false)
             verify(observerMovies).onChanged(expectedResult)
@@ -150,6 +157,7 @@ class MainViewModelTest {
 
             given(getTopRatedMovieListUseCase.invoke()).willReturn(DataResult.Error(IOException("")))
 
+            viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
             viewModel.loading.observeForever(observerLoading)
             viewModel.movies.observeForever(observerMovies)
@@ -159,6 +167,7 @@ class MainViewModelTest {
             viewModel.onCoarsePermissionRequested(true)
 
             //THEN
+            verify(observerMovieCategory).onChanged(MovieCategoryEnum.TOP_RATED)
             verify(observerLoading).onChanged(false)
             verify(observerError).onChanged(true)
             verify(observerMovies).onChanged(expectedResult)
@@ -176,6 +185,7 @@ class MainViewModelTest {
 
             given(getPopularMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResult))
 
+            viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
             viewModel.loading.observeForever(observerLoading)
             viewModel.movies.observeForever(observerMovies)
@@ -185,6 +195,7 @@ class MainViewModelTest {
             viewModel.onCoarsePermissionRequested(true)
 
             //THEN
+            verify(observerMovieCategory).onChanged(MovieCategoryEnum.POPULAR)
             verify(observerError).onChanged(false)
             verify(observerLoading).onChanged(false)
             verify(observerMovies).onChanged(expectedResult)
@@ -200,6 +211,7 @@ class MainViewModelTest {
 
             given(getPopularMovieListUseCase.invoke()).willReturn(DataResult.Error(IOException("")))
 
+            viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
             viewModel.loading.observeForever(observerLoading)
             viewModel.movies.observeForever(observerMovies)
@@ -209,6 +221,7 @@ class MainViewModelTest {
             viewModel.onCoarsePermissionRequested(true)
 
             //THEN
+            verify(observerMovieCategory).onChanged(MovieCategoryEnum.POPULAR)
             verify(observerLoading).onChanged(false)
             verify(observerError).onChanged(true)
             verify(observerMovies).onChanged(expectedResult)
@@ -226,6 +239,7 @@ class MainViewModelTest {
 
             given(getInTheatersMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResult))
 
+            viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
             viewModel.loading.observeForever(observerLoading)
             viewModel.movies.observeForever(observerMovies)
@@ -235,6 +249,7 @@ class MainViewModelTest {
             viewModel.onCoarsePermissionRequested(true)
 
             //THEN
+            verify(observerMovieCategory, atLeast(1)).onChanged(MovieCategoryEnum.IN_THEATERS)
             verify(observerError).onChanged(false)
             verify(observerLoading).onChanged(false)
             verify(observerMovies).onChanged(expectedResult)
@@ -250,6 +265,7 @@ class MainViewModelTest {
 
             given(getInTheatersMovieListUseCase.invoke()).willReturn(DataResult.Error(IOException("")))
 
+            viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
             viewModel.loading.observeForever(observerLoading)
             viewModel.movies.observeForever(observerMovies)
@@ -259,6 +275,7 @@ class MainViewModelTest {
             viewModel.onCoarsePermissionRequested(true)
 
             //THEN
+            verify(observerMovieCategory, atLeast(1)).onChanged(MovieCategoryEnum.IN_THEATERS)
             verify(observerLoading).onChanged(false)
             verify(observerError).onChanged(true)
             verify(observerMovies).onChanged(expectedResult)
@@ -276,6 +293,7 @@ class MainViewModelTest {
 
             given(getFavoriteMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResult))
 
+            viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
             viewModel.loading.observeForever(observerLoading)
             viewModel.movies.observeForever(observerMovies)
@@ -285,6 +303,7 @@ class MainViewModelTest {
             viewModel.onCoarsePermissionRequested(true)
 
             //THEN
+            verify(observerMovieCategory).onChanged(MovieCategoryEnum.FAVORITE)
             verify(observerError).onChanged(false)
             verify(observerLoading).onChanged(false)
             verify(observerMovies).onChanged(expectedResult)
@@ -300,6 +319,7 @@ class MainViewModelTest {
 
             given(getFavoriteMovieListUseCase.invoke()).willReturn(DataResult.Error(IOException("")))
 
+            viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
             viewModel.loading.observeForever(observerLoading)
             viewModel.movies.observeForever(observerMovies)
@@ -309,6 +329,7 @@ class MainViewModelTest {
             viewModel.onCoarsePermissionRequested(true)
 
             //THEN
+            verify(observerMovieCategory).onChanged(MovieCategoryEnum.FAVORITE)
             verify(observerLoading).onChanged(false)
             verify(observerError).onChanged(true)
             verify(observerMovies).onChanged(expectedResult)
