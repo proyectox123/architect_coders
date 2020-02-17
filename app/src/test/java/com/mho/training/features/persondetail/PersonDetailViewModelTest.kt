@@ -2,12 +2,10 @@ package com.mho.training.features.persondetail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.android.domain.Movie
 import com.example.android.domain.Person
 import com.example.android.domain.result.DataResult
 import com.example.android.testshared.mockedMovie
 import com.example.android.testshared.mockedPerson
-import com.example.android.usecases.GetMovieListByPersonUseCase
 import com.example.android.usecases.GetPersonInformationUseCase
 import com.mho.training.utils.Constants
 import com.mho.training.utils.Event
@@ -36,14 +34,11 @@ class PersonDetailViewModelTest {
     val rule: TestRule = InstantTaskExecutorRule()
 
     @Mock lateinit var getPersonInformationUseCase: GetPersonInformationUseCase
-    @Mock lateinit var getMovieListByPersonUseCase: GetMovieListByPersonUseCase
 
-    @Mock lateinit var observerHasNotMovies: Observer<Boolean>
     @Mock lateinit var observerHasPersonInformation: Observer<Boolean>
     @Mock lateinit var observerInfoPerson: Observer<Person>
     @Mock lateinit var observerLoadingPerson: Observer<Boolean>
     @Mock lateinit var observerMaxLines: Observer<Int>
-    @Mock lateinit var observerMovies: Observer<List<Movie>>
     @Mock lateinit var observerShowMoreBiography: Observer<Boolean>
 
     @Mock lateinit var observerEvents: Observer<Event<PersonDetailViewModel.Navigation>>
@@ -55,7 +50,6 @@ class PersonDetailViewModelTest {
         viewModel = PersonDetailViewModel(
             1,
             getPersonInformationUseCase,
-            getMovieListByPersonUseCase,
             Dispatchers.Unconfined
         )
     }
@@ -106,66 +100,6 @@ class PersonDetailViewModelTest {
             verify(observerHasPersonInformation).onChanged(false)
             verify(observerEvents).onChanged(Event(PersonDetailViewModel.Navigation.CloseActivity))
         }
-    }
-
-    @Test
-    fun `getMovieListByPersonUseCase should show expected success list of movies with given movie id`(){
-        runBlocking {
-            //GIVEN
-
-            val movie = mockedMovie.copy(id = 1)
-
-            val expectedResult = listOf(movie)
-
-            given(getMovieListByPersonUseCase.invoke(movie.id)).willReturn(DataResult.Success(expectedResult))
-
-            viewModel.movies.observeForever(observerMovies)
-            viewModel.hasNotMovies.observeForever(observerHasNotMovies)
-
-            //WHEN
-            viewModel.onCreditInformation()
-
-            //THEN
-            verify(observerMovies).onChanged(expectedResult)
-            verify(observerHasNotMovies).onChanged(false)
-        }
-    }
-
-    @Test
-    fun `getMovieListByPersonUseCase should show expected error with given movie id`(){
-        runBlocking {
-            //GIVEN
-
-            val movie = mockedMovie.copy(id = 1)
-
-            val expectedResult = emptyList<Movie>()
-
-            given(getMovieListByPersonUseCase.invoke(movie.id)).willReturn(DataResult.Error(IOException("")))
-
-            viewModel.movies.observeForever(observerMovies)
-            viewModel.hasNotMovies.observeForever(observerHasNotMovies)
-
-            //WHEN
-            viewModel.onCreditInformation()
-
-            //THEN
-            verify(observerMovies).onChanged(expectedResult)
-            verify(observerHasNotMovies).onChanged(true)
-        }
-    }
-
-    @Test
-    fun `onMovieClicked should open movie detail with given movie`(){
-        //GIVEN
-        val movie = mockedMovie.copy(id = 1)
-
-        viewModel.events.observeForever(observerEvents)
-
-        //WHEN
-        viewModel.onMovieClicked(movie)
-
-        //THEN
-        verify(observerEvents).onChanged(Event(PersonDetailViewModel.Navigation.NavigateToMovie(movie)))
     }
 
     @Test

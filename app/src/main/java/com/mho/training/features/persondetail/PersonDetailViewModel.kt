@@ -2,10 +2,8 @@ package com.mho.training.features.persondetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.android.domain.Movie
 import com.example.android.domain.Person
 import com.example.android.domain.result.DataResult
-import com.example.android.usecases.GetMovieListByPersonUseCase
 import com.example.android.usecases.GetPersonInformationUseCase
 import com.mho.training.bases.BaseViewModel
 import com.mho.training.utils.Constants.LESS_LINES_BIOGRAPHY
@@ -17,7 +15,6 @@ import kotlinx.coroutines.launch
 class PersonDetailViewModel(
     private val personId: Int,
     private val getPersonInformationUseCase: GetPersonInformationUseCase,
-    private val getMovieListByPersonUseCase: GetMovieListByPersonUseCase,
     uiDispatcher: CoroutineDispatcher
 ) : BaseViewModel(uiDispatcher) {
 
@@ -36,12 +33,6 @@ class PersonDetailViewModel(
 
     private val _loadingPerson = MutableLiveData<Boolean>()
     val loadingPerson: LiveData<Boolean> get() = _loadingPerson
-
-    private val _movies = MutableLiveData<List<Movie>>()
-    val movies: LiveData<List<Movie>> get() = _movies
-
-    private val _hasNotMovies = MutableLiveData<Boolean>()
-    val hasNotMovies: LiveData<Boolean> get() = _hasNotMovies
 
     private val _hasPersonInformation = MutableLiveData<Boolean>()
     val hasPersonInformation: LiveData<Boolean> get() = _hasPersonInformation
@@ -85,13 +76,7 @@ class PersonDetailViewModel(
             _loadingPerson.value = true
             validatePersonResult(getPersonInformationUseCase.invoke(personId))
             _loadingPerson.value = false
-
-            validateMovieResult(getMovieListByPersonUseCase.invoke(personId))
         }
-    }
-
-    fun onMovieClicked(movie: Movie) {
-        _events.value = Event(Navigation.NavigateToMovie(movie))
     }
 
     fun showMoreBiography(){
@@ -121,25 +106,11 @@ class PersonDetailViewModel(
         }
     }
 
-    private fun validateMovieResult(movieListResult: DataResult<List<Movie>>){
-        when(movieListResult){
-            is DataResult.Success -> {
-                _movies.value = movieListResult.data
-                _hasNotMovies.value = false
-            }
-            is DataResult.Error -> {
-                _movies.value = mutableListOf()
-                _hasNotMovies.value = true
-            }
-        }
-    }
-
     //endregion
 
     //region Inner Classes & Interfaces
 
     sealed class Navigation {
-        data class NavigateToMovie(val movie: Movie): Navigation()
         object CloseActivity: Navigation()
     }
 

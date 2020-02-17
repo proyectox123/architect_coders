@@ -38,11 +38,15 @@ class MainViewModelTest {
     @Mock lateinit var getTopRatedMovieListUseCase: GetTopRatedMovieListUseCase
     @Mock lateinit var getInTheatersMovieListUseCase: GetInTheatersMovieListUseCase
 
-    @Mock lateinit var observerLoading: Observer<Boolean>
+    @Mock lateinit var loadingObserver: Observer<Boolean>
     @Mock lateinit var observerError: Observer<Boolean>
     @Mock lateinit var observerEvents: Observer<Event<MainViewModel.Navigation>>
     @Mock lateinit var observerMovies: Observer<List<Movie>>
     @Mock lateinit var observerMovieCategory: Observer<MovieCategoryEnum>
+
+    private lateinit var movie: Movie
+    private lateinit var expectedResultMovieList: List<Movie>
+    private lateinit var expectedResultMovieListEmpty: List<Movie>
 
     private lateinit var viewModel: MainViewModel
 
@@ -56,10 +60,14 @@ class MainViewModelTest {
             getInTheatersMovieListUseCase,
             Dispatchers.Unconfined
         )
+
+        movie = mockedMovie.copy(id = 1)
+        expectedResultMovieList = listOf(movie)
+        expectedResultMovieListEmpty = emptyList()
     }
 
     @Test
-    fun `events live data should launches location permission request`() {
+    fun `onMovieListRefresh should launches location permission request`() {
 
         //GIVEN
         viewModel.events.observeForever(observerEvents)
@@ -72,53 +80,50 @@ class MainViewModelTest {
     }
 
     @Test
-    fun `loading should show and error should hide after having the permission`() {
+    fun `onCoarsePermissionRequested should sets loading as true and error as false when argument passed is true`() {
         runBlocking {
 
             //GIVEN
             viewModel.error.observeForever(observerError)
-            viewModel.loading.observeForever(observerLoading)
+            viewModel.loading.observeForever(loadingObserver)
 
             //WHEN
             viewModel.onCoarsePermissionRequested(true)
 
             //THEN
-            verify(observerLoading).onChanged(true)
+            verify(loadingObserver).onChanged(true)
             verify(observerError).onChanged(false)
         }
     }
 
     @Test
-    fun `loading should hide and error should show after not having the permission`() {
+    fun `onCoarsePermissionRequested should sets loading as false and error as true when argument passed is false`() {
         runBlocking {
 
             //GIVEN
             viewModel.error.observeForever(observerError)
-            viewModel.loading.observeForever(observerLoading)
+            viewModel.loading.observeForever(loadingObserver)
 
             //WHEN
             viewModel.onCoarsePermissionRequested(false)
 
             //THEN
-            verify(observerLoading).onChanged(false)
+            verify(loadingObserver).onChanged(false)
             verify(observerError).onChanged(true)
         }
     }
 
     @Test
-    fun `getTopRatedMovieListUseCase should return expected success list of movies after having the permission`() {
+    fun `onMovieHighestRatedListRefresh should return expected success list of movies after having the permission`() {
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
 
-            val expectedResult = listOf(movie)
-
-            given(getTopRatedMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResult))
+            given(getTopRatedMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResultMovieList))
 
             viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
-            viewModel.loading.observeForever(observerLoading)
+            viewModel.loading.observeForever(loadingObserver)
             viewModel.movies.observeForever(observerMovies)
 
             //WHEN
@@ -128,8 +133,8 @@ class MainViewModelTest {
             //THEN
             verify(observerMovieCategory).onChanged(MovieCategoryEnum.TOP_RATED)
             verify(observerError).onChanged(false)
-            verify(observerLoading).onChanged(false)
-            verify(observerMovies).onChanged(expectedResult)
+            verify(loadingObserver).onChanged(false)
+            verify(observerMovies).onChanged(expectedResultMovieList)
         }
     }
 
@@ -138,13 +143,11 @@ class MainViewModelTest {
         runBlocking {
 
             //GIVEN
-            val expectedResult = mutableListOf<Movie>()
-
             given(getTopRatedMovieListUseCase.invoke()).willReturn(DataResult.Error(IOException("")))
 
             viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
-            viewModel.loading.observeForever(observerLoading)
+            viewModel.loading.observeForever(loadingObserver)
             viewModel.movies.observeForever(observerMovies)
 
             //WHEN
@@ -153,9 +156,9 @@ class MainViewModelTest {
 
             //THEN
             verify(observerMovieCategory).onChanged(MovieCategoryEnum.TOP_RATED)
-            verify(observerLoading).onChanged(false)
+            verify(loadingObserver).onChanged(false)
             verify(observerError).onChanged(true)
-            verify(observerMovies).onChanged(expectedResult)
+            verify(observerMovies).onChanged(expectedResultMovieListEmpty)
         }
     }
 
@@ -164,15 +167,11 @@ class MainViewModelTest {
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
-            val expectedResult = listOf(movie)
-
-            given(getPopularMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResult))
+            given(getPopularMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResultMovieList))
 
             viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
-            viewModel.loading.observeForever(observerLoading)
+            viewModel.loading.observeForever(loadingObserver)
             viewModel.movies.observeForever(observerMovies)
 
             //WHEN
@@ -182,8 +181,8 @@ class MainViewModelTest {
             //THEN
             verify(observerMovieCategory).onChanged(MovieCategoryEnum.POPULAR)
             verify(observerError).onChanged(false)
-            verify(observerLoading).onChanged(false)
-            verify(observerMovies).onChanged(expectedResult)
+            verify(loadingObserver).onChanged(false)
+            verify(observerMovies).onChanged(expectedResultMovieList)
         }
     }
 
@@ -192,13 +191,11 @@ class MainViewModelTest {
         runBlocking {
 
             //GIVEN
-            val expectedResult = mutableListOf<Movie>()
-
             given(getPopularMovieListUseCase.invoke()).willReturn(DataResult.Error(IOException("")))
 
             viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
-            viewModel.loading.observeForever(observerLoading)
+            viewModel.loading.observeForever(loadingObserver)
             viewModel.movies.observeForever(observerMovies)
 
             //WHEN
@@ -207,9 +204,9 @@ class MainViewModelTest {
 
             //THEN
             verify(observerMovieCategory).onChanged(MovieCategoryEnum.POPULAR)
-            verify(observerLoading).onChanged(false)
+            verify(loadingObserver).onChanged(false)
             verify(observerError).onChanged(true)
-            verify(observerMovies).onChanged(expectedResult)
+            verify(observerMovies).onChanged(expectedResultMovieListEmpty)
         }
     }
 
@@ -218,15 +215,11 @@ class MainViewModelTest {
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
-            val expectedResult = listOf(movie)
-
-            given(getInTheatersMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResult))
+            given(getInTheatersMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResultMovieList))
 
             viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
-            viewModel.loading.observeForever(observerLoading)
+            viewModel.loading.observeForever(loadingObserver)
             viewModel.movies.observeForever(observerMovies)
 
             //WHEN
@@ -236,8 +229,8 @@ class MainViewModelTest {
             //THEN
             verify(observerMovieCategory, atLeast(1)).onChanged(MovieCategoryEnum.IN_THEATERS)
             verify(observerError).onChanged(false)
-            verify(observerLoading).onChanged(false)
-            verify(observerMovies).onChanged(expectedResult)
+            verify(loadingObserver).onChanged(false)
+            verify(observerMovies).onChanged(expectedResultMovieList)
         }
     }
 
@@ -246,13 +239,11 @@ class MainViewModelTest {
         runBlocking {
 
             //GIVEN
-            val expectedResult = mutableListOf<Movie>()
-
             given(getInTheatersMovieListUseCase.invoke()).willReturn(DataResult.Error(IOException("")))
 
             viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
-            viewModel.loading.observeForever(observerLoading)
+            viewModel.loading.observeForever(loadingObserver)
             viewModel.movies.observeForever(observerMovies)
 
             //WHEN
@@ -261,9 +252,9 @@ class MainViewModelTest {
 
             //THEN
             verify(observerMovieCategory, atLeast(1)).onChanged(MovieCategoryEnum.IN_THEATERS)
-            verify(observerLoading).onChanged(false)
+            verify(loadingObserver).onChanged(false)
             verify(observerError).onChanged(true)
-            verify(observerMovies).onChanged(expectedResult)
+            verify(observerMovies).onChanged(expectedResultMovieListEmpty)
         }
     }
 
@@ -272,15 +263,11 @@ class MainViewModelTest {
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
-            val expectedResult = listOf(movie)
-
-            given(getFavoriteMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResult))
+            given(getFavoriteMovieListUseCase.invoke()).willReturn(DataResult.Success(expectedResultMovieList))
 
             viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
-            viewModel.loading.observeForever(observerLoading)
+            viewModel.loading.observeForever(loadingObserver)
             viewModel.movies.observeForever(observerMovies)
 
             //WHEN
@@ -290,8 +277,8 @@ class MainViewModelTest {
             //THEN
             verify(observerMovieCategory).onChanged(MovieCategoryEnum.FAVORITE)
             verify(observerError).onChanged(false)
-            verify(observerLoading).onChanged(false)
-            verify(observerMovies).onChanged(expectedResult)
+            verify(loadingObserver).onChanged(false)
+            verify(observerMovies).onChanged(expectedResultMovieList)
         }
     }
 
@@ -300,13 +287,11 @@ class MainViewModelTest {
         runBlocking {
 
             //GIVEN
-            val expectedResult = mutableListOf<Movie>()
-
             given(getFavoriteMovieListUseCase.invoke()).willReturn(DataResult.Error(IOException("")))
 
             viewModel.movieCategory.observeForever(observerMovieCategory)
             viewModel.error.observeForever(observerError)
-            viewModel.loading.observeForever(observerLoading)
+            viewModel.loading.observeForever(loadingObserver)
             viewModel.movies.observeForever(observerMovies)
 
             //WHEN
@@ -315,17 +300,15 @@ class MainViewModelTest {
 
             //THEN
             verify(observerMovieCategory).onChanged(MovieCategoryEnum.FAVORITE)
-            verify(observerLoading).onChanged(false)
+            verify(loadingObserver).onChanged(false)
             verify(observerError).onChanged(true)
-            verify(observerMovies).onChanged(expectedResult)
+            verify(observerMovies).onChanged(expectedResultMovieListEmpty)
         }
     }
 
     @Test
     fun `onMovieClicked should open movie detail with given movie`(){
         //GIVEN
-        val movie = mockedMovie.copy(id = 1)
-
         viewModel.events.observeForever(observerEvents)
 
         //WHEN

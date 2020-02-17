@@ -7,6 +7,8 @@ import com.mho.training.features.moviedetail.MovieDetailActivityComponent
 import com.mho.training.features.moviedetail.MovieDetailActivityModule
 import com.mho.training.features.persondetail.PersonDetailActivityComponent
 import com.mho.training.features.persondetail.PersonDetailActivityModule
+import com.mho.training.features.relatedmoviesbyperson.RelatedMoviesByPersonFragmentComponent
+import com.mho.training.features.relatedmoviesbyperson.RelatedMoviesByPersonFragmentModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -18,6 +20,7 @@ interface MyMoviesComponent {
     fun plus(module: MainActivityModule): MainActivityComponent
     fun plus(module: MovieDetailActivityModule): MovieDetailActivityComponent
     fun plus(module: PersonDetailActivityModule): PersonDetailActivityComponent
+    fun plus(module: RelatedMoviesByPersonFragmentModule): RelatedMoviesByPersonFragmentComponent
 
     @Component.Factory
     interface Factory {
