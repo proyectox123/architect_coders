@@ -17,7 +17,6 @@ class MovieDetailViewModel(
     private val updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase,
     private val getKeywordListUseCase: GetKeywordListUseCase,
     private val getCreditListUseCase: GetCreditListUseCase,
-    private val getTrailerListUseCase: GetTrailerListUseCase,
     uiDispatcher: CoroutineDispatcher
 ) : BaseViewModel(uiDispatcher) {
 
@@ -58,15 +57,6 @@ class MovieDetailViewModel(
     private val _reviews = MutableLiveData<List<Review>>()
     val reviews: LiveData<List<Review>> get() = _reviews
 
-    private val _trailers = MutableLiveData<List<Trailer>>()
-    val trailers: LiveData<List<Trailer>> get() = _trailers
-
-    private val _loadingTrailers = MutableLiveData<Boolean>()
-    val loadingTrailers: LiveData<Boolean> get() = _loadingTrailers
-
-    private val _hasNotTrailers = MutableLiveData<Boolean>()
-    val hasNotTrailers: LiveData<Boolean> get() = _hasNotTrailers
-
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
 
@@ -104,10 +94,6 @@ class MovieDetailViewModel(
             _loadingKeywords.value = true
             validateKeywordResult(getKeywordListUseCase.invoke(movie.id))
             _loadingKeywords.value = false
-
-            _loadingTrailers.value = true
-            validateTrailerResult(getTrailerListUseCase.invoke(movie.id))
-            _loadingTrailers.value = false
         }
     }
 
@@ -160,19 +146,6 @@ class MovieDetailViewModel(
             is DataResult.Error -> {
                 _keywords.value = emptyList()
                 _hasNotKeywords.value = true
-            }
-        }
-    }
-
-    private fun validateTrailerResult(trailerListResult: DataResult<List<Trailer>>){
-        when(trailerListResult){
-            is DataResult.Success -> {
-                _trailers.value = trailerListResult.data
-                _hasNotTrailers.value = false
-            }
-            is DataResult.Error -> {
-                _trailers.value = emptyList()
-                _hasNotTrailers.value = true
             }
         }
     }

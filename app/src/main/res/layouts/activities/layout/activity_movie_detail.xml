@@ -47,11 +47,11 @@
                         bind:loading="@{viewmodel.loadingCredits}"
                         bind:hasNotCredits="@{viewmodel.hasNotCredits}"/>
 
-                <include
-                        layout="@layout/section_trailer_list"
-                        bind:trailers="@{viewmodel.trailers}"
-                        bind:loading="@{viewmodel.loadingTrailers}"
-                        bind:hasNotTrailers="@{viewmodel.hasNotTrailers}"/>
+                <FrameLayout
+                        android:id="@+id/fragmentTrailers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_trailers"/>
 
                 <FrameLayout
                         android:id="@+id/fragmentReviews"

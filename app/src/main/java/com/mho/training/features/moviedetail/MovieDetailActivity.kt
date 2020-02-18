@@ -15,29 +15,25 @@ import com.example.android.domain.Trailer
 import com.mho.training.R
 import com.mho.training.adapters.credit.CreditListAdapter
 import com.mho.training.adapters.keyword.KeywordListAdapter
-import com.mho.training.adapters.trailer.TrailerListAdapter
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.databinding.ActivityMovieDetailBinding
 import com.mho.training.features.moviedetail.MovieDetailViewModel.Navigation
 import com.mho.training.features.persondetail.PersonDetailActivity
 import com.mho.training.features.reviews.ReviewsFragment
+import com.mho.training.features.trailers.TrailersFragment
 import com.mho.training.models.ParcelableMovie
-import com.mho.training.utils.Constants
-import com.mho.training.utils.app
-import com.mho.training.utils.getViewModel
-import com.mho.training.utils.startActivity
+import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.section_credit_list.*
 import kotlinx.android.synthetic.main.section_keyword_list.*
-import kotlinx.android.synthetic.main.section_trailer_list.*
 
 
-class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragmentListener {
+class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragmentListener,
+    TrailersFragment.OnTrailersFragmentListener {
 
     //region Fields
 
     private lateinit var creditListAdapter: CreditListAdapter
     private lateinit var keywordListAdapter: KeywordListAdapter
-    private lateinit var trailerListAdapter: TrailerListAdapter
     private lateinit var component: MovieDetailActivityComponent
 
     private val viewModel: MovieDetailViewModel by lazy {
@@ -64,14 +60,13 @@ class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragme
         }
 
         validateReviewSection(movie?.id ?: 0)
+        validateTrailerSection(movie?.id ?: 0)
 
         creditListAdapter = CreditListAdapter(::openCredit)
         keywordListAdapter = KeywordListAdapter(::openKeyword)
-        trailerListAdapter = TrailerListAdapter(::openTrailer)
 
         creditListView.adapter = creditListAdapter
         keywordListView.adapter = keywordListAdapter
-        trailerListView.adapter = trailerListAdapter
 
         viewModel.events.observe(this, Observer{ event ->
             event.getContentIfNotHandled()?.let {
@@ -101,6 +96,15 @@ class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragme
         startActivity(intent)
     }
 
+    override fun openTrailer(trailer: Trailer){
+        Log.d(TAG, "openTrailer -> $trailer")
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(trailer.videoPath)
+        }
+
+        startActivity(intent)
+    }
+
     //endregion
 
     //region Private Methods
@@ -114,9 +118,20 @@ class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragme
 
             reviewsFragment = ReviewsFragment.newInstance(args)
 
-            supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentReviews, reviewsFragment)
-                .commit()
+            addFragment(R.id.fragmentReviews, reviewsFragment)
+        }
+    }
+
+    private fun validateTrailerSection(movieId: Int){
+        var trailersFragment = supportFragmentManager.findFragmentById(R.id.fragmentTrailers) as TrailersFragment?
+        if (trailersFragment == null) {
+            val args = Bundle().apply {
+                putInt(Constants.EXTRA_MOVIE_ID, movieId)
+            }
+
+            trailersFragment = TrailersFragment.newInstance(args)
+
+            addFragment(R.id.fragmentTrailers, trailersFragment)
         }
     }
 
@@ -130,15 +145,6 @@ class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragme
 
     private fun openKeyword(keyword: Keyword){
         Log.d(TAG, "openKeyword -> $keyword")
-    }
-
-    private fun openTrailer(trailer: Trailer){
-        Log.d(TAG, "openTrailer -> $trailer")
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(trailer.videoPath)
-        }
-
-        startActivity(intent)
     }
 
     private fun validateEvents(navigation: Navigation){

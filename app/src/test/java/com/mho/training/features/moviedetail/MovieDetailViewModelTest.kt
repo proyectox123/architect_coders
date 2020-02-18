@@ -2,9 +2,15 @@ package com.mho.training.features.moviedetail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.android.domain.*
+import com.example.android.domain.Credit
+import com.example.android.domain.Keyword
+import com.example.android.domain.Movie
+import com.example.android.domain.MovieDetail
 import com.example.android.domain.result.DataResult
-import com.example.android.testshared.*
+import com.example.android.testshared.mockedCredit
+import com.example.android.testshared.mockedKeyword
+import com.example.android.testshared.mockedMovie
+import com.example.android.testshared.mockedMovieDetail
 import com.example.android.usecases.*
 import com.mho.training.utils.Event
 import com.nhaarman.mockitokotlin2.given
@@ -34,21 +40,17 @@ class MovieDetailViewModelTest {
     @Mock lateinit var getFavoriteMovieStatus: GetFavoriteMovieStatus
     @Mock lateinit var getKeywordListUseCase: GetKeywordListUseCase
     @Mock lateinit var getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase
-    @Mock lateinit var getTrailerListUseCase: GetTrailerListUseCase
     @Mock lateinit var updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase
 
     @Mock lateinit var observerCredits: Observer<List<Credit>>
     @Mock lateinit var observerHasNotCredits: Observer<Boolean>
     @Mock lateinit var observerHasNotKeywords: Observer<Boolean>
-    @Mock lateinit var observerHasNotTrailers: Observer<Boolean>
     @Mock lateinit var observerInfoMovie: Observer<Movie>
     @Mock lateinit var observerIsFavorite: Observer<Boolean>
     @Mock lateinit var observerKeywords: Observer<List<Keyword>>
     @Mock lateinit var observerLoadingCredits: Observer<Boolean>
     @Mock lateinit var observerLoadingKeywords: Observer<Boolean>
-    @Mock lateinit var observerLoadingTrailers: Observer<Boolean>
     @Mock lateinit var observerMovieDetail: Observer<MovieDetail>
-    @Mock lateinit var observerTrailers: Observer<List<Trailer>>
 
     @Mock lateinit var observerEvents: Observer<Event<MovieDetailViewModel.Navigation>>
 
@@ -63,7 +65,6 @@ class MovieDetailViewModelTest {
             updateFavoriteMovieStatusUseCase,
             getKeywordListUseCase,
             getCreditListUseCase,
-            getTrailerListUseCase,
             Dispatchers.Unconfined
         )
     }
@@ -94,7 +95,6 @@ class MovieDetailViewModelTest {
             updateFavoriteMovieStatusUseCase,
             getKeywordListUseCase,
             getCreditListUseCase,
-            getTrailerListUseCase,
             Dispatchers.Unconfined
         )
 
@@ -248,58 +248,6 @@ class MovieDetailViewModelTest {
             verify(observerKeywords).onChanged(expectedResult)
             verify(observerHasNotKeywords).onChanged(true)
             verify(observerLoadingKeywords).onChanged(false)
-        }
-    }
-
-    @Test
-    fun `getTrailerListUseCase should return expected success trailer list with given movie id`() {
-        runBlocking {
-
-            //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
-            val trailer = mockedTrailer.copy(id = "")
-
-            val expectedResult = listOf(trailer)
-
-            given(getTrailerListUseCase.invoke(movie.id)).willReturn(DataResult.Success(expectedResult))
-
-            viewModel.trailers.observeForever(observerTrailers)
-            viewModel.hasNotTrailers.observeForever(observerHasNotTrailers)
-            viewModel.loadingTrailers.observeForever(observerLoadingTrailers)
-
-            //WHEN
-            viewModel.onMovieInformation()
-
-            //THEN
-            verify(observerTrailers).onChanged(expectedResult)
-            verify(observerHasNotTrailers).onChanged(false)
-            verify(observerLoadingTrailers).onChanged(false)
-        }
-    }
-
-    @Test
-    fun `getTrailerListUseCase should return expected error with given movie id`() {
-        runBlocking {
-
-            //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
-            val expectedResult = emptyList<Trailer>()
-
-            given(getTrailerListUseCase.invoke(movie.id)).willReturn(DataResult.Error(IOException("")))
-
-            viewModel.trailers.observeForever(observerTrailers)
-            viewModel.hasNotTrailers.observeForever(observerHasNotTrailers)
-            viewModel.loadingTrailers.observeForever(observerLoadingTrailers)
-
-            //WHEN
-            viewModel.onMovieInformation()
-
-            //THEN
-            verify(observerTrailers).onChanged(expectedResult)
-            verify(observerHasNotTrailers).onChanged(true)
-            verify(observerLoadingTrailers).onChanged(false)
         }
     }
 

@@ -109,3 +109,10 @@ val Context.app: MoviesApp
 
 val Fragment.app: MoviesApp
     get() = (activity?.app) as MoviesApp
+
+fun FragmentActivity.addFragment(containerViewId: Int, fragment: Fragment){
+    supportFragmentManager
+        .beginTransaction()
+        .add(containerViewId, fragment)
+        .commit()
+}

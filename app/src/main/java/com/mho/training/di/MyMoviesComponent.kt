@@ -11,6 +11,8 @@ import com.mho.training.features.relatedmoviesbyperson.RelatedMoviesByPersonFrag
 import com.mho.training.features.relatedmoviesbyperson.RelatedMoviesByPersonFragmentModule
 import com.mho.training.features.reviews.ReviewsFragmentComponent
 import com.mho.training.features.reviews.ReviewsFragmentModule
+import com.mho.training.features.trailers.TrailersFragmentComponent
+import com.mho.training.features.trailers.TrailersFragmentModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -24,6 +26,7 @@ interface MyMoviesComponent {
     fun plus(module: PersonDetailActivityModule): PersonDetailActivityComponent
     fun plus(module: RelatedMoviesByPersonFragmentModule): RelatedMoviesByPersonFragmentComponent
     fun plus(module: ReviewsFragmentModule): ReviewsFragmentComponent
+    fun plus(module: TrailersFragmentModule): TrailersFragmentComponent
 
     @Component.Factory
     interface Factory {

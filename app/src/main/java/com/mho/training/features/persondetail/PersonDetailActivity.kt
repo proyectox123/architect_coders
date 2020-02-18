@@ -13,10 +13,7 @@ import com.mho.training.databinding.ActivityPersonDetailBinding
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.features.persondetail.PersonDetailViewModel.Navigation
 import com.mho.training.features.relatedmoviesbyperson.RelatedMoviesByPersonFragment
-import com.mho.training.utils.Constants
-import com.mho.training.utils.app
-import com.mho.training.utils.getViewModel
-import com.mho.training.utils.startActivity
+import com.mho.training.utils.*
 
 class PersonDetailActivity : AppCompatActivity(),
     RelatedMoviesByPersonFragment.OnRelatedMoviesByPersonFragmentListener {
@@ -56,9 +53,7 @@ class PersonDetailActivity : AppCompatActivity(),
 
             relatedMoviesByPersonFragment = RelatedMoviesByPersonFragment.newInstance(args)
 
-            supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentRelatedMoviesByPerson, relatedMoviesByPersonFragment)
-                .commit()
+            addFragment(R.id.fragmentRelatedMoviesByPerson, relatedMoviesByPersonFragment)
         }
 
         viewModel.events.observe(this, Observer{ event ->

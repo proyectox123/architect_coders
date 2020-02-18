@@ -5,19 +5,9 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="java.util.List"/>
-
         <variable
-                name="trailers"
-                type="List&lt;com.example.android.domain.Trailer>"/>
-
-        <variable
-                name="loading"
-                type="Boolean" />
-
-        <variable
-                name="hasNotTrailers"
-                type="Boolean" />
+                name="viewmodel"
+                type="com.mho.training.features.trailers.TrailersViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -46,14 +36,14 @@
                     android:layout_width="@dimen/progress_bar_detail_width"
                     android:layout_height="@dimen/progress_bar_detail_height"
                     android:layout_gravity="center"
-                    app:visible="@{loading}" />
+                    app:visible="@{viewmodel.loadingTrailers}" />
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/trailerListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:items="@{trailers}"
+                    app:items="@{viewmodel.trailers}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_trailer"
                     tools:itemCount="5" />
@@ -63,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/error_not_available"
-                    app:visible="@{hasNotTrailers}"
+                    app:visible="@{viewmodel.hasNotTrailers}"
                     tools:visibility="visible" />
 
         </LinearLayout>
