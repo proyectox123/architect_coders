@@ -5,19 +5,9 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="java.util.List"/>
-
         <variable
-                name="reviews"
-                type="List&lt;com.example.android.domain.Review>"/>
-
-        <variable
-                name="loading"
-                type="Boolean" />
-
-        <variable
-                name="hasNotReviews"
-                type="Boolean" />
+                name="viewmodel"
+                type="com.mho.training.features.reviews.ReviewsViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -47,13 +37,13 @@
                     android:layout_width="@dimen/progress_bar_detail_width"
                     android:layout_height="@dimen/progress_bar_detail_height"
                     android:layout_gravity="center"
-                    app:visible="@{loading}" />
+                    app:visible="@{viewmodel.loadingReviews}" />
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/reviewListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:items="@{reviews}"
+                    app:items="@{viewmodel.reviews}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_review"
                     tools:itemCount="2" />
@@ -63,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/error_not_available"
-                    app:visible="@{hasNotReviews}"
+                    app:visible="@{viewmodel.hasNotReviews}"
                     tools:visibility="visible" />
 
         </LinearLayout>

@@ -34,24 +34,20 @@ class MovieDetailViewModelTest {
     @Mock lateinit var getFavoriteMovieStatus: GetFavoriteMovieStatus
     @Mock lateinit var getKeywordListUseCase: GetKeywordListUseCase
     @Mock lateinit var getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase
-    @Mock lateinit var getReviewListUseCase: GetReviewListUseCase
     @Mock lateinit var getTrailerListUseCase: GetTrailerListUseCase
     @Mock lateinit var updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase
 
     @Mock lateinit var observerCredits: Observer<List<Credit>>
     @Mock lateinit var observerHasNotCredits: Observer<Boolean>
     @Mock lateinit var observerHasNotKeywords: Observer<Boolean>
-    @Mock lateinit var observerHasNotReviews: Observer<Boolean>
     @Mock lateinit var observerHasNotTrailers: Observer<Boolean>
     @Mock lateinit var observerInfoMovie: Observer<Movie>
     @Mock lateinit var observerIsFavorite: Observer<Boolean>
     @Mock lateinit var observerKeywords: Observer<List<Keyword>>
     @Mock lateinit var observerLoadingCredits: Observer<Boolean>
     @Mock lateinit var observerLoadingKeywords: Observer<Boolean>
-    @Mock lateinit var observerLoadingReviews: Observer<Boolean>
     @Mock lateinit var observerLoadingTrailers: Observer<Boolean>
     @Mock lateinit var observerMovieDetail: Observer<MovieDetail>
-    @Mock lateinit var observerReviews: Observer<List<Review>>
     @Mock lateinit var observerTrailers: Observer<List<Trailer>>
 
     @Mock lateinit var observerEvents: Observer<Event<MovieDetailViewModel.Navigation>>
@@ -68,7 +64,6 @@ class MovieDetailViewModelTest {
             getKeywordListUseCase,
             getCreditListUseCase,
             getTrailerListUseCase,
-            getReviewListUseCase,
             Dispatchers.Unconfined
         )
     }
@@ -100,7 +95,6 @@ class MovieDetailViewModelTest {
             getKeywordListUseCase,
             getCreditListUseCase,
             getTrailerListUseCase,
-            getReviewListUseCase,
             Dispatchers.Unconfined
         )
 
@@ -254,58 +248,6 @@ class MovieDetailViewModelTest {
             verify(observerKeywords).onChanged(expectedResult)
             verify(observerHasNotKeywords).onChanged(true)
             verify(observerLoadingKeywords).onChanged(false)
-        }
-    }
-
-    @Test
-    fun `getReviewListUseCase should return expected success review list with given movie id`() {
-        runBlocking {
-
-            //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
-            val review = mockedReview.copy(id = "")
-
-            val expectedResult = listOf(review)
-
-            given(getReviewListUseCase.invoke(movie.id)).willReturn(DataResult.Success(expectedResult))
-
-            viewModel.reviews.observeForever(observerReviews)
-            viewModel.hasNotReviews.observeForever(observerHasNotReviews)
-            viewModel.loadingReviews.observeForever(observerLoadingReviews)
-
-            //WHEN
-            viewModel.onMovieInformation()
-
-            //THEN
-            verify(observerReviews).onChanged(expectedResult)
-            verify(observerHasNotReviews).onChanged(false)
-            verify(observerLoadingReviews).onChanged(false)
-        }
-    }
-
-    @Test
-    fun `getReviewListUseCase should return expected error with given movie id`() {
-        runBlocking {
-
-            //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
-            val expectedResult = emptyList<Review>()
-
-            given(getReviewListUseCase.invoke(movie.id)).willReturn(DataResult.Error(IOException("")))
-
-            viewModel.reviews.observeForever(observerReviews)
-            viewModel.hasNotReviews.observeForever(observerHasNotReviews)
-            viewModel.loadingReviews.observeForever(observerLoadingReviews)
-
-            //WHEN
-            viewModel.onMovieInformation()
-
-            //THEN
-            verify(observerReviews).onChanged(expectedResult)
-            verify(observerHasNotReviews).onChanged(true)
-            verify(observerLoadingReviews).onChanged(false)
         }
     }
 

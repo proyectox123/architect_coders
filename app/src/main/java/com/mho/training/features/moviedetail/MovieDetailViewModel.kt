@@ -18,7 +18,6 @@ class MovieDetailViewModel(
     private val getKeywordListUseCase: GetKeywordListUseCase,
     private val getCreditListUseCase: GetCreditListUseCase,
     private val getTrailerListUseCase: GetTrailerListUseCase,
-    private val getReviewListUseCase: GetReviewListUseCase,
     uiDispatcher: CoroutineDispatcher
 ) : BaseViewModel(uiDispatcher) {
 
@@ -58,12 +57,6 @@ class MovieDetailViewModel(
 
     private val _reviews = MutableLiveData<List<Review>>()
     val reviews: LiveData<List<Review>> get() = _reviews
-
-    private val _loadingReviews = MutableLiveData<Boolean>()
-    val loadingReviews: LiveData<Boolean> get() = _loadingReviews
-
-    private val _hasNotReviews = MutableLiveData<Boolean>()
-    val hasNotReviews: LiveData<Boolean> get() = _hasNotReviews
 
     private val _trailers = MutableLiveData<List<Trailer>>()
     val trailers: LiveData<List<Trailer>> get() = _trailers
@@ -115,10 +108,6 @@ class MovieDetailViewModel(
             _loadingTrailers.value = true
             validateTrailerResult(getTrailerListUseCase.invoke(movie.id))
             _loadingTrailers.value = false
-
-            _loadingReviews.value = true
-            validateReviewResult(getReviewListUseCase.invoke(movie.id))
-            _loadingReviews.value = false
         }
     }
 
@@ -184,19 +173,6 @@ class MovieDetailViewModel(
             is DataResult.Error -> {
                 _trailers.value = emptyList()
                 _hasNotTrailers.value = true
-            }
-        }
-    }
-
-    private fun validateReviewResult(reviewListResult: DataResult<List<Review>>){
-        when(reviewListResult){
-            is DataResult.Success -> {
-                _reviews.value = reviewListResult.data
-                _hasNotReviews.value = false
-            }
-            is DataResult.Error -> {
-                _reviews.value = emptyList()
-                _hasNotReviews.value = true
             }
         }
     }

@@ -1,6 +1,9 @@
 package com.mho.training.features.moviedetail
 
-import com.example.android.data.repositories.*
+import com.example.android.data.repositories.CreditRepository
+import com.example.android.data.repositories.KeywordRepository
+import com.example.android.data.repositories.MovieRepository
+import com.example.android.data.repositories.TrailerRepository
 import com.example.android.domain.Movie
 import com.example.android.usecases.*
 import dagger.Module
@@ -20,8 +23,7 @@ class MovieDetailActivityModule(
         updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase,
         getKeywordListUseCase: GetKeywordListUseCase,
         getCreditListUseCase: GetCreditListUseCase,
-        getTrailerListUseCase: GetTrailerListUseCase,
-        getReviewListUseCase: GetReviewListUseCase
+        getTrailerListUseCase: GetTrailerListUseCase
     ) = MovieDetailViewModel(
         movie,
         getMovieDetailByIdUseCase,
@@ -30,7 +32,6 @@ class MovieDetailActivityModule(
         getKeywordListUseCase,
         getCreditListUseCase,
         getTrailerListUseCase,
-        getReviewListUseCase,
         Dispatchers.Main
     )
 
@@ -57,10 +58,6 @@ class MovieDetailActivityModule(
     @Provides
     fun getTrailerListUseCaseProvider(trailerRepository: TrailerRepository) =
         GetTrailerListUseCase(trailerRepository)
-
-    @Provides
-    fun getReviewListUseCaseProvider(reviewRepository: ReviewRepository) =
-        GetReviewListUseCase(reviewRepository)
 
 }
 

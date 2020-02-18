@@ -17,9 +17,10 @@ import com.mho.training.utils.app
 import com.mho.training.utils.getViewModel
 import kotlinx.android.synthetic.main.fragment_related_movies_by_person.*
 
-class RelatedMoviesByPersonFragment() : Fragment() {
+class RelatedMoviesByPersonFragment : Fragment() {
 
     //region Fields
+
     private lateinit var listener: OnRelatedMoviesByPersonFragmentListener
     private lateinit var movieListAdapter: MovieListAdapter
     private lateinit var component: RelatedMoviesByPersonFragmentComponent

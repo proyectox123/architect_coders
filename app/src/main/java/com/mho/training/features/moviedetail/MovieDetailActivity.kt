@@ -15,12 +15,12 @@ import com.example.android.domain.Trailer
 import com.mho.training.R
 import com.mho.training.adapters.credit.CreditListAdapter
 import com.mho.training.adapters.keyword.KeywordListAdapter
-import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.databinding.ActivityMovieDetailBinding
 import com.mho.training.features.moviedetail.MovieDetailViewModel.Navigation
 import com.mho.training.features.persondetail.PersonDetailActivity
+import com.mho.training.features.reviews.ReviewsFragment
 import com.mho.training.models.ParcelableMovie
 import com.mho.training.utils.Constants
 import com.mho.training.utils.app
@@ -28,17 +28,15 @@ import com.mho.training.utils.getViewModel
 import com.mho.training.utils.startActivity
 import kotlinx.android.synthetic.main.section_credit_list.*
 import kotlinx.android.synthetic.main.section_keyword_list.*
-import kotlinx.android.synthetic.main.section_review_list.*
 import kotlinx.android.synthetic.main.section_trailer_list.*
 
 
-class MovieDetailActivity : AppCompatActivity() {
+class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragmentListener {
 
     //region Fields
 
     private lateinit var creditListAdapter: CreditListAdapter
     private lateinit var keywordListAdapter: KeywordListAdapter
-    private lateinit var reviewListAdapter: ReviewListAdapter
     private lateinit var trailerListAdapter: TrailerListAdapter
     private lateinit var component: MovieDetailActivityComponent
 
@@ -53,8 +51,10 @@ class MovieDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val movie = (intent.getParcelableExtra(Constants.EXTRA_MOVIE) as ParcelableMovie?)?.toDomainMovie()
+
         component = app.component.plus(MovieDetailActivityModule(
-            (intent.getParcelableExtra(Constants.EXTRA_MOVIE) as ParcelableMovie?)?.toDomainMovie()
+            movie
         ))
 
         val binding: ActivityMovieDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail)
@@ -63,14 +63,14 @@ class MovieDetailActivity : AppCompatActivity() {
             lifecycleOwner = this@MovieDetailActivity
         }
 
+        validateReviewSection(movie?.id ?: 0)
+
         creditListAdapter = CreditListAdapter(::openCredit)
         keywordListAdapter = KeywordListAdapter(::openKeyword)
-        reviewListAdapter = ReviewListAdapter(::openReview)
         trailerListAdapter = TrailerListAdapter(::openTrailer)
 
         creditListView.adapter = creditListAdapter
         keywordListView.adapter = keywordListAdapter
-        reviewListView.adapter = reviewListAdapter
         trailerListView.adapter = trailerListAdapter
 
         viewModel.events.observe(this, Observer{ event ->
@@ -92,9 +92,33 @@ class MovieDetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun openReview(review: Review){
+        Log.d(TAG, "openReview -> $review")
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(review.url)
+        }
+
+        startActivity(intent)
+    }
+
     //endregion
 
     //region Private Methods
+
+    private fun validateReviewSection(movieId: Int){
+        var reviewsFragment = supportFragmentManager.findFragmentById(R.id.fragmentReviews) as ReviewsFragment?
+        if (reviewsFragment == null) {
+            val args = Bundle().apply {
+                putInt(Constants.EXTRA_MOVIE_ID, movieId)
+            }
+
+            reviewsFragment = ReviewsFragment.newInstance(args)
+
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentReviews, reviewsFragment)
+                .commit()
+        }
+    }
 
     private fun openCredit(credit: Credit){
         Log.d(TAG, "openCredit -> $credit")
@@ -106,15 +130,6 @@ class MovieDetailActivity : AppCompatActivity() {
 
     private fun openKeyword(keyword: Keyword){
         Log.d(TAG, "openKeyword -> $keyword")
-    }
-
-    private fun openReview(review: Review){
-        Log.d(TAG, "openReview -> $review")
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(review.url)
-        }
-
-        startActivity(intent)
     }
 
     private fun openTrailer(trailer: Trailer){

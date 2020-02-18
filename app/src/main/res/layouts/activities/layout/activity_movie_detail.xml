@@ -53,10 +53,11 @@
                         bind:loading="@{viewmodel.loadingTrailers}"
                         bind:hasNotTrailers="@{viewmodel.hasNotTrailers}"/>
 
-                <include layout="@layout/section_review_list"
-                        bind:reviews="@{viewmodel.reviews}"
-                        bind:loading="@{viewmodel.loadingReviews}"
-                        bind:hasNotReviews="@{viewmodel.hasNotReviews}"/>
+                <FrameLayout
+                        android:id="@+id/fragmentReviews"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_reviews"/>
 
             </LinearLayout>
 
