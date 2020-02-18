@@ -38,7 +38,7 @@ class RelatedMoviesByPersonFragment : Fragment() {
         try{
             listener = context as OnRelatedMoviesByPersonFragmentListener
         }catch (e: ClassCastException){
-            throw ClassCastException("$context must implement OnRelatedMoviesByPersonFragmentListener");
+            throw ClassCastException("$context must implement OnRelatedMoviesByPersonFragmentListener")
         }
     }
 

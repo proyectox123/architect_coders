@@ -1,6 +1,8 @@
 package com.mho.training.di
 
 import android.app.Application
+import com.mho.training.features.keywords.KeywordsFragmentComponent
+import com.mho.training.features.keywords.KeywordsFragmentModule
 import com.mho.training.features.main.MainActivityComponent
 import com.mho.training.features.main.MainActivityModule
 import com.mho.training.features.moviedetail.MovieDetailActivityComponent
@@ -21,6 +23,7 @@ import javax.inject.Singleton
 @Component(modules = [AppModule::class, DataModule::class, ResourcesModule::class])
 interface MyMoviesComponent {
 
+    fun plus(module: KeywordsFragmentModule): KeywordsFragmentComponent
     fun plus(module: MainActivityModule): MainActivityComponent
     fun plus(module: MovieDetailActivityModule): MovieDetailActivityComponent
     fun plus(module: PersonDetailActivityModule): PersonDetailActivityComponent

@@ -2,9 +2,14 @@ package com.mho.training.features.moviedetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.android.domain.*
+import com.example.android.domain.Credit
+import com.example.android.domain.Movie
+import com.example.android.domain.MovieDetail
 import com.example.android.domain.result.DataResult
-import com.example.android.usecases.*
+import com.example.android.usecases.GetCreditListUseCase
+import com.example.android.usecases.GetFavoriteMovieStatus
+import com.example.android.usecases.GetMovieDetailByIdUseCase
+import com.example.android.usecases.UpdateFavoriteMovieStatusUseCase
 import com.mho.training.bases.BaseViewModel
 import com.mho.training.utils.Event
 import kotlinx.coroutines.CoroutineDispatcher
@@ -15,7 +20,6 @@ class MovieDetailViewModel(
     private val getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase,
     private val getFavoriteMovieStatus: GetFavoriteMovieStatus,
     private val updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase,
-    private val getKeywordListUseCase: GetKeywordListUseCase,
     private val getCreditListUseCase: GetCreditListUseCase,
     uiDispatcher: CoroutineDispatcher
 ) : BaseViewModel(uiDispatcher) {
@@ -44,18 +48,6 @@ class MovieDetailViewModel(
 
     private val _hasNotCredits = MutableLiveData<Boolean>()
     val hasNotCredits: LiveData<Boolean> get() = _hasNotCredits
-
-    private val _keywords = MutableLiveData<List<Keyword>>()
-    val keywords: LiveData<List<Keyword>> get() = _keywords
-
-    private val _loadingKeywords = MutableLiveData<Boolean>()
-    val loadingKeywords: LiveData<Boolean> get() = _loadingKeywords
-
-    private val _hasNotKeywords = MutableLiveData<Boolean>()
-    val hasNotKeywords: LiveData<Boolean> get() = _hasNotKeywords
-
-    private val _reviews = MutableLiveData<List<Review>>()
-    val reviews: LiveData<List<Review>> get() = _reviews
 
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
@@ -90,10 +82,6 @@ class MovieDetailViewModel(
             _loadingCredits.value = true
             validateCreditResult(getCreditListUseCase.invoke(movie.id))
             _loadingCredits.value = false
-
-            _loadingKeywords.value = true
-            validateKeywordResult(getKeywordListUseCase.invoke(movie.id))
-            _loadingKeywords.value = false
         }
     }
 
@@ -133,19 +121,6 @@ class MovieDetailViewModel(
             is DataResult.Error -> {
                 _credits.value = emptyList()
                 _hasNotCredits.value = true
-            }
-        }
-    }
-
-    private fun validateKeywordResult(keywordListResult: DataResult<List<Keyword>>){
-        when(keywordListResult){
-            is DataResult.Success -> {
-                _keywords.value = keywordListResult.data
-                _hasNotKeywords.value = false
-            }
-            is DataResult.Error -> {
-                _keywords.value = emptyList()
-                _hasNotKeywords.value = true
             }
         }
     }

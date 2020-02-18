@@ -45,7 +45,8 @@ class PersonDetailActivity : AppCompatActivity(),
             lifecycleOwner = this@PersonDetailActivity
         }
 
-        var relatedMoviesByPersonFragment = supportFragmentManager.findFragmentById(R.id.fragmentRelatedMoviesByPerson) as RelatedMoviesByPersonFragment?
+        val fragmentId = R.id.fragmentRelatedMoviesByPerson
+        var relatedMoviesByPersonFragment = supportFragmentManager.findFragmentById(fragmentId) as RelatedMoviesByPersonFragment?
         if (relatedMoviesByPersonFragment == null) {
             val args = Bundle().apply {
                 putInt(Constants.EXTRA_CREDIT_ID, creditId)
@@ -53,7 +54,7 @@ class PersonDetailActivity : AppCompatActivity(),
 
             relatedMoviesByPersonFragment = RelatedMoviesByPersonFragment.newInstance(args)
 
-            addFragment(R.id.fragmentRelatedMoviesByPerson, relatedMoviesByPersonFragment)
+            addFragment(fragmentId, relatedMoviesByPersonFragment)
         }
 
         viewModel.events.observe(this, Observer{ event ->

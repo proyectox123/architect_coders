@@ -37,7 +37,7 @@ class TrailersFragment : Fragment() {
         try{
             listener = context as OnTrailersFragmentListener
         }catch (e: ClassCastException){
-            throw ClassCastException("$context must implement OnTrailersFragmentListener");
+            throw ClassCastException("$context must implement OnTrailersFragmentListener")
         }
     }
 

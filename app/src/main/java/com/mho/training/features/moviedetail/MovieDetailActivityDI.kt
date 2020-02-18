@@ -1,10 +1,12 @@
 package com.mho.training.features.moviedetail
 
 import com.example.android.data.repositories.CreditRepository
-import com.example.android.data.repositories.KeywordRepository
 import com.example.android.data.repositories.MovieRepository
 import com.example.android.domain.Movie
-import com.example.android.usecases.*
+import com.example.android.usecases.GetCreditListUseCase
+import com.example.android.usecases.GetFavoriteMovieStatus
+import com.example.android.usecases.GetMovieDetailByIdUseCase
+import com.example.android.usecases.UpdateFavoriteMovieStatusUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
@@ -20,14 +22,12 @@ class MovieDetailActivityModule(
         getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase,
         getFavoriteMovieStatus: GetFavoriteMovieStatus,
         updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase,
-        getKeywordListUseCase: GetKeywordListUseCase,
         getCreditListUseCase: GetCreditListUseCase
     ) = MovieDetailViewModel(
         movie,
         getMovieDetailByIdUseCase,
         getFavoriteMovieStatus,
         updateFavoriteMovieStatusUseCase,
-        getKeywordListUseCase,
         getCreditListUseCase,
         Dispatchers.Main
     )
@@ -43,10 +43,6 @@ class MovieDetailActivityModule(
     @Provides
     fun updateFavoriteMovieStatusProvider(movieRepository: MovieRepository) =
         UpdateFavoriteMovieStatusUseCase(movieRepository)
-
-    @Provides
-    fun getKeywordListUseCaseProvider(keywordRepository: KeywordRepository) =
-        GetKeywordListUseCase(keywordRepository)
 
     @Provides
     fun getCreditListUseCaseProvider(creditRepository: CreditRepository) =

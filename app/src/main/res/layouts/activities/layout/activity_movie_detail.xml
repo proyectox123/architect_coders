@@ -35,11 +35,11 @@
                         bind:movie="@{viewmodel.infoMovie}"
                         bind:movieDetail="@{viewmodel.movieDetail}"/>
 
-                <include
-                        layout="@layout/section_keyword_list"
-                        bind:keywords="@{viewmodel.keywords}"
-                        bind:loading="@{viewmodel.loadingKeywords}"
-                        bind:hasNotKeywords="@{viewmodel.hasNotKeywords}"/>
+                <FrameLayout
+                        android:id="@+id/fragmentKeywords"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_keywords"/>
 
                 <include
                         layout="@layout/section_credit_list"

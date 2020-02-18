@@ -14,9 +14,9 @@ import com.example.android.domain.Review
 import com.example.android.domain.Trailer
 import com.mho.training.R
 import com.mho.training.adapters.credit.CreditListAdapter
-import com.mho.training.adapters.keyword.KeywordListAdapter
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.databinding.ActivityMovieDetailBinding
+import com.mho.training.features.keywords.KeywordsFragment
 import com.mho.training.features.moviedetail.MovieDetailViewModel.Navigation
 import com.mho.training.features.persondetail.PersonDetailActivity
 import com.mho.training.features.reviews.ReviewsFragment
@@ -24,16 +24,16 @@ import com.mho.training.features.trailers.TrailersFragment
 import com.mho.training.models.ParcelableMovie
 import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.section_credit_list.*
-import kotlinx.android.synthetic.main.section_keyword_list.*
 
 
-class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragmentListener,
+class MovieDetailActivity : AppCompatActivity(),
+    KeywordsFragment.OnKeywordsFragmentListener,
+    ReviewsFragment.OnReviewsFragmentListener,
     TrailersFragment.OnTrailersFragmentListener {
 
     //region Fields
 
     private lateinit var creditListAdapter: CreditListAdapter
-    private lateinit var keywordListAdapter: KeywordListAdapter
     private lateinit var component: MovieDetailActivityComponent
 
     private val viewModel: MovieDetailViewModel by lazy {
@@ -59,14 +59,13 @@ class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragme
             lifecycleOwner = this@MovieDetailActivity
         }
 
+        validateKeywordsSection(movie?.id ?: 0)
         validateReviewSection(movie?.id ?: 0)
         validateTrailerSection(movie?.id ?: 0)
 
         creditListAdapter = CreditListAdapter(::openCredit)
-        keywordListAdapter = KeywordListAdapter(::openKeyword)
 
         creditListView.adapter = creditListAdapter
-        keywordListView.adapter = keywordListAdapter
 
         viewModel.events.observe(this, Observer{ event ->
             event.getContentIfNotHandled()?.let {
@@ -85,6 +84,10 @@ class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragme
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun openKeyword(keyword: Keyword){
+        Log.d(TAG, "openKeyword -> $keyword")
     }
 
     override fun openReview(review: Review){
@@ -109,8 +112,23 @@ class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragme
 
     //region Private Methods
 
+    private fun validateKeywordsSection(movieId: Int){
+        val fragmentId = R.id.fragmentKeywords
+        var keywordsFragment = supportFragmentManager.findFragmentById(fragmentId) as KeywordsFragment?
+        if (keywordsFragment == null) {
+            val args = Bundle().apply {
+                putInt(Constants.EXTRA_MOVIE_ID, movieId)
+            }
+
+            keywordsFragment = KeywordsFragment.newInstance(args)
+
+            addFragment(fragmentId, keywordsFragment)
+        }
+    }
+
     private fun validateReviewSection(movieId: Int){
-        var reviewsFragment = supportFragmentManager.findFragmentById(R.id.fragmentReviews) as ReviewsFragment?
+        val fragmentId = R.id.fragmentReviews
+        var reviewsFragment = supportFragmentManager.findFragmentById(fragmentId) as ReviewsFragment?
         if (reviewsFragment == null) {
             val args = Bundle().apply {
                 putInt(Constants.EXTRA_MOVIE_ID, movieId)
@@ -118,12 +136,13 @@ class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragme
 
             reviewsFragment = ReviewsFragment.newInstance(args)
 
-            addFragment(R.id.fragmentReviews, reviewsFragment)
+            addFragment(fragmentId, reviewsFragment)
         }
     }
 
     private fun validateTrailerSection(movieId: Int){
-        var trailersFragment = supportFragmentManager.findFragmentById(R.id.fragmentTrailers) as TrailersFragment?
+        val fragmentId = R.id.fragmentTrailers
+        var trailersFragment = supportFragmentManager.findFragmentById(fragmentId) as TrailersFragment?
         if (trailersFragment == null) {
             val args = Bundle().apply {
                 putInt(Constants.EXTRA_MOVIE_ID, movieId)
@@ -131,7 +150,7 @@ class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragme
 
             trailersFragment = TrailersFragment.newInstance(args)
 
-            addFragment(R.id.fragmentTrailers, trailersFragment)
+            addFragment(fragmentId, trailersFragment)
         }
     }
 
@@ -141,10 +160,6 @@ class MovieDetailActivity : AppCompatActivity(), ReviewsFragment.OnReviewsFragme
             putExtra(Constants.EXTRA_CREDIT_ID, credit.id)
         }
         overridePendingTransition(R.anim.anim_entry, R.anim.anim_exit)
-    }
-
-    private fun openKeyword(keyword: Keyword){
-        Log.d(TAG, "openKeyword -> $keyword")
     }
 
     private fun validateEvents(navigation: Navigation){

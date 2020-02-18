@@ -1,4 +1,4 @@
-package com.mho.training.features.reviews
+package com.mho.training.features.keywords
 
 import android.content.Context
 import android.os.Bundle
@@ -7,25 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.example.android.domain.Review
+import com.example.android.domain.Keyword
 import com.mho.training.R
-import com.mho.training.adapters.review.ReviewListAdapter
-import com.mho.training.databinding.FragmentReviewsBinding
+import com.mho.training.adapters.keyword.KeywordListAdapter
+import com.mho.training.databinding.FragmentKeywordsBinding
 import com.mho.training.utils.Constants
 import com.mho.training.utils.app
 import com.mho.training.utils.getViewModel
-import kotlinx.android.synthetic.main.fragment_reviews.*
+import kotlinx.android.synthetic.main.fragment_keywords.*
 
-class ReviewsFragment : Fragment() {
+class KeywordsFragment : Fragment() {
 
     //region Fields
 
-    private lateinit var listener: OnReviewsFragmentListener
-    private lateinit var reviewListAdapter: ReviewListAdapter
-    private lateinit var component: ReviewsFragmentComponent
+    private lateinit var listener: OnKeywordsFragmentListener
+    private lateinit var keywordListAdapter: KeywordListAdapter
+    private lateinit var component: KeywordsFragmentComponent
 
-    private val viewModel: ReviewsViewModel by lazy {
-        getViewModel { component.reviewsViewModel }
+    private val viewModel: KeywordsViewModel by lazy {
+        getViewModel { component.keywordsViewModel }
     }
 
     //endregion
@@ -35,16 +35,16 @@ class ReviewsFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try{
-            listener = context as OnReviewsFragmentListener
+            listener = context as OnKeywordsFragmentListener
         }catch (e: ClassCastException){
-            throw ClassCastException("$context must implement OnReviewsFragmentListener")
+            throw ClassCastException("$context must implement OnKeywordsFragmentListener")
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        component = app.component.plus(ReviewsFragmentModule(
+        component = app.component.plus(KeywordsFragmentModule(
             arguments?.getInt(Constants.EXTRA_MOVIE_ID, 0) ?: 0
         ))
     }
@@ -55,48 +55,48 @@ class ReviewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return DataBindingUtil.inflate<FragmentReviewsBinding>(
+        return DataBindingUtil.inflate<FragmentKeywordsBinding>(
             inflater,
-            R.layout.fragment_reviews,
+            R.layout.fragment_keywords,
             container,
             false
         ).apply {
             viewmodel = viewModel
-            lifecycleOwner = this@ReviewsFragment
+            lifecycleOwner = this@KeywordsFragment
         }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        reviewListAdapter = ReviewListAdapter(::openReview)
+        keywordListAdapter = KeywordListAdapter(::openKeyword)
 
-        reviewListView.adapter = reviewListAdapter
+        keywordListView.adapter = keywordListAdapter
 
-        viewModel.onReviewsFromMovie()
+        viewModel.onKeywordsFromMovie()
     }
 
     //endregion
 
     //region Private Methods
 
-    private fun openReview(review: Review){
-        listener.openReview(review)
+    private fun openKeyword(keyword: Keyword){
+        listener.openKeyword(keyword)
     }
 
     //endregion
 
     //region Inner Classes & Callbacks
 
-    interface OnReviewsFragmentListener {
-        fun openReview(review: Review)
+    interface OnKeywordsFragmentListener {
+        fun openKeyword(keyword: Keyword)
     }
 
     //endregion
 
     companion object {
 
-        fun newInstance(bundle: Bundle) = ReviewsFragment().apply {
+        fun newInstance(bundle: Bundle) = KeywordsFragment().apply {
             arguments = bundle
         }
 
