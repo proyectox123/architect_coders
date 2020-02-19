@@ -5,19 +5,9 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="java.util.List"/>
-
         <variable
-                name="reviews"
-                type="List&lt;com.example.android.domain.Review>"/>
-
-        <variable
-                name="loading"
-                type="Boolean" />
-
-        <variable
-                name="hasNotReviews"
-                type="Boolean" />
+                name="viewmodel"
+                type="com.mho.training.features.credits.CreditsViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -30,7 +20,6 @@
             tools:showIn="@layout/activity_movie_detail">
 
         <LinearLayout
-                android:id="@+id/reviewSectionContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -41,29 +30,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="@string/section_reviews" />
+                    android:text="@string/section_credits" />
 
             <ProgressBar
                     android:layout_width="@dimen/progress_bar_detail_width"
                     android:layout_height="@dimen/progress_bar_detail_height"
                     android:layout_gravity="center"
-                    app:visible="@{loading}" />
+                    app:visible="@{viewmodel.loadingCredits}" />
 
             <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/reviewListView"
+                    android:id="@+id/creditListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:items="@{reviews}"
+                    android:orientation="horizontal"
+                    app:items="@{viewmodel.credits}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_review"
-                    tools:itemCount="2" />
+                    tools:listitem="@layout/item_credit"
+                    tools:itemCount="5" />
 
             <TextView
                     style="@style/MovieDetailInfoError"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/error_not_available"
-                    app:visible="@{hasNotReviews}"
+                    app:visible="@{viewmodel.hasNotCredits}"
                     tools:visibility="visible" />
 
         </LinearLayout>

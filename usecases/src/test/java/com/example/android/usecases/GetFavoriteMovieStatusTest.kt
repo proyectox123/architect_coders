@@ -1,8 +1,8 @@
 package com.example.android.usecases
 
 import com.example.android.data.repositories.MovieRepository
-import com.example.android.mocks.mockedMovie
-import com.nhaarman.mockitokotlin2.whenever
+import com.example.android.testshared.mockedMovie
+import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
@@ -34,7 +34,7 @@ class GetFavoriteMovieStatusTest {
 
             val expectedDataResult = true
 
-            whenever(movieRepository.getFavoriteMovieStatus(movie)).thenReturn(expectedDataResult)
+            given(movieRepository.getFavoriteMovieStatus(movie)).willReturn(expectedDataResult)
 
             // WHEN
             val result: Boolean = getFavoriteMovieStatus.invoke(movie)
@@ -53,7 +53,7 @@ class GetFavoriteMovieStatusTest {
 
             val expectedDataResult = false
 
-            whenever(movieRepository.getFavoriteMovieStatus(movie)).thenReturn(expectedDataResult)
+            given(movieRepository.getFavoriteMovieStatus(movie)).willReturn(expectedDataResult)
 
             // WHEN
             val result: Boolean = getFavoriteMovieStatus.invoke(movie)

@@ -5,19 +5,9 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="java.util.List"/>
-
         <variable
-                name="keywords"
-                type="List&lt;com.example.android.domain.Keyword>"/>
-
-        <variable
-                name="loading"
-                type="Boolean" />
-
-        <variable
-                name="hasNotKeywords"
-                type="Boolean" />
+                name="viewmodel"
+                type="com.mho.training.features.trailers.TrailersViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -39,31 +29,31 @@
                     style="@style/MovieDetailTitleStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/section_keywords" />
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/section_trailers" />
 
             <ProgressBar
                     android:layout_width="@dimen/progress_bar_detail_width"
                     android:layout_height="@dimen/progress_bar_detail_height"
                     android:layout_gravity="center"
-                    app:visible="@{loading}" />
+                    app:visible="@{viewmodel.loadingTrailers}" />
 
             <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/keywordListView"
+                    android:id="@+id/trailerListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:items="@{keywords}"
+                    app:items="@{viewmodel.trailers}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_keyword"
-                    tools:itemCount="4" />
+                    tools:listitem="@layout/item_trailer"
+                    tools:itemCount="5" />
 
             <TextView
                     style="@style/MovieDetailInfoError"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/error_not_available"
-                    app:visible="@{hasNotKeywords}"
+                    app:visible="@{viewmodel.hasNotTrailers}"
                     tools:visibility="visible" />
 
         </LinearLayout>

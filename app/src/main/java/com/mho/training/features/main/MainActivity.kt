@@ -16,7 +16,10 @@ import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.main.MainViewModel.Navigation
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.permissions.PermissionRequester
-import com.mho.training.utils.*
+import com.mho.training.utils.Constants
+import com.mho.training.utils.app
+import com.mho.training.utils.getViewModel
+import com.mho.training.utils.startActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -56,7 +59,11 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.movieCategory.observe(this, Observer(::updateMovieCategory))
         viewModel.favoriteMovies.observe(this, Observer { viewModel.onMovieFavoriteListUpdate(it) })
-        viewModel.events.observe(this, EventObserver(::validateEvents))
+        viewModel.events.observe(this, Observer{ event ->
+            event.getContentIfNotHandled()?.let {
+                validateEvents(it)
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

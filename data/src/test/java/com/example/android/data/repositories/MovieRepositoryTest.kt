@@ -4,9 +4,9 @@ import com.example.android.data.sources.LocalMovieDataSource
 import com.example.android.data.sources.RemoteMovieDataSource
 import com.example.android.domain.Movie
 import com.example.android.domain.result.DataResult
-import com.example.android.mocks.mockedMovie
-import com.example.android.mocks.mockedMovieDetail
-import com.example.android.mocks.mockedPerson
+import com.example.android.testshared.mockedMovie
+import com.example.android.testshared.mockedMovieDetail
+import com.example.android.testshared.mockedPerson
 import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -104,8 +104,6 @@ class MovieRepositoryTest {
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
             val expectedDataResult = DataResult.Error(IOException(""))
 
             given(remoteMovieDataSource.getPopularMovieList(regionRepository.findLastRegion()))

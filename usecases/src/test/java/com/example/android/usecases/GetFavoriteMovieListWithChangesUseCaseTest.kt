@@ -2,7 +2,7 @@ package com.example.android.usecases
 
 import com.example.android.data.repositories.MovieRepository
 import com.example.android.domain.Movie
-import com.example.android.mocks.mockedMovie
+import com.example.android.testshared.mockedMovie
 import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

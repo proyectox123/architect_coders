@@ -2,8 +2,8 @@ package com.example.android.data.repositories
 
 import com.example.android.data.sources.RemotePersonDataSource
 import com.example.android.domain.result.DataResult
-import com.example.android.mocks.mockedMovie
-import com.example.android.mocks.mockedPerson
+import com.example.android.testshared.mockedMovie
+import com.example.android.testshared.mockedPerson
 import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`

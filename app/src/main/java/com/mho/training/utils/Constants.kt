@@ -11,6 +11,7 @@ object Constants {
     const val DATE_FORMAT_PATTERN_OUTPUT = "dd MMMM yyyy"
 
     const val EXTRA_MOVIE = BuildConfig.APPLICATION_ID + ".EXTRA_MOVIE"
+    const val EXTRA_MOVIE_ID = BuildConfig.APPLICATION_ID + ".EXTRA_MOVIE_ID"
     const val EXTRA_CREDIT_ID = BuildConfig.APPLICATION_ID + ".EXTRA_CREDIT_ID"
 
     const val URL_IMAGE_TBMD = "http://image.tmdb.org/t/p/w185/"

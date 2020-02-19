@@ -1,11 +1,13 @@
 package com.mho.training.features.moviedetail
 
-import com.example.android.data.repositories.*
+import com.example.android.data.repositories.MovieRepository
 import com.example.android.domain.Movie
-import com.example.android.usecases.*
+import com.example.android.usecases.GetFavoriteMovieStatus
+import com.example.android.usecases.UpdateFavoriteMovieStatusUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
+import kotlinx.coroutines.Dispatchers
 
 @Module
 class MovieDetailActivityModule(
@@ -14,27 +16,14 @@ class MovieDetailActivityModule(
 
     @Provides
     fun movieDetailViewModelProvider(
-        getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase,
         getFavoriteMovieStatus: GetFavoriteMovieStatus,
-        updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase,
-        getKeywordListUseCase: GetKeywordListUseCase,
-        getCreditListUseCase: GetCreditListUseCase,
-        getTrailerListUseCase: GetTrailerListUseCase,
-        getReviewListUseCase: GetReviewListUseCase
+        updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase
     ) = MovieDetailViewModel(
         movie,
-        getMovieDetailByIdUseCase,
         getFavoriteMovieStatus,
         updateFavoriteMovieStatusUseCase,
-        getKeywordListUseCase,
-        getCreditListUseCase,
-        getTrailerListUseCase,
-        getReviewListUseCase
+        Dispatchers.Main
     )
-
-    @Provides
-    fun getMovieDetailByIdUseCaseProvider(movieRepository: MovieRepository) =
-        GetMovieDetailByIdUseCase(movieRepository)
 
     @Provides
     fun getFavoriteMovieStatusProvider(movieRepository: MovieRepository) =
@@ -43,22 +32,6 @@ class MovieDetailActivityModule(
     @Provides
     fun updateFavoriteMovieStatusProvider(movieRepository: MovieRepository) =
         UpdateFavoriteMovieStatusUseCase(movieRepository)
-
-    @Provides
-    fun getKeywordListUseCaseProvider(keywordRepository: KeywordRepository) =
-        GetKeywordListUseCase(keywordRepository)
-
-    @Provides
-    fun getCreditListUseCaseProvider(creditRepository: CreditRepository) =
-        GetCreditListUseCase(creditRepository)
-
-    @Provides
-    fun getTrailerListUseCaseProvider(trailerRepository: TrailerRepository) =
-        GetTrailerListUseCase(trailerRepository)
-
-    @Provides
-    fun getReviewListUseCaseProvider(reviewRepository: ReviewRepository) =
-        GetReviewListUseCase(reviewRepository)
 
 }
 

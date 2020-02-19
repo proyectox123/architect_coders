@@ -3,8 +3,8 @@ package com.example.android.usecases
 import com.example.android.data.repositories.CreditRepository
 import com.example.android.domain.Credit
 import com.example.android.domain.result.DataResult
-import com.example.android.mocks.mockedCredit
-import com.example.android.mocks.mockedMovie
+import com.example.android.testshared.mockedCredit
+import com.example.android.testshared.mockedMovie
 import com.nhaarman.mockitokotlin2.given
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`

@@ -30,33 +30,35 @@
                     android:paddingStart="8dp"
                     android:paddingTop="4dp">
 
-                <include
-                        layout="@layout/section_movie_info"
-                        bind:movie="@{viewmodel.infoMovie}"
-                        bind:movieDetail="@{viewmodel.movieDetail}"/>
+                <FrameLayout
+                        android:id="@+id/fragmentMovieInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_movie_info"/>
 
-                <include
-                        layout="@layout/section_keyword_list"
-                        bind:keywords="@{viewmodel.keywords}"
-                        bind:loading="@{viewmodel.loadingKeywords}"
-                        bind:hasNotKeywords="@{viewmodel.hasNotKeywords}"/>
+                <FrameLayout
+                        android:id="@+id/fragmentKeywords"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_keywords"/>
 
-                <include
-                        layout="@layout/section_credit_list"
-                        bind:credits="@{viewmodel.credits}"
-                        bind:loading="@{viewmodel.loadingCredits}"
-                        bind:hasNotCredits="@{viewmodel.hasNotCredits}"/>
+                <FrameLayout
+                        android:id="@+id/fragmentCredits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_credits"/>
 
-                <include
-                        layout="@layout/section_trailer_list"
-                        bind:trailers="@{viewmodel.trailers}"
-                        bind:loading="@{viewmodel.loadingTrailers}"
-                        bind:hasNotTrailers="@{viewmodel.hasNotTrailers}"/>
+                <FrameLayout
+                        android:id="@+id/fragmentTrailers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_trailers"/>
 
-                <include layout="@layout/section_review_list"
-                        bind:reviews="@{viewmodel.reviews}"
-                        bind:loading="@{viewmodel.loadingReviews}"
-                        bind:hasNotReviews="@{viewmodel.hasNotReviews}"/>
+                <FrameLayout
+                        android:id="@+id/fragmentReviews"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_reviews"/>
 
             </LinearLayout>
 

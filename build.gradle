@@ -38,6 +38,7 @@ ext {
     cardviewView = '1.0.0'
     constraintlayoutVersion = '1.1.3'
     coreKTX = '1.1.0'
+    coreTesting = '1.1.1'
     coroutinesVersion = '1.3.3'
     daggerVersion = '2.23.1'
     dexterVersion = '5.0.0'
