@@ -2,6 +2,7 @@ package com.mho.training.features.persondetail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.example.android.domain.Movie
 import com.example.android.domain.Person
 import com.example.android.domain.result.DataResult
 import com.example.android.testshared.mockedMovie
@@ -43,24 +44,28 @@ class PersonDetailViewModelTest {
 
     @Mock lateinit var observerEvents: Observer<Event<PersonDetailViewModel.Navigation>>
 
+    private lateinit var movie: Movie
+
     private lateinit var viewModel: PersonDetailViewModel
 
     @Before
     fun setUp(){
+        val person = mockedPerson.copy(id = 1)
+
+        movie = mockedMovie.copy(id = 1)
+
         viewModel = PersonDetailViewModel(
-            1,
+            person.id,
             getPersonInformationUseCase,
             Dispatchers.Unconfined
         )
     }
 
     @Test
-    fun `getPersonInformationUseCase should show expected person with given movie id`(){
+    fun `onCreditInformation should show expected person with given movie id`(){
         runBlocking {
+
             //GIVEN
-
-            val movie = mockedMovie.copy(id = 1)
-
             val expectedResult = mockedPerson.copy(id = 1)
 
             given(getPersonInformationUseCase.invoke(movie.id)).willReturn(DataResult.Success(expectedResult))
@@ -80,12 +85,10 @@ class PersonDetailViewModelTest {
     }
 
     @Test
-    fun `getPersonInformationUseCase should close activity with given movie when person is null`(){
+    fun `onCreditInformation should close activity with given movie when person is null`(){
         runBlocking {
+
             //GIVEN
-
-            val movie = mockedMovie.copy(id = 1)
-
             given(getPersonInformationUseCase.invoke(movie.id)).willReturn(DataResult.Error(IOException("")))
 
             viewModel.events.observeForever(observerEvents)
@@ -105,8 +108,8 @@ class PersonDetailViewModelTest {
     @Test
     fun `showMoreBiography should show more biography lines`(){
         runBlocking {
-            //GIVEN
 
+            //GIVEN
             viewModel.showMoreBiography.observeForever(observerShowMoreBiography)
             viewModel.maxLines.observeForever(observerMaxLines)
 
@@ -122,8 +125,8 @@ class PersonDetailViewModelTest {
     @Test
     fun `showMoreBiography should show less biography lines`(){
         runBlocking {
-            //GIVEN
 
+            //GIVEN
             viewModel.showMoreBiography.observeForever(observerShowMoreBiography)
             viewModel.maxLines.observeForever(observerMaxLines)
 

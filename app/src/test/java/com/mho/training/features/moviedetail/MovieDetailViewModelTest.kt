@@ -44,12 +44,16 @@ class MovieDetailViewModelTest {
 
     @Mock lateinit var observerEvents: Observer<Event<MovieDetailViewModel.Navigation>>
 
+    private lateinit var movie: Movie
+
     private lateinit var viewModel: MovieDetailViewModel
 
     @Before
     fun setUp(){
+        movie = mockedMovie.copy(id = 1)
+
         viewModel = MovieDetailViewModel(
-            mockedMovie.copy(id = 1),
+            movie,
             getMovieDetailByIdUseCase,
             getFavoriteMovieStatus,
             updateFavoriteMovieStatusUseCase,
@@ -94,12 +98,10 @@ class MovieDetailViewModelTest {
     }
 
     @Test
-    fun `getMovieDetailByIdUseCase should return expected success movie detail with given movie id`() {
+    fun `onMovieInformation should return expected success movie detail with given movie id`() {
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
             val expectedResult = mockedMovieDetail.copy(id = 1)
 
             given(getMovieDetailByIdUseCase.invoke(movie.id)).willReturn(DataResult.Success(expectedResult))
@@ -115,12 +117,10 @@ class MovieDetailViewModelTest {
     }
 
     @Test
-    fun `getMovieDetailByIdUseCase should return expected error with given movie id`() {
+    fun `onMovieInformation should return expected error with given movie id`() {
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
             given(getMovieDetailByIdUseCase.invoke(movie.id)).willReturn(DataResult.Error(IOException("")))
 
             viewModel.movieDetail.observeForever(observerMovieDetail)
@@ -134,12 +134,10 @@ class MovieDetailViewModelTest {
     }
 
     @Test
-    fun `getFavoriteMovieStatus should return true with given movie`() {
+    fun `onValidateFavoriteMovieStatus should update movie favorite status to true with given movie`() {
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
             given(getFavoriteMovieStatus.invoke(movie)).willReturn(true)
 
             viewModel.isFavorite.observeForever(observerIsFavorite)
@@ -153,12 +151,10 @@ class MovieDetailViewModelTest {
     }
 
     @Test
-    fun `getFavoriteMovieStatus should return false with given movie`() {
+    fun `onValidateFavoriteMovieStatus should update movie favorite status to false with given movie`() {
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
             given(getFavoriteMovieStatus.invoke(movie)).willReturn(false)
 
             viewModel.isFavorite.observeForever(observerIsFavorite)
@@ -172,12 +168,10 @@ class MovieDetailViewModelTest {
     }
 
     @Test
-    fun `updateFavoriteMovieStatusUseCase should return true with given movie`() {
+    fun `updateFavoriteMovieStatus should return true with given movie`() {
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
             given(updateFavoriteMovieStatusUseCase.invoke(movie)).willReturn(true)
 
             viewModel.isFavorite.observeForever(observerIsFavorite)
@@ -191,12 +185,10 @@ class MovieDetailViewModelTest {
     }
 
     @Test
-    fun `updateFavoriteMovieStatusUseCase should return false with given movie`() {
+    fun `updateFavoriteMovieStatus should return false with given movie`() {
         runBlocking {
 
             //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
             given(updateFavoriteMovieStatusUseCase.invoke(movie)).willReturn(false)
 
             viewModel.isFavorite.observeForever(observerIsFavorite)

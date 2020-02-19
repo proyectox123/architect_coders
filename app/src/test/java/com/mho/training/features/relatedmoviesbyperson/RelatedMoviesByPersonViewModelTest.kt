@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import com.example.android.domain.Movie
 import com.example.android.domain.result.DataResult
 import com.example.android.testshared.mockedMovie
+import com.example.android.testshared.mockedPerson
 import com.example.android.usecases.GetMovieListByPersonUseCase
 import com.mho.training.utils.Event
 import com.nhaarman.mockitokotlin2.given
@@ -33,24 +34,28 @@ class RelatedMoviesByPersonViewModelTest {
 
     @Mock lateinit var observerEvents: Observer<Event<RelatedMoviesByPersonViewModel.Navigation>>
 
+    private lateinit var movie: Movie
+
     private lateinit var viewModel: RelatedMoviesByPersonViewModel
 
     @Before
     fun setUp(){
+        val person = mockedPerson.copy(id = 1)
+
+        movie = mockedMovie.copy(id = 1)
+
         viewModel = RelatedMoviesByPersonViewModel(
-            1,
+            person.id,
             getMovieListByPersonUseCase,
             Dispatchers.Unconfined
         )
     }
 
     @Test
-    fun `getMovieListByPersonUseCase should show expected success list of movies with given movie id`(){
+    fun `onRelatedMoviesByPerson should display expected success list of movies with given movie id`(){
         runBlocking {
+
             //GIVEN
-
-            val movie = mockedMovie.copy(id = 1)
-
             val expectedResult = listOf(movie)
 
             given(getMovieListByPersonUseCase.invoke(movie.id)).willReturn(DataResult.Success(expectedResult))
@@ -68,12 +73,10 @@ class RelatedMoviesByPersonViewModelTest {
     }
 
     @Test
-    fun `getMovieListByPersonUseCase should show expected error with given movie id`(){
+    fun `onRelatedMoviesByPerson should show expected error with given movie id`(){
         runBlocking {
+
             //GIVEN
-
-            val movie = mockedMovie.copy(id = 1)
-
             val expectedResult = emptyList<Movie>()
 
             given(getMovieListByPersonUseCase.invoke(movie.id)).willReturn(
@@ -95,9 +98,8 @@ class RelatedMoviesByPersonViewModelTest {
 
     @Test
     fun `onMovieClicked should open movie detail with given movie`(){
-        //GIVEN
-        val movie = mockedMovie.copy(id = 1)
 
+        //GIVEN
         viewModel.events.observeForever(observerEvents)
 
         //WHEN
