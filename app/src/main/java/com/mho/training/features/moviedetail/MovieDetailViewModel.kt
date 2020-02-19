@@ -3,10 +3,7 @@ package com.mho.training.features.moviedetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.android.domain.Movie
-import com.example.android.domain.MovieDetail
-import com.example.android.domain.result.DataResult
 import com.example.android.usecases.GetFavoriteMovieStatus
-import com.example.android.usecases.GetMovieDetailByIdUseCase
 import com.example.android.usecases.UpdateFavoriteMovieStatusUseCase
 import com.mho.training.bases.BaseViewModel
 import com.mho.training.utils.Event
@@ -15,7 +12,6 @@ import kotlinx.coroutines.launch
 
 class MovieDetailViewModel(
     private val movie: Movie?,
-    private val getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase,
     private val getFavoriteMovieStatus: GetFavoriteMovieStatus,
     private val updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase,
     uiDispatcher: CoroutineDispatcher
@@ -30,12 +26,6 @@ class MovieDetailViewModel(
     //endregion
 
     //region Fields
-
-    private val _infoMovie = MutableLiveData<Movie>()
-    val infoMovie: LiveData<Movie> get() = _infoMovie
-
-    private val _movieDetail = MutableLiveData<MovieDetail>()
-    val movieDetail: LiveData<MovieDetail> get() = _movieDetail
 
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
@@ -56,17 +46,13 @@ class MovieDetailViewModel(
 
     //region Public Methods
 
-    fun onMovieInformation(){
+    fun onMovieValidation(){
         if(movie == null){
             _events.value = Event(Navigation.CloseActivity)
             return
         }
 
-        _infoMovie.value = movie
-
-        launch {
-            validateMovieDetailResult(getMovieDetailByIdUseCase.invoke(movie.id))
-        }
+        _events.value = Event(Navigation.InitializeMovieDetail(movie))
     }
 
     fun onValidateFavoriteMovieStatus(){
@@ -83,24 +69,10 @@ class MovieDetailViewModel(
 
     //endregion
 
-    //region Private Methods
-
-    private fun validateMovieDetailResult(movieDetailResult: DataResult<MovieDetail>){
-        when(movieDetailResult){
-            is DataResult.Success -> {
-                _movieDetail.value = movieDetailResult.data
-            }
-            is DataResult.Error -> {
-                _movieDetail.value = null
-            }
-        }
-    }
-
-    //endregion
-
     //region Inner Classes & Interfaces
 
     sealed class Navigation {
+        data class InitializeMovieDetail(val movie: Movie): Navigation()
         object CloseActivity: Navigation()
     }
 

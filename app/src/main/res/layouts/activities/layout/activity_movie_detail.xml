@@ -30,10 +30,11 @@
                     android:paddingStart="8dp"
                     android:paddingTop="4dp">
 
-                <include
-                        layout="@layout/section_movie_info"
-                        bind:movie="@{viewmodel.infoMovie}"
-                        bind:movieDetail="@{viewmodel.movieDetail}"/>
+                <FrameLayout
+                        android:id="@+id/fragmentMovieInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_movie_info"/>
 
                 <FrameLayout
                         android:id="@+id/fragmentKeywords"

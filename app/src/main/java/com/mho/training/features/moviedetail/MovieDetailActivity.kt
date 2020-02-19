@@ -8,16 +8,15 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.example.android.domain.Credit
-import com.example.android.domain.Keyword
-import com.example.android.domain.Review
-import com.example.android.domain.Trailer
+import com.example.android.domain.*
 import com.mho.training.R
 import com.mho.training.data.translators.toDomainMovie
+import com.mho.training.data.translators.toParcelableMovie
 import com.mho.training.databinding.ActivityMovieDetailBinding
 import com.mho.training.features.credits.CreditsFragment
 import com.mho.training.features.keywords.KeywordsFragment
 import com.mho.training.features.moviedetail.MovieDetailViewModel.Navigation
+import com.mho.training.features.movieinfo.MovieInfoFragment
 import com.mho.training.features.persondetail.PersonDetailActivity
 import com.mho.training.features.reviews.ReviewsFragment
 import com.mho.training.features.trailers.TrailersFragment
@@ -46,11 +45,9 @@ class MovieDetailActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val movie = (intent.getParcelableExtra(Constants.EXTRA_MOVIE) as ParcelableMovie?)?.toDomainMovie()
+        val movie: Movie? = (intent.getParcelableExtra(Constants.EXTRA_MOVIE) as ParcelableMovie?)?.toDomainMovie()
 
-        component = app.component.plus(MovieDetailActivityModule(
-            movie
-        ))
+        component = app.component.plus(MovieDetailActivityModule(movie))
 
         val binding: ActivityMovieDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_movie_detail)
         binding.apply {
@@ -58,19 +55,13 @@ class MovieDetailActivity : AppCompatActivity(),
             lifecycleOwner = this@MovieDetailActivity
         }
 
-        validateCreditsSection(movie?.id ?: 0)
-        validateKeywordsSection(movie?.id ?: 0)
-        validateReviewSection(movie?.id ?: 0)
-        validateTrailerSection(movie?.id ?: 0)
-
         viewModel.events.observe(this, Observer{ event ->
             event.getContentIfNotHandled()?.let {
                 validateEvents(it)
             }
         })
 
-        viewModel.onMovieInformation()
-        viewModel.onValidateFavoriteMovieStatus()
+        viewModel.onMovieValidation()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -115,6 +106,37 @@ class MovieDetailActivity : AppCompatActivity(),
     //endregion
 
     //region Private Methods
+
+    private fun validateEvents(navigation: Navigation){
+        when(navigation){
+            Navigation.CloseActivity -> finish()
+            is Navigation.InitializeMovieDetail -> navigation.run { initializeMovieDetail(movie) }
+        }
+    }
+
+    private fun initializeMovieDetail(movie: Movie){
+        validateMovieInfoSection(movie)
+        validateCreditsSection(movie.id )
+        validateKeywordsSection(movie.id)
+        validateReviewSection(movie.id)
+        validateTrailerSection(movie.id)
+
+        viewModel.onValidateFavoriteMovieStatus()
+    }
+
+    private fun validateMovieInfoSection(movie: Movie){
+        val fragmentId = R.id.fragmentMovieInfo
+        var movieInfoFragment = supportFragmentManager.findFragmentById(fragmentId) as MovieInfoFragment?
+        if (movieInfoFragment == null) {
+            val args = Bundle().apply {
+                putParcelable(Constants.EXTRA_MOVIE, movie.toParcelableMovie())
+            }
+
+            movieInfoFragment = MovieInfoFragment.newInstance(args)
+
+            addFragment(fragmentId, movieInfoFragment)
+        }
+    }
 
     private fun validateCreditsSection(movieId: Int){
         val fragmentId = R.id.fragmentCredits
@@ -169,12 +191,6 @@ class MovieDetailActivity : AppCompatActivity(),
             trailersFragment = TrailersFragment.newInstance(args)
 
             addFragment(fragmentId, trailersFragment)
-        }
-    }
-
-    private fun validateEvents(navigation: Navigation){
-        when(navigation){
-            Navigation.CloseActivity -> finish()
         }
     }
 

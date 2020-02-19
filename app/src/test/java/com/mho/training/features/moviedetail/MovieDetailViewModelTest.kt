@@ -3,12 +3,8 @@ package com.mho.training.features.moviedetail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.domain.Movie
-import com.example.android.domain.MovieDetail
-import com.example.android.domain.result.DataResult
 import com.example.android.testshared.mockedMovie
-import com.example.android.testshared.mockedMovieDetail
 import com.example.android.usecases.GetFavoriteMovieStatus
-import com.example.android.usecases.GetMovieDetailByIdUseCase
 import com.example.android.usecases.UpdateFavoriteMovieStatusUseCase
 import com.mho.training.utils.Event
 import com.nhaarman.mockitokotlin2.given
@@ -22,7 +18,6 @@ import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
-import java.io.IOException
 
 /*
 [functionName]Should[Call|Return|Throw|Insert|etc][Function|Object|Exception][WithGiven][When]
@@ -35,12 +30,9 @@ class MovieDetailViewModelTest {
     val rule: TestRule = InstantTaskExecutorRule()
 
     @Mock lateinit var getFavoriteMovieStatus: GetFavoriteMovieStatus
-    @Mock lateinit var getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase
     @Mock lateinit var updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase
 
-    @Mock lateinit var observerInfoMovie: Observer<Movie>
     @Mock lateinit var observerIsFavorite: Observer<Boolean>
-    @Mock lateinit var observerMovieDetail: Observer<MovieDetail>
 
     @Mock lateinit var observerEvents: Observer<Event<MovieDetailViewModel.Navigation>>
 
@@ -54,26 +46,10 @@ class MovieDetailViewModelTest {
 
         viewModel = MovieDetailViewModel(
             movie,
-            getMovieDetailByIdUseCase,
             getFavoriteMovieStatus,
             updateFavoriteMovieStatusUseCase,
             Dispatchers.Unconfined
         )
-    }
-
-    @Test
-    fun `onMovieInformation should show movie information with given movie`(){
-
-        //GIVEN
-        val expectedResult = mockedMovie.copy(id = 1)
-
-        viewModel.infoMovie.observeForever(observerInfoMovie)
-
-        //WHEN
-        viewModel.onMovieInformation()
-
-        //THEN
-        verify(observerInfoMovie).onChanged(expectedResult)
     }
 
     @Test
@@ -82,7 +58,6 @@ class MovieDetailViewModelTest {
         //GIVEN
         viewModel = MovieDetailViewModel(
             null,
-            getMovieDetailByIdUseCase,
             getFavoriteMovieStatus,
             updateFavoriteMovieStatusUseCase,
             Dispatchers.Unconfined
@@ -91,46 +66,23 @@ class MovieDetailViewModelTest {
         viewModel.events.observeForever(observerEvents)
 
         //WHEN
-        viewModel.onMovieInformation()
+        viewModel.onMovieValidation()
 
         //THEN
         verify(observerEvents).onChanged(Event(MovieDetailViewModel.Navigation.CloseActivity))
     }
 
     @Test
-    fun `onMovieInformation should return expected success movie detail with given movie id`() {
-        runBlocking {
+    fun `onMovieInformation should initialize movie detail when movie is valid`(){
 
-            //GIVEN
-            val expectedResult = mockedMovieDetail.copy(id = 1)
+        //GIVEN
+        viewModel.events.observeForever(observerEvents)
 
-            given(getMovieDetailByIdUseCase.invoke(movie.id)).willReturn(DataResult.Success(expectedResult))
+        //WHEN
+        viewModel.onMovieValidation()
 
-            viewModel.movieDetail.observeForever(observerMovieDetail)
-
-            //WHEN
-            viewModel.onMovieInformation()
-
-            //THEN
-            verify(observerMovieDetail).onChanged(expectedResult)
-        }
-    }
-
-    @Test
-    fun `onMovieInformation should return expected error with given movie id`() {
-        runBlocking {
-
-            //GIVEN
-            given(getMovieDetailByIdUseCase.invoke(movie.id)).willReturn(DataResult.Error(IOException("")))
-
-            viewModel.movieDetail.observeForever(observerMovieDetail)
-
-            //WHEN
-            viewModel.onMovieInformation()
-
-            //THEN
-            verify(observerMovieDetail).onChanged(null)
-        }
+        //THEN
+        verify(observerEvents).onChanged(Event(MovieDetailViewModel.Navigation.InitializeMovieDetail(movie)))
     }
 
     @Test

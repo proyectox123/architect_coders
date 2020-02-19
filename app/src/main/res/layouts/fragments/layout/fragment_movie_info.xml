@@ -6,12 +6,8 @@
 
     <data>
         <variable
-                name="movie"
-                type="com.example.android.domain.Movie" />
-
-        <variable
-                name="movieDetail"
-                type="com.example.android.domain.MovieDetail" />
+                name="viewmodel"
+                type="com.mho.training.features.movieinfo.MovieInfoViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -39,7 +35,7 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:url="@{movie.posterPath}"
+                        app:url="@{viewmodel.infoMovie.posterPath}"
                         tools:src="@drawable/ic_movie_black_48dp" />
 
                 <LinearLayout
@@ -58,7 +54,7 @@
                             style="@style/MovieDetailTitleStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{movie.title}"
+                            android:text="@{viewmodel.infoMovie.title}"
                             tools:text="Movie Title Title Title Title Title Title Title" />
 
                     <LinearLayout
@@ -76,7 +72,7 @@
                         <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@{movie.releaseDate}"
+                                android:text="@{viewmodel.infoMovie.releaseDate}"
                                 tools:text="2019" />
 
                     </LinearLayout>
@@ -96,7 +92,7 @@
                         <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@{movie.voteAverageLabel}"
+                                android:text="@{viewmodel.infoMovie.voteAverageLabel}"
                                 tools:text="9.1/10" />
 
                     </LinearLayout>
@@ -116,7 +112,7 @@
                         <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@{movieDetail.duration}"
+                                android:text="@{viewmodel.movieDetail.duration}"
                                 tools:text="2h 30m"/>
 
                     </LinearLayout>
@@ -161,7 +157,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@{movie.plotSynopsis}"
+                    android:text="@{viewmodel.infoMovie.plotSynopsis}"
                     tools:text="@string/content_lorem_ipsum" />
 
         </LinearLayout>
