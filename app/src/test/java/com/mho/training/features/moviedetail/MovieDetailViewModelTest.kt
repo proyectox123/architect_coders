@@ -2,14 +2,11 @@ package com.mho.training.features.moviedetail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.android.domain.Credit
 import com.example.android.domain.Movie
 import com.example.android.domain.MovieDetail
 import com.example.android.domain.result.DataResult
-import com.example.android.testshared.mockedCredit
 import com.example.android.testshared.mockedMovie
 import com.example.android.testshared.mockedMovieDetail
-import com.example.android.usecases.GetCreditListUseCase
 import com.example.android.usecases.GetFavoriteMovieStatus
 import com.example.android.usecases.GetMovieDetailByIdUseCase
 import com.example.android.usecases.UpdateFavoriteMovieStatusUseCase
@@ -37,16 +34,12 @@ class MovieDetailViewModelTest {
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
 
-    @Mock lateinit var getCreditListUseCase: GetCreditListUseCase
     @Mock lateinit var getFavoriteMovieStatus: GetFavoriteMovieStatus
     @Mock lateinit var getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase
     @Mock lateinit var updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase
 
-    @Mock lateinit var observerCredits: Observer<List<Credit>>
-    @Mock lateinit var observerHasNotCredits: Observer<Boolean>
     @Mock lateinit var observerInfoMovie: Observer<Movie>
     @Mock lateinit var observerIsFavorite: Observer<Boolean>
-    @Mock lateinit var observerLoadingCredits: Observer<Boolean>
     @Mock lateinit var observerMovieDetail: Observer<MovieDetail>
 
     @Mock lateinit var observerEvents: Observer<Event<MovieDetailViewModel.Navigation>>
@@ -60,7 +53,6 @@ class MovieDetailViewModelTest {
             getMovieDetailByIdUseCase,
             getFavoriteMovieStatus,
             updateFavoriteMovieStatusUseCase,
-            getCreditListUseCase,
             Dispatchers.Unconfined
         )
     }
@@ -89,7 +81,6 @@ class MovieDetailViewModelTest {
             getMovieDetailByIdUseCase,
             getFavoriteMovieStatus,
             updateFavoriteMovieStatusUseCase,
-            getCreditListUseCase,
             Dispatchers.Unconfined
         )
 
@@ -139,58 +130,6 @@ class MovieDetailViewModelTest {
 
             //THEN
             verify(observerMovieDetail).onChanged(null)
-        }
-    }
-
-    @Test
-    fun `getCreditListUseCase should return expected success credit list with given movie id`() {
-        runBlocking {
-
-            //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
-            val credit = mockedCredit.copy(id = 1)
-
-            val expectedResult = listOf(credit)
-
-            given(getCreditListUseCase.invoke(movie.id)).willReturn(DataResult.Success(expectedResult))
-
-            viewModel.credits.observeForever(observerCredits)
-            viewModel.hasNotCredits.observeForever(observerHasNotCredits)
-            viewModel.loadingCredits.observeForever(observerLoadingCredits)
-
-            //WHEN
-            viewModel.onMovieInformation()
-
-            //THEN
-            verify(observerCredits).onChanged(expectedResult)
-            verify(observerHasNotCredits).onChanged(false)
-            verify(observerLoadingCredits).onChanged(false)
-        }
-    }
-
-    @Test
-    fun `getCreditListUseCase should return expected error with given movie id`() {
-        runBlocking {
-
-            //GIVEN
-            val movie = mockedMovie.copy(id = 1)
-
-            val expectedResult = emptyList<Credit>()
-
-            given(getCreditListUseCase.invoke(movie.id)).willReturn(DataResult.Error(IOException("")))
-
-            viewModel.credits.observeForever(observerCredits)
-            viewModel.hasNotCredits.observeForever(observerHasNotCredits)
-            viewModel.loadingCredits.observeForever(observerLoadingCredits)
-
-            //WHEN
-            viewModel.onMovieInformation()
-
-            //THEN
-            verify(observerCredits).onChanged(expectedResult)
-            verify(observerHasNotCredits).onChanged(true)
-            verify(observerLoadingCredits).onChanged(false)
         }
     }
 

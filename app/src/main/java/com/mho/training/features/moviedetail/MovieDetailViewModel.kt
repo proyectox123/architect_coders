@@ -2,11 +2,9 @@ package com.mho.training.features.moviedetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.android.domain.Credit
 import com.example.android.domain.Movie
 import com.example.android.domain.MovieDetail
 import com.example.android.domain.result.DataResult
-import com.example.android.usecases.GetCreditListUseCase
 import com.example.android.usecases.GetFavoriteMovieStatus
 import com.example.android.usecases.GetMovieDetailByIdUseCase
 import com.example.android.usecases.UpdateFavoriteMovieStatusUseCase
@@ -20,7 +18,6 @@ class MovieDetailViewModel(
     private val getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase,
     private val getFavoriteMovieStatus: GetFavoriteMovieStatus,
     private val updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase,
-    private val getCreditListUseCase: GetCreditListUseCase,
     uiDispatcher: CoroutineDispatcher
 ) : BaseViewModel(uiDispatcher) {
 
@@ -39,15 +36,6 @@ class MovieDetailViewModel(
 
     private val _movieDetail = MutableLiveData<MovieDetail>()
     val movieDetail: LiveData<MovieDetail> get() = _movieDetail
-
-    private val _credits = MutableLiveData<List<Credit>>()
-    val credits: LiveData<List<Credit>> get() = _credits
-
-    private val _loadingCredits = MutableLiveData<Boolean>()
-    val loadingCredits: LiveData<Boolean> get() = _loadingCredits
-
-    private val _hasNotCredits = MutableLiveData<Boolean>()
-    val hasNotCredits: LiveData<Boolean> get() = _hasNotCredits
 
     private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> get() = _isFavorite
@@ -78,10 +66,6 @@ class MovieDetailViewModel(
 
         launch {
             validateMovieDetailResult(getMovieDetailByIdUseCase.invoke(movie.id))
-
-            _loadingCredits.value = true
-            validateCreditResult(getCreditListUseCase.invoke(movie.id))
-            _loadingCredits.value = false
         }
     }
 
@@ -108,19 +92,6 @@ class MovieDetailViewModel(
             }
             is DataResult.Error -> {
                 _movieDetail.value = null
-            }
-        }
-    }
-
-    private fun validateCreditResult(creditListResult: DataResult<List<Credit>>){
-        when(creditListResult){
-            is DataResult.Success -> {
-                _credits.value = creditListResult.data
-                _hasNotCredits.value = false
-            }
-            is DataResult.Error -> {
-                _credits.value = emptyList()
-                _hasNotCredits.value = true
             }
         }
     }

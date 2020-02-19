@@ -1,9 +1,7 @@
 package com.mho.training.features.moviedetail
 
-import com.example.android.data.repositories.CreditRepository
 import com.example.android.data.repositories.MovieRepository
 import com.example.android.domain.Movie
-import com.example.android.usecases.GetCreditListUseCase
 import com.example.android.usecases.GetFavoriteMovieStatus
 import com.example.android.usecases.GetMovieDetailByIdUseCase
 import com.example.android.usecases.UpdateFavoriteMovieStatusUseCase
@@ -21,14 +19,12 @@ class MovieDetailActivityModule(
     fun movieDetailViewModelProvider(
         getMovieDetailByIdUseCase: GetMovieDetailByIdUseCase,
         getFavoriteMovieStatus: GetFavoriteMovieStatus,
-        updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase,
-        getCreditListUseCase: GetCreditListUseCase
+        updateFavoriteMovieStatusUseCase: UpdateFavoriteMovieStatusUseCase
     ) = MovieDetailViewModel(
         movie,
         getMovieDetailByIdUseCase,
         getFavoriteMovieStatus,
         updateFavoriteMovieStatusUseCase,
-        getCreditListUseCase,
         Dispatchers.Main
     )
 
@@ -43,10 +39,6 @@ class MovieDetailActivityModule(
     @Provides
     fun updateFavoriteMovieStatusProvider(movieRepository: MovieRepository) =
         UpdateFavoriteMovieStatusUseCase(movieRepository)
-
-    @Provides
-    fun getCreditListUseCaseProvider(creditRepository: CreditRepository) =
-        GetCreditListUseCase(creditRepository)
 
 }
 

@@ -13,9 +13,9 @@ import com.example.android.domain.Keyword
 import com.example.android.domain.Review
 import com.example.android.domain.Trailer
 import com.mho.training.R
-import com.mho.training.adapters.credit.CreditListAdapter
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.databinding.ActivityMovieDetailBinding
+import com.mho.training.features.credits.CreditsFragment
 import com.mho.training.features.keywords.KeywordsFragment
 import com.mho.training.features.moviedetail.MovieDetailViewModel.Navigation
 import com.mho.training.features.persondetail.PersonDetailActivity
@@ -23,17 +23,16 @@ import com.mho.training.features.reviews.ReviewsFragment
 import com.mho.training.features.trailers.TrailersFragment
 import com.mho.training.models.ParcelableMovie
 import com.mho.training.utils.*
-import kotlinx.android.synthetic.main.section_credit_list.*
 
 
 class MovieDetailActivity : AppCompatActivity(),
+    CreditsFragment.OnCreditsFragmentListener,
     KeywordsFragment.OnKeywordsFragmentListener,
     ReviewsFragment.OnReviewsFragmentListener,
     TrailersFragment.OnTrailersFragmentListener {
 
     //region Fields
 
-    private lateinit var creditListAdapter: CreditListAdapter
     private lateinit var component: MovieDetailActivityComponent
 
     private val viewModel: MovieDetailViewModel by lazy {
@@ -59,13 +58,10 @@ class MovieDetailActivity : AppCompatActivity(),
             lifecycleOwner = this@MovieDetailActivity
         }
 
+        validateCreditsSection(movie?.id ?: 0)
         validateKeywordsSection(movie?.id ?: 0)
         validateReviewSection(movie?.id ?: 0)
         validateTrailerSection(movie?.id ?: 0)
-
-        creditListAdapter = CreditListAdapter(::openCredit)
-
-        creditListView.adapter = creditListAdapter
 
         viewModel.events.observe(this, Observer{ event ->
             event.getContentIfNotHandled()?.let {
@@ -84,6 +80,14 @@ class MovieDetailActivity : AppCompatActivity(),
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun openCredit(credit: Credit){
+        Log.d(TAG, "openCredit -> $credit")
+        startActivity<PersonDetailActivity> {
+            putExtra(Constants.EXTRA_CREDIT_ID, credit.id)
+        }
+        overridePendingTransition(R.anim.anim_entry, R.anim.anim_exit)
     }
 
     override fun openKeyword(keyword: Keyword){
@@ -111,6 +115,20 @@ class MovieDetailActivity : AppCompatActivity(),
     //endregion
 
     //region Private Methods
+
+    private fun validateCreditsSection(movieId: Int){
+        val fragmentId = R.id.fragmentCredits
+        var creditsFragment = supportFragmentManager.findFragmentById(fragmentId) as CreditsFragment?
+        if (creditsFragment == null) {
+            val args = Bundle().apply {
+                putInt(Constants.EXTRA_MOVIE_ID, movieId)
+            }
+
+            creditsFragment = CreditsFragment.newInstance(args)
+
+            addFragment(fragmentId, creditsFragment)
+        }
+    }
 
     private fun validateKeywordsSection(movieId: Int){
         val fragmentId = R.id.fragmentKeywords
@@ -152,14 +170,6 @@ class MovieDetailActivity : AppCompatActivity(),
 
             addFragment(fragmentId, trailersFragment)
         }
-    }
-
-    private fun openCredit(credit: Credit){
-        Log.d(TAG, "openCredit -> $credit")
-        startActivity<PersonDetailActivity> {
-            putExtra(Constants.EXTRA_CREDIT_ID, credit.id)
-        }
-        overridePendingTransition(R.anim.anim_entry, R.anim.anim_exit)
     }
 
     private fun validateEvents(navigation: Navigation){
