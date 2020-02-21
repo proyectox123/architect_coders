@@ -62,7 +62,7 @@ class PersonDetailViewModelTest {
     }
 
     @Test
-    fun `onCreditInformation should show expected person with given movie id`(){
+    fun `onPersonDetailInformation should show expected person with given movie id`(){
         runBlocking {
 
             //GIVEN
@@ -75,7 +75,7 @@ class PersonDetailViewModelTest {
             viewModel.hasPersonInformation.observeForever(observerHasPersonInformation)
 
             //WHEN
-            viewModel.onCreditInformation()
+            viewModel.onPersonDetailInformation()
 
             //THEN
             verify(observerInfoPerson).onChanged(expectedResult)
@@ -85,7 +85,7 @@ class PersonDetailViewModelTest {
     }
 
     @Test
-    fun `onCreditInformation should close activity with given movie when person is null`(){
+    fun `onPersonDetailInformation should close activity with given movie when person is null`(){
         runBlocking {
 
             //GIVEN
@@ -96,7 +96,7 @@ class PersonDetailViewModelTest {
             viewModel.hasPersonInformation.observeForever(observerHasPersonInformation)
 
             //WHEN
-            viewModel.onCreditInformation()
+            viewModel.onPersonDetailInformation()
 
             //THEN
             verify(observerLoadingPerson).onChanged(false)

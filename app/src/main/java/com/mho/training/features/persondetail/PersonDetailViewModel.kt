@@ -71,7 +71,7 @@ class PersonDetailViewModel(
 
     //region Public Methods
 
-    fun onCreditInformation(){
+    fun onPersonDetailInformation(){
         launch {
             _loadingPerson.value = true
             validatePersonResult(getPersonInformationUseCase.invoke(personId))
