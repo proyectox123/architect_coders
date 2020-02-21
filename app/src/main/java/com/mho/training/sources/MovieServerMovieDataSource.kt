@@ -17,7 +17,8 @@ import java.io.IOException
 class MovieServerMovieDataSource(
     private val errorUnableToFetchMovies: String,
     private val errorDuringFetchingMovies: String,
-    private val formatVoteAverage: String
+    private val formatVoteAverage: String,
+    private val movieRequest: MovieRequest
 ): RemoteMovieDataSource {
 
     //region Override Methods & Callbacks
@@ -62,7 +63,7 @@ class MovieServerMovieDataSource(
     //region Private Methods
 
     private suspend fun requestTopRatedMovieList(region: String): DataResult<List<Movie>> {
-        val response = MovieRequest.service
+        val response = movieRequest.service
             .getTopRatedMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
 
         if(response.isSuccessful){
@@ -76,7 +77,7 @@ class MovieServerMovieDataSource(
     }
 
     private suspend fun requestPopularMovieList(region: String): DataResult<List<Movie>> {
-        val response = MovieRequest.service
+        val response = movieRequest.service
             .getPopularMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
 
         if(response.isSuccessful){
@@ -90,7 +91,7 @@ class MovieServerMovieDataSource(
     }
 
     private suspend fun requestInTheatersMovieList(region: String): DataResult<List<Movie>> {
-        val response = MovieRequest.service
+        val response = movieRequest.service
             .getInTheatersMovieListAsync(BuildConfig.MOVIE_DB_API_KEY, region)
 
         if(response.isSuccessful){
@@ -104,7 +105,7 @@ class MovieServerMovieDataSource(
     }
 
     private suspend fun requestMovieListByPerson(personId: Int): DataResult<List<Movie>> {
-        val response = MovieRequest.service
+        val response = movieRequest.service
             .getMovieListByPersonAsync(personId, BuildConfig.MOVIE_DB_API_KEY)
 
         if(response.isSuccessful){
@@ -118,7 +119,7 @@ class MovieServerMovieDataSource(
     }
 
     private suspend fun requestMovieDetailById(movieId: Int): DataResult<MovieDetail> {
-        val response = MovieRequest.service
+        val response = movieRequest.service
             .getMovieDetailByIdAsync(movieId, BuildConfig.MOVIE_DB_API_KEY)
 
         if(response.isSuccessful){

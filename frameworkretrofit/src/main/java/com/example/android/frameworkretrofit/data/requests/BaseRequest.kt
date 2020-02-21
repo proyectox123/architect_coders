@@ -6,7 +6,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-abstract class BaseRequest<T: Any> {
+abstract class BaseRequest<T: Any>(
+    private val baseUrl: String
+) {
 
     inline fun <reified T:Any> getService(): T =
         buildRetrofit().run {
@@ -14,7 +16,7 @@ abstract class BaseRequest<T: Any> {
         }
 
     fun buildRetrofit(): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_MOVIE_DB_URL)
+        .baseUrl(baseUrl)
         .client(createClient())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())

@@ -24,7 +24,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, DataModule::class, ResourcesModule::class])
+@Component(modules = [AppModule::class, DataModule::class, RequestModule::class, ResourcesModule::class])
 interface MyMoviesComponent {
 
     fun plus(module: CreditsFragmentModule): CreditsFragmentComponent

@@ -15,7 +15,8 @@ import java.io.IOException
 
 class PersonServerDataSource(
     private val errorUnableToFetchPerson: String,
-    private val errorDuringFetchingPerson: String
+    private val errorDuringFetchingPerson: String,
+    private val personRequest: PersonRequest
 ) : RemotePersonDataSource {
 
     override suspend fun getPerson(personId: Int): DataResult<Person> = withContext(Dispatchers.IO) {
@@ -26,7 +27,7 @@ class PersonServerDataSource(
     }
 
     private suspend fun requestPerson(personId: Int): DataResult<Person> {
-        val response: Response<ServerPerson> = PersonRequest.service
+        val response: Response<ServerPerson> = personRequest.service
             .getPersonByCreditIdAsync(personId, BuildConfig.MOVIE_DB_API_KEY)
 
         if(response.isSuccessful){

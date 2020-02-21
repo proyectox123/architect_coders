@@ -13,7 +13,8 @@ import java.io.IOException
 
 class ReviewServerDataSource(
     private val errorUnableToFetchReviews: String,
-    private val errorDuringFetchingReviews: String
+    private val errorDuringFetchingReviews: String,
+    private val reviewRequest: ReviewRequest
 ) : RemoteReviewDataSource {
 
     override suspend fun getReviewList(movieId: Int): DataResult<List<Review>> = withContext(Dispatchers.IO) {
@@ -24,7 +25,7 @@ class ReviewServerDataSource(
     }
 
     private suspend fun requestReviewList(movieId: Int): DataResult<List<Review>> {
-        val response = ReviewRequest.service
+        val response = reviewRequest.service
             .getReviewListByMovieAsync(movieId, BuildConfig.MOVIE_DB_API_KEY)
 
         if(response.isSuccessful){

@@ -13,7 +13,8 @@ import java.io.IOException
 
 class CreditServerDataSource(
     private val errorUnableToFetchCredits: String,
-    private val errorDuringFetchingCredits: String
+    private val errorDuringFetchingCredits: String,
+    private val creditRequest: CreditRequest
 ) : RemoteCreditDataSource {
 
     override suspend fun getCreditList(movieId: Int): DataResult<List<Credit>> = withContext(Dispatchers.IO) {
@@ -24,7 +25,7 @@ class CreditServerDataSource(
     }
 
     private suspend fun requestCreditList(movieId: Int): DataResult<List<Credit>> {
-        val response = CreditRequest.service
+        val response = creditRequest.service
             .getCreditListByMovieAsync(movieId, BuildConfig.MOVIE_DB_API_KEY)
 
         if(response.isSuccessful){
