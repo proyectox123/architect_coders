@@ -2,7 +2,7 @@ package com.example.android.frameworkretrofit.data.requests.credit
 
 import com.example.android.frameworkretrofit.data.requests.BaseRequest
 
-object CreditRequest : BaseRequest<CreditService>() {
+class CreditRequest(baseUrl: String) : BaseRequest<CreditService>(baseUrl) {
 
     val service = getService<CreditService>()
 

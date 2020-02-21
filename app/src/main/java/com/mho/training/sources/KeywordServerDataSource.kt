@@ -13,7 +13,8 @@ import java.io.IOException
 
 class KeywordServerDataSource(
     private val errorUnableToFetchKeywords: String,
-    private val errorDuringFetchingKeywords: String
+    private val errorDuringFetchingKeywords: String,
+    private val keywordRequest: KeywordRequest
 ) : RemoteKeywordDataSource {
 
     override suspend fun getKeywordList(movieId: Int): DataResult<List<Keyword>> = withContext(Dispatchers.IO) {
@@ -24,7 +25,7 @@ class KeywordServerDataSource(
     }
 
     private suspend fun requestKeywordList(movieId: Int) : DataResult<List<Keyword>> {
-        val response = KeywordRequest.service
+        val response = keywordRequest.service
             .getKeywordListByMovieAsync(movieId, BuildConfig.MOVIE_DB_API_KEY)
 
         if(response.isSuccessful){

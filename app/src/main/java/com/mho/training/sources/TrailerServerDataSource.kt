@@ -13,7 +13,8 @@ import java.io.IOException
 
 class TrailerServerDataSource(
     private val errorUnableToFetchTrailers: String,
-    private val errorDuringFetchingTrailers: String
+    private val errorDuringFetchingTrailers: String,
+    private val trailerRequest: TrailerRequest
 ) : RemoteTrailerDataSource {
 
     override suspend fun getTrailerList(movieId: Int): DataResult<List<Trailer>> = withContext(Dispatchers.IO) {
@@ -24,7 +25,7 @@ class TrailerServerDataSource(
     }
 
     private suspend fun requestTrailerList(movieId: Int): DataResult<List<Trailer>> {
-        val response = TrailerRequest.service
+        val response = trailerRequest.service
             .getTrailerListByMovieAsync(movieId, BuildConfig.MOVIE_DB_API_KEY)
 
         if(response.isSuccessful){
