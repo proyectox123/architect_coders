@@ -10,6 +10,11 @@ abstract class BaseRequest<T: Any>(
     private val baseUrl: String
 ) {
 
+    val okHttpClient: OkHttpClient = HttpLoggingInterceptor().run {
+        level = HttpLoggingInterceptor.Level.BODY
+        OkHttpClient.Builder().addInterceptor(this).build()
+    }
+
     inline fun <reified T:Any> getService(): T =
         buildRetrofit().run {
             create<T>(T::class.java)
@@ -17,15 +22,10 @@ abstract class BaseRequest<T: Any>(
 
     fun buildRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
-        .client(createClient())
+        .client(okHttpClient)
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
-    private fun createClient(): OkHttpClient = HttpLoggingInterceptor().run {
-        level = HttpLoggingInterceptor.Level.BODY
-        OkHttpClient.Builder().addInterceptor(this).build()
-    }
 
     companion object {
 
