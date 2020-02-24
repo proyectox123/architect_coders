@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.mho.training.di.DaggerMyMoviesComponent
 import com.mho.training.di.MyMoviesComponent
+import com.mho.training.di.initDI
 
 class MoviesApp : Application() {
 
@@ -18,5 +19,7 @@ class MoviesApp : Application() {
         component = DaggerMyMoviesComponent
             .factory()
             .create(this)
+
+        initDI()
     }
 }
