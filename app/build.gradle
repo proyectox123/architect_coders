@@ -64,7 +64,7 @@ dependencies {
 
     implementation "androidx.appcompat:appcompat:$appCompatVerion"
     implementation "androidx.cardview:cardview:$cardviewView"
-    implementation "androidx.core:core-ktx:$coreKTX"
+    implementation "androidx.core:core-ktx:$coreKTXVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
     implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayoutVersion"
@@ -95,7 +95,8 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
     testImplementation "org.mockito:mockito-inline:$mockitoKotlinInlineVersion"
-    testImplementation "android.arch.core:core-testing:$coreTesting"
+    testImplementation "android.arch.core:core-testing:$coreTestingVersion"
+    testImplementation "org.koin:koin-test:$koinTestVersion"
     androidTestImplementation "androidx.test:runner:$runnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
 }

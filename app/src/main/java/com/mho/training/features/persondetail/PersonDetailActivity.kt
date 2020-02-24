@@ -63,7 +63,7 @@ class PersonDetailActivity : AppCompatActivity(),
             }
         })
 
-        viewModel.onCreditInformation()
+        viewModel.onPersonDetailInformation()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
