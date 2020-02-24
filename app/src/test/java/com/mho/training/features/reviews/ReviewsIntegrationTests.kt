@@ -3,9 +3,9 @@ package com.mho.training.features.reviews
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.domain.Review
+import com.example.android.testshared.defaultFakeReviews
 import com.example.android.testshared.mockedMovie
 import com.example.android.usecases.GetReviewListUseCase
-import com.mho.training.defaultFakeReviews
 import com.mho.training.initMockedDi
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking

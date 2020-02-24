@@ -3,9 +3,9 @@ package com.mho.training.features.persondetail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.domain.Person
+import com.example.android.testshared.defaultFakedPerson
 import com.example.android.testshared.mockedPerson
 import com.example.android.usecases.GetPersonInformationUseCase
-import com.mho.training.defaultMockedPerson
 import com.mho.training.initMockedDi
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
@@ -53,7 +53,7 @@ class PersonDetailIntegrationTests: AutoCloseKoinTest() {
             viewModel.onPersonDetailInformation()
 
             //THEN
-            verify(observerInfoPerson).onChanged(defaultMockedPerson)
+            verify(observerInfoPerson).onChanged(defaultFakedPerson)
         }
     }
 }

@@ -3,8 +3,8 @@ package com.mho.training.features.main
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.domain.Movie
+import com.example.android.testshared.defaultFakeMovies
 import com.example.android.usecases.*
-import com.mho.training.defaultFakeMovies
 import com.mho.training.initMockedDi
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking

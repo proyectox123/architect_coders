@@ -4,9 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.domain.Movie
 import com.example.android.domain.MovieDetail
+import com.example.android.testshared.defaultFakeMovieDetail
 import com.example.android.testshared.mockedMovie
 import com.example.android.usecases.GetMovieDetailByIdUseCase
-import com.mho.training.defaultFakeMovieDetail
 import com.mho.training.initMockedDi
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
