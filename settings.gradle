@@ -1,1 +1,1 @@
-include ':app', ':data', ':usecases', ':domain', ':framework'
+include ':app', ':data', ':usecases', ':domain', ':frameworkretrofit', ':frameworkroom', ':testShared'

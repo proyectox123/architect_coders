@@ -1,12 +1,11 @@
 package com.mho.training.features.persondetail
 
-import com.example.android.data.repositories.MovieRepository
 import com.example.android.data.repositories.PersonRepository
-import com.example.android.usecases.GetMovieListByPersonUseCase
 import com.example.android.usecases.GetPersonInformationUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
+import kotlinx.coroutines.Dispatchers
 
 @Module
 class PersonDetailActivityModule(
@@ -15,21 +14,16 @@ class PersonDetailActivityModule(
 
     @Provides
     fun personDetailViewModelProvider(
-        getPersonInformationUseCase: GetPersonInformationUseCase,
-        getMovieListByPersonUseCase: GetMovieListByPersonUseCase
+        getPersonInformationUseCase: GetPersonInformationUseCase
     ) = PersonDetailViewModel(
         personId,
         getPersonInformationUseCase,
-        getMovieListByPersonUseCase
+        Dispatchers.Main
     )
 
     @Provides
     fun getPersonInformationUseCaseProvider(personRepository: PersonRepository) =
         GetPersonInformationUseCase(personRepository)
-
-    @Provides
-    fun getMovieListByPersonUseCaseProvider(movieRepository: MovieRepository) =
-        GetMovieListByPersonUseCase(movieRepository)
 
 }
 

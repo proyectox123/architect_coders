@@ -1,25 +1,22 @@
 package com.mho.training.features.persondetail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.android.domain.Movie
 import com.example.android.domain.Person
 import com.example.android.domain.result.DataResult
-import com.example.android.usecases.GetMovieListByPersonUseCase
 import com.example.android.usecases.GetPersonInformationUseCase
+import com.mho.training.bases.BaseViewModel
 import com.mho.training.utils.Constants.LESS_LINES_BIOGRAPHY
 import com.mho.training.utils.Constants.MAX_LINES_BIOGRAPHY
 import com.mho.training.utils.Event
-import com.mho.training.utils.Scope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class PersonDetailViewModel(
     private val personId: Int,
     private val getPersonInformationUseCase: GetPersonInformationUseCase,
-    private val getMovieListByPersonUseCase: GetMovieListByPersonUseCase
-) : ViewModel(), Scope by Scope.Impl() {
+    uiDispatcher: CoroutineDispatcher
+) : BaseViewModel(uiDispatcher) {
 
     //region Constructors
 
@@ -36,12 +33,6 @@ class PersonDetailViewModel(
 
     private val _loadingPerson = MutableLiveData<Boolean>()
     val loadingPerson: LiveData<Boolean> get() = _loadingPerson
-
-    private val _movies = MutableLiveData<List<Movie>>()
-    val movies: LiveData<List<Movie>> get() = _movies
-
-    private val _hasNotMovies = MutableLiveData<Boolean>()
-    val hasNotMovies: LiveData<Boolean> get() = _hasNotMovies
 
     private val _hasPersonInformation = MutableLiveData<Boolean>()
     val hasPersonInformation: LiveData<Boolean> get() = _hasPersonInformation
@@ -80,18 +71,12 @@ class PersonDetailViewModel(
 
     //region Public Methods
 
-    fun onCreditInformation(){
+    fun onPersonDetailInformation(){
         launch {
             _loadingPerson.value = true
             validatePersonResult(getPersonInformationUseCase.invoke(personId))
             _loadingPerson.value = false
-
-            validateMovieResult(getMovieListByPersonUseCase.invoke(personId))
         }
-    }
-
-    fun onMovieClicked(movie: Movie) {
-        _events.value = Event(Navigation.NavigateToMovie(movie))
     }
 
     fun showMoreBiography(){
@@ -115,23 +100,8 @@ class PersonDetailViewModel(
                 _infoPerson.value = personResult.data
             }
             is DataResult.Error -> {
-                Log.d(TAG, "validateMovieResult error message -> ${personResult.exception.message}")
                 _hasPersonInformation.value = false
                 _events.value = Event(Navigation.CloseActivity)
-            }
-        }
-    }
-
-    private fun validateMovieResult(movieListResult: DataResult<List<Movie>>){
-        when(movieListResult){
-            is DataResult.Success -> {
-                _movies.value = movieListResult.data
-                _hasNotMovies.value = false
-            }
-            is DataResult.Error -> {
-                Log.d(TAG, "validateMovieResult error message -> ${movieListResult.exception.message}")
-                _movies.value = mutableListOf()
-                _hasNotMovies.value = true
             }
         }
     }
@@ -141,7 +111,6 @@ class PersonDetailViewModel(
     //region Inner Classes & Interfaces
 
     sealed class Navigation {
-        class NavigateToMovie(val movie: Movie): Navigation()
         object CloseActivity: Navigation()
     }
 

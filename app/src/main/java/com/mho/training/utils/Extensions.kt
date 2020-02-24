@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -93,5 +94,25 @@ inline fun <reified T : ViewModel> FragmentActivity.getViewModel(crossinline fac
     return ViewModelProvider(this.viewModelStore, vmFactory)[T::class.java]
 }
 
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T : ViewModel> Fragment.getViewModel(crossinline factory: () -> T): T {
+
+    val vmFactory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+        override fun <U : ViewModel> create(modelClass: Class<U>): U = factory() as U
+    }
+
+    return ViewModelProvider(this.viewModelStore, vmFactory)[T::class.java]
+}
+
 val Context.app: MoviesApp
     get() = applicationContext as MoviesApp
+
+val Fragment.app: MoviesApp
+    get() = (activity?.app) as MoviesApp
+
+fun FragmentActivity.addFragment(containerViewId: Int, fragment: Fragment){
+    supportFragmentManager
+        .beginTransaction()
+        .add(containerViewId, fragment)
+        .commit()
+}

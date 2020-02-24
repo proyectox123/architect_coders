@@ -69,8 +69,16 @@ This project uses Dexter in order to manage permissions at runtime.
 
 This project uses Dagger in order to manage dependency injection.
 
+### Dependency Injection (Service Locator Pattern) - Koin
+
+This project uses Koin in order to generate mocks for integration tests.
+
+### Unit and Integration Tests - JUnit, Mockito
+
+This project uses JUnit and Mockito in order to create tests for use cases, data and view models.
+
 ## Improvement
 
 This project will implement the next features:
 
-* Testing.
+* UI Tests.

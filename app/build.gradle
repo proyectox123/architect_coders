@@ -4,12 +4,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion rootProject.compileSdkVersion
 
     defaultConfig {
         applicationId "com.mho.training"
-        minSdkVersion 19
-        targetSdkVersion 29
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -40,6 +40,7 @@ android {
             res.srcDirs = [
                     'src/main/res',
                     'src/main/res/layouts/activities',
+                    'src/main/res/layouts/fragments',
                     'src/main/res/layouts/items-adapter',
                     'src/main/res/layouts/sections'
             ]
@@ -52,45 +53,50 @@ androidExtensions {
 }
 
 dependencies {
-    implementation project(":framework")
+    implementation project(":frameworkretrofit")
+    implementation project(":frameworkroom")
     implementation project(":data")
     implementation project(":domain")
     implementation project(":usecases")
+    testImplementation project(':testShared')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.core:core-ktx:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    implementation "androidx.appcompat:appcompat:$appCompatVerion"
+    implementation "androidx.cardview:cardview:$cardviewView"
+    implementation "androidx.core:core-ktx:$coreKTXVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayoutVersion"
 
     //Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 
     //Dagger
-    implementation 'com.google.dagger:dagger:2.23.1'
-    kapt 'com.google.dagger:dagger-compiler:2.23.1'
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     //Glide
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
     //Live Data
-    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:2.2.0-rc03"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0-rc03"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc03"
-
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0'
+    implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
 
     //Location
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation "com.google.android.gms:play-services-location:$playServicesLocationVersion"
 
     //Permission
-    implementation 'com.karumi:dexter:5.0.0'
+    implementation "com.karumi:dexter:$dexterVersion"
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+    testImplementation "org.mockito:mockito-inline:$mockitoKotlinInlineVersion"
+    testImplementation "android.arch.core:core-testing:$coreTestingVersion"
+    testImplementation "org.koin:koin-test:$koinTestVersion"
+    androidTestImplementation "androidx.test:runner:$runnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
 }

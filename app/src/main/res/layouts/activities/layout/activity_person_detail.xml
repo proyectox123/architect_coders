@@ -12,7 +12,7 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
         <androidx.core.widget.NestedScrollView
                 android:id="@+id/parent"
@@ -136,11 +136,11 @@
 
                 </LinearLayout>
 
-                <include
-                        layout="@layout/section_related_movies_by_credit"
-                        bind:movies="@{viewmodel.movies}"
-                        bind:loading="@{viewmodel.loadingPerson}"
-                        bind:hasNotMovies="@{viewmodel.hasNotMovies}"/>
+                <FrameLayout
+                        android:id="@+id/fragmentRelatedMoviesByPerson"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout="@layout/fragment_related_movies_by_person"/>
 
             </LinearLayout>
 

@@ -4,7 +4,7 @@ import com.example.android.data.sources.RemoteKeywordDataSource
 import com.example.android.domain.Keyword
 import com.example.android.domain.result.DataResult
 import com.example.android.domain.result.safeApiCall
-import com.example.android.framework.data.remote.requests.keyword.KeywordRequest
+import com.example.android.frameworkretrofit.data.requests.keyword.KeywordRequest
 import com.mho.training.BuildConfig
 import com.mho.training.data.translators.toDomainKeyword
 import kotlinx.coroutines.Dispatchers

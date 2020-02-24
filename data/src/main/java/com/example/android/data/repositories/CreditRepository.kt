@@ -10,7 +10,7 @@ class CreditRepository(
 
     //region Public Methods
 
-    suspend fun getTrailerList(movieId: Int): DataResult<List<Credit>> =
+    suspend fun getCreditList(movieId: Int): DataResult<List<Credit>> =
         remoteCreditDataSource.getCreditList(movieId)
 
     //endregion
