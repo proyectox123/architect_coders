@@ -3,9 +3,9 @@ package com.mho.training.features.trailers
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.domain.Trailer
+import com.example.android.testshared.defaultFakeTrailers
 import com.example.android.testshared.mockedMovie
 import com.example.android.usecases.GetTrailerListUseCase
-import com.mho.training.defaultFakeTrailers
 import com.mho.training.initMockedDi
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking

@@ -3,9 +3,9 @@ package com.mho.training.features.keywords
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.domain.Keyword
+import com.example.android.testshared.defaultFakeKeywords
 import com.example.android.testshared.mockedMovie
 import com.example.android.usecases.GetKeywordListUseCase
-import com.mho.training.defaultFakeKeywords
 import com.mho.training.initMockedDi
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking

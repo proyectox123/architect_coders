@@ -3,9 +3,9 @@ package com.mho.training.features.credits
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.domain.Credit
+import com.example.android.testshared.defaultFakeCredits
 import com.example.android.testshared.mockedMovie
 import com.example.android.usecases.GetCreditListUseCase
-import com.mho.training.defaultFakeCredits
 import com.mho.training.initMockedDi
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking

@@ -3,9 +3,9 @@ package com.mho.training.features.relatedmoviesbyperson
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.domain.Movie
+import com.example.android.testshared.defaultFakeMovies
 import com.example.android.testshared.mockedPerson
 import com.example.android.usecases.GetMovieListByPersonUseCase
-import com.mho.training.defaultFakeMovies
 import com.mho.training.initMockedDi
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking

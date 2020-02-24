@@ -3,10 +3,10 @@ package com.mho.training.features.moviedetail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.domain.Movie
+import com.example.android.testshared.defaultFakeFavoriteMovieStatus
 import com.example.android.testshared.mockedMovie
 import com.example.android.usecases.GetFavoriteMovieStatus
 import com.example.android.usecases.UpdateFavoriteMovieStatusUseCase
-import com.mho.training.defaultFakeFavoriteMovieStatus
 import com.mho.training.initMockedDi
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.runBlocking
