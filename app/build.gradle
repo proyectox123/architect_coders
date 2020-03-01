@@ -3,8 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-final movieDBAPIKey = hasProperty('MOVIE_DB_API_KEY') ? property('MOVIE_DB_API_KEY') : "-"
-
 android {
     compileSdkVersion rootProject.compileSdkVersion
 
@@ -27,7 +25,7 @@ android {
     }
 
     buildTypes.each {
-        it.buildConfigField 'String', 'MOVIE_DB_API_KEY', movieDBAPIKey
+        it.buildConfigField 'String', 'MOVIE_DB_API_KEY', MOVIE_DB_API_KEY
     }
 
     dataBinding {
