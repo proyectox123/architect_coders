@@ -21,6 +21,8 @@ import com.mho.training.utils.app
 import com.mho.training.utils.getViewModel
 import com.mho.training.utils.startActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.scope.currentScope
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,11 +30,13 @@ class MainActivity : AppCompatActivity() {
     //region Fields
 
     private lateinit var movieGridAdapter: MovieGridAdapter
-    private lateinit var component: MainActivityComponent
+    //private lateinit var component: MainActivityComponent
 
-    private val viewModel: MainViewModel by lazy {
-        getViewModel { component.mainViewModel }
-    }
+    //private val viewModel: MainViewModel by lazy {
+    //    getViewModel { component.mainViewModel }
+    //}
+
+    private val viewModel: MainViewModel by currentScope.viewModel(this)
 
     private val coarsePermissionRequester = PermissionRequester(this)
 
@@ -43,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        component = app.component.plus(MainActivityModule())
+        //component = app.component.plus(MainActivityModule())
 
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.apply {
