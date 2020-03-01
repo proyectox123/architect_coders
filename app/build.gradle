@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-final movieDBAPIKey = hasProperty('MOVIE_DB_API_KEY') ? property('MOVIE_DB_API_KEY') : ''
+final movieDBAPIKey = hasProperty('MOVIE_DB_API_KEY') ? property('MOVIE_DB_API_KEY') : "-"
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
