@@ -50,7 +50,7 @@ class UITests: KoinTest {
     }
 
     @Test
-    fun clickAMovieNavigatesToDetail() {
+    fun clickAMovieNavigatesToItsDetail() {
         activityTestRule.launchActivity(null)
 
         onView(withId(R.id.rvMovieList))
