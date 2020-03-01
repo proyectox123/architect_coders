@@ -77,8 +77,14 @@ This project uses Koin in order to generate mocks for integration tests.
 
 This project uses JUnit and Mockito in order to create tests for use cases, data and view models.
 
+### UI Tests - JUnit, Mockito, KoinTest, MockWebServer
+
+This project uses a set of tools in order to create ui tests for specifically flows.
+
 ## Improvement
 
 This project will implement the next features:
 
-* UI Tests.
+* Log in with Firebase.
+* Lint
+* Continuous Integration with Bitrise.
