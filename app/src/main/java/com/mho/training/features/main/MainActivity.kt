@@ -16,10 +16,7 @@ import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.main.MainViewModel.Navigation
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.permissions.PermissionRequester
-import com.mho.training.utils.Constants
-import com.mho.training.utils.app
-import com.mho.training.utils.getViewModel
-import com.mho.training.utils.startActivity
+import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -124,7 +121,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateMovieCategory(movieCategory: MovieCategoryEnum){
-        Log.d(TAG, "updateMovieCategory movieCategory -> $movieCategory")
+        logD("updateMovieCategory movieCategory -> $movieCategory")
         viewModel.onMovieListRefresh()
     }
 
