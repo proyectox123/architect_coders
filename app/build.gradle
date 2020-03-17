@@ -3,6 +3,10 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
 
@@ -14,6 +18,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        buildConfigField("String", "MOVIE_DB_API_KEY", apikeyProperties['MOVIE_DB_API_KEY'])
+
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -22,10 +28,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-
-    buildTypes.each {
-        it.buildConfigField 'String', 'MOVIE_DB_API_KEY', MOVIE_DB_API_KEY
     }
 
     dataBinding {

@@ -3,6 +3,7 @@ package com.mho.training.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -115,4 +116,8 @@ fun FragmentActivity.addFragment(containerViewId: Int, fragment: Fragment){
         .beginTransaction()
         .add(containerViewId, fragment)
         .commit()
+}
+
+inline fun <reified T> T.logD(message: String){
+    Log.d(T::class.java.simpleName, message)
 }
