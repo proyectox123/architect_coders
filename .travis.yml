@@ -9,11 +9,15 @@ android:
   - build-tools-29.0.1
   - android-29
   - extra-android-m2repository
+  - extra-google-m2repository
+  - extra-android-support
+  - extra-google-google_play_services
 notifications:
   email: false
 script:
 - "./gradlew build"
 - "./gradlew clean"
+- "./gradlew test"
 before_install:
 - openssl aes-256-cbc -K $encrypted_adfbf0f992a7_key -iv $encrypted_adfbf0f992a7_iv
   -in apikey.properties.enc -out apikey.properties -d
