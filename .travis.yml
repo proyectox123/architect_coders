@@ -38,4 +38,4 @@ cache:
 before_script:
 - openssl aes-256-cbc -K $encrypted_adfbf0f992a7_key -iv $encrypted_adfbf0f992a7_iv
   -in apikey.properties.enc -out apikey.properties -d
-  - chmod +x gradlew
+- chmod +x gradlew
