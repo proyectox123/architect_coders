@@ -38,7 +38,6 @@ import com.mho.training.permissions.AndroidPermissionChecker
 import com.mho.training.sources.MovieRoomMovieDataSource
 import com.mho.training.sources.MovieServerMovieDataSource
 import com.mho.training.sources.PlayServicesLocationDataSource
-import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidApplication

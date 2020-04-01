@@ -20,7 +20,6 @@
 
     <!-- Message Errors -->
     <string name="label_no_available_data">No available data for the moment.</string>
-    <string name="error_movie_detail">Movie data not available</string>
 
     <!-- Menu labels -->
     <string name="menu_movie_highest_rated">Highest Rated</string>
@@ -40,7 +39,6 @@
     <string name="section_trailers">Trailers</string>
     <string name="section_reviews">Reviews</string>
     <string name="section_related_movies_by_credit">Related movies</string>
-    <string name="menu_movie_favorite">Favorite Movie</string>
 
     <!-- Errors -->
     <string name="error_not_available">Not available</string>

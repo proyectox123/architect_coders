@@ -102,13 +102,13 @@ class FakeRemoteTrailerDataSource : RemoteTrailerDataSource {
 }
 
 class FakeLocationDataSource : LocationDataSource {
-    var location = "US"
+    private var location = "US"
 
     override suspend fun findLastRegion(): String? = location
 }
 
 class FakePermissionChecker : PermissionChecker {
-    var permissionGranted = true
+    private var permissionGranted = true
 
     override suspend fun check(permission: PermissionChecker.Permission): Boolean =
         permissionGranted

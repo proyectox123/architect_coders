@@ -1,0 +1,29 @@
+apply plugin: "org.sonarqube"
+
+def apikeyPropertiesFile = rootProject.file("apikey.properties")
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
+sonarqube {
+    properties {
+        property "sonar.tests", ["src/test/java"]
+        property "sonar.test.inclusions", "**/*Test*/**"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.sources", "src/main/java"
+        property "sonar.exclusions", '**/*Test*/**,' +
+                '*.json,' +
+                '**/*test*/**,' +
+                '**/.gradle/**,' +
+                '**/R.class'
+
+        property "sonar.host.url", "http://localhost:9000/"
+        property "sonar.login", "admin"
+        property "sonar.password", "admin"
+
+        def sonarProjectName = apikeyProperties['SONAR_PROJECT_NAME']
+        def sonarProjectKey = apikeyProperties['SONAR_PROJECT_KEY']
+
+        property "sonar.projectName", sonarProjectName
+        property "sonar.projectKey", sonarProjectKey
+    }
+}
