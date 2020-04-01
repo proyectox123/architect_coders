@@ -116,10 +116,4 @@ class PersonDetailViewModel(
 
     //endregion
 
-    companion object {
-
-        private val TAG = PersonDetailViewModel::class.java.simpleName
-
-    }
-
 }

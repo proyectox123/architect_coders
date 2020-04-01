@@ -1,5 +1,7 @@
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
+apply plugin: 'org.sonarqube'
+apply from: '../sonarqube.gradle'
 
 dependencies {
     implementation project(":domain")

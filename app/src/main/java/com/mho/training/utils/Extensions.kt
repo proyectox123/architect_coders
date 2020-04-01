@@ -118,6 +118,7 @@ fun FragmentActivity.addFragment(containerViewId: Int, fragment: Fragment){
         .commit()
 }
 
+@Suppress("unused")
 inline fun <reified T> T.logD(message: String){
     Log.d(T::class.java.simpleName, message)
 }
