@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'org.sonarqube'
+apply from: '../sonarqube.gradle'
+apply from: '../jacoco.gradle'
 
 def apikeyPropertiesFile = rootProject.file("apikey.properties")
 def apikeyProperties = new Properties()
@@ -27,6 +30,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            testCoverageEnabled false
+        }
+        debug {
+            minifyEnabled false
+            testCoverageEnabled true
         }
     }
 
@@ -34,9 +42,14 @@ android {
         enabled true
     }
 
+    lintOptions {
+        checkDependencies true
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     sourceSets {
         main {
             res.srcDirs = [
@@ -46,6 +59,16 @@ android {
                     'src/main/res/layouts/items-adapter',
                     'src/main/res/layouts/sections'
             ]
+        }
+    }
+
+    testOptions {
+        animationsDisabled true
+
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
         }
     }
 }
@@ -108,6 +131,6 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation 'org.koin:koin-test:2.0.1'
-    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:4.0.1'
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:4.2.1'
     androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
 }

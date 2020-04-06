@@ -78,10 +78,4 @@ class MovieDetailViewModel(
 
     //endregion
 
-    companion object {
-
-        private val TAG = MovieDetailViewModel::class.java.simpleName
-
-    }
-
 }

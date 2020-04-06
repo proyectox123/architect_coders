@@ -1,7 +1,6 @@
 package com.mho.training.features.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +15,9 @@ import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.main.MainViewModel.Navigation
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.permissions.PermissionRequester
-import com.mho.training.utils.*
+import com.mho.training.utils.Constants
+import com.mho.training.utils.logD
+import com.mho.training.utils.startActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -27,11 +28,6 @@ class MainActivity : AppCompatActivity() {
     //region Fields
 
     private lateinit var movieGridAdapter: MovieGridAdapter
-    //private lateinit var component: MainActivityComponent
-
-    //private val viewModel: MainViewModel by lazy {
-    //    getViewModel { component.mainViewModel }
-    //}
 
     private val viewModel: MainViewModel by currentScope.viewModel(this)
 
@@ -43,8 +39,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //component = app.component.plus(MainActivityModule())
 
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.apply {
@@ -147,13 +141,4 @@ class MainActivity : AppCompatActivity() {
 
     //endregion
 
-    //region Companion Object
-
-    companion object {
-
-        private val TAG = MainActivity::class.java.simpleName
-
-    }
-
-    //endregion
 }

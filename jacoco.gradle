@@ -1,0 +1,43 @@
+apply plugin: 'jacoco-android'
+
+jacoco {
+    toolVersion = "0.8.4"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+def excludesFiles = [
+        '**/R.class',
+        '**/R$*.class',
+        '**/Manifest*.*',
+        'android/**/*.*',
+        '**/BuildConfig.*',
+        '**/*$ViewBinder*.*',
+        '**/*$ViewInjector*.*',
+        '**/Lambda$*.class',
+        '**/Lambda.class',
+        '**/*Lambda.class',
+        '**/*Lambda*.class',
+        '**/Binding*.class',
+        '**/Binding.class',
+        '**/*Binding.class',
+        '**/*Binding*.class',
+        '**/Dao*.class',
+        '**/Dao.class',
+        '**/*Dao.class',
+        '**/*Dao*.class',
+        '**/$*.class',
+        '**/$.class',
+        '**/*$.class',
+        '**/*$*.class'
+]
+
+jacocoAndroidUnitTestReport {
+    excludes += excludesFiles
+
+    csv.enabled false
+    html.enabled true
+    xml.enabled true
+}
