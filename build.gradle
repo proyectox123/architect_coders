@@ -3,6 +3,7 @@
 buildscript {
     ext.kotlin_version = '1.3.61'
     ext.kotlin_jdk7_version = 'jdk7-1.3.61'
+    ext.jacocoVersion = '0.8.4'
     repositories {
         google()
         jcenter()
@@ -14,6 +15,7 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1"
+        classpath "com.dicedmelon.gradle:jacoco-android:0.1.4"
     }
 }
 

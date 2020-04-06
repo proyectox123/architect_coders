@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'org.sonarqube'
 apply from: '../sonarqube.gradle'
+apply from: '../jacoco.gradle'
 
 def apikeyPropertiesFile = rootProject.file("apikey.properties")
 def apikeyProperties = new Properties()
@@ -29,6 +30,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            testCoverageEnabled false
+        }
+        debug {
+            minifyEnabled false
+            testCoverageEnabled true
         }
     }
 
@@ -43,6 +49,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     sourceSets {
         main {
             res.srcDirs = [
@@ -52,6 +59,16 @@ android {
                     'src/main/res/layouts/items-adapter',
                     'src/main/res/layouts/sections'
             ]
+        }
+    }
+
+    testOptions {
+        animationsDisabled true
+
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+            }
         }
     }
 }
