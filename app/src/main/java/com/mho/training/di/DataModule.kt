@@ -19,6 +19,11 @@ class DataModule {
     ) = KeywordRepository(remoteKeywordDataSource)
 
     @Provides
+    fun logInRepositoryProvider(
+        remoteLogInDataSource: RemoteLogInDataSource
+    ) = LogInRepository(remoteLogInDataSource)
+
+    @Provides
     fun movieRepositoryProvider(
         localDataSource: LocalMovieDataSource,
         remoteDataSource: RemoteMovieDataSource,

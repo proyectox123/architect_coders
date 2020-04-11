@@ -1,6 +1,7 @@
 package com.example.android.testshared
 
 import com.example.android.domain.*
+import com.example.android.domain.user.LogInParams
 
 val mockedMovie = Movie(
     0,
@@ -58,4 +59,9 @@ val mockedTrailer = Trailer(
     "name",
     "",
     ""
+)
+
+val mockedLogInParams = LogInParams(
+        "",
+        ""
 )

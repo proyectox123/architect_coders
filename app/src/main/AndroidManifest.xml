@@ -24,6 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".features.login.LogInActivity"
+                android:label="@string/title_log_in_activity"
+                android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name="com.mho.training.features.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

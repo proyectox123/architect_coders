@@ -110,4 +110,6 @@ class AppModule {
     fun permissionCheckerProvider(app: Application): PermissionChecker =
         AndroidPermissionChecker(app)
 
+    @Provides
+    fun remoteLogInServerDataSourceProvider(): RemoteLogInDataSource = LogInServerDataSource()
 }
