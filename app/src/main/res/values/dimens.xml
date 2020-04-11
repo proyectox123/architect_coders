@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="activity_padding">16dp</dimen>
+
     <dimen name="progress_bar_detail_height">24dp</dimen>
     <dimen name="progress_bar_detail_width">24dp</dimen>
 
@@ -17,4 +19,8 @@
 
     <dimen name="credit_thumbnail_height">90dp</dimen>
     <dimen name="credit_thumbnail_width">90dp</dimen>
+
+    <dimen name="edit_text_text_size_login">22sp</dimen>
+
+    <dimen name="log_in_header_margin">48dp</dimen>
 </resources>
