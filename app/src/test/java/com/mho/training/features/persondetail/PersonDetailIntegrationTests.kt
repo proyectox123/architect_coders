@@ -5,24 +5,25 @@ import androidx.lifecycle.Observer
 import com.example.android.domain.Person
 import com.example.android.testshared.defaultFakedPerson
 import com.example.android.testshared.mockedPerson
-import com.example.android.usecases.GetPersonInformationUseCase
-import com.mho.training.initMockedDi
+import com.mho.training.di.DaggerTestComponent
+import com.mho.training.di.TestComponent
+import com.mho.training.rules.CoroutinesTestRule
 import com.nhaarman.mockitokotlin2.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module
-import org.koin.test.AutoCloseKoinTest
-import org.koin.test.get
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class PersonDetailIntegrationTests: AutoCloseKoinTest() {
+class PersonDetailIntegrationTests {
+
+    @ExperimentalCoroutinesApi
+    @get:Rule var coroutinesTestRule = CoroutinesTestRule()
 
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
@@ -31,15 +32,11 @@ class PersonDetailIntegrationTests: AutoCloseKoinTest() {
 
     private lateinit var viewModel: PersonDetailViewModel
 
+    private val component: TestComponent = DaggerTestComponent.factory().create()
+
     @Before
     fun setUp() {
-        val vmModule = module {
-            factory { (id: Int) -> PersonDetailViewModel(id, get(), get()) }
-            factory { GetPersonInformationUseCase(get()) }
-        }
-
-        initMockedDi(vmModule)
-        viewModel = get { parametersOf(mockedPerson.id) }
+        viewModel = component.plus(PersonDetailActivityModule(mockedPerson.id)).personDetailViewModel
     }
 
     @Test

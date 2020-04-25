@@ -4,23 +4,25 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.example.android.domain.Movie
 import com.example.android.testshared.defaultFakeMovies
-import com.example.android.usecases.*
-import com.mho.training.initMockedDi
+import com.mho.training.di.DaggerTestComponent
+import com.mho.training.di.TestComponent
+import com.mho.training.rules.CoroutinesTestRule
 import com.nhaarman.mockitokotlin2.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.koin.dsl.module
-import org.koin.test.AutoCloseKoinTest
-import org.koin.test.get
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class MainIntegrationTests: AutoCloseKoinTest() {
+class MainIntegrationTests {
+
+    @ExperimentalCoroutinesApi
+    @get:Rule var coroutinesTestRule = CoroutinesTestRule()
 
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
@@ -29,21 +31,14 @@ class MainIntegrationTests: AutoCloseKoinTest() {
 
     private lateinit var viewModel: MainViewModel
 
+    private val component: TestComponent = DaggerTestComponent.factory().create()
+
     @Before
     fun setUp() {
-        val vmModule = module {
-            factory { MainViewModel(get(), get(), get(), get(), get(), get()) }
-            factory { GetFavoriteMovieListUseCase(get()) }
-            factory { GetFavoriteMovieListWithChangesUseCase(get()) }
-            factory { GetPopularMovieListUseCase(get()) }
-            factory { GetTopRatedMovieListUseCase(get()) }
-            factory { GetInTheatersMovieListUseCase(get()) }
-        }
-
-        initMockedDi(vmModule)
-        viewModel = get()
+        viewModel = component.plus(MainActivityModule()).mainViewModel
     }
 
+    @ExperimentalCoroutinesApi
     @Test
     fun `onMovieHighestRatedListRefresh should load success movie list when permission requested is valid`() {
         runBlocking {
@@ -60,6 +55,7 @@ class MainIntegrationTests: AutoCloseKoinTest() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     @Test
     fun `onMovieInTheatersListRefresh should load success movie list when permission requested is valid`() {
         runBlocking {
