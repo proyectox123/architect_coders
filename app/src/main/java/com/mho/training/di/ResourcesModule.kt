@@ -1,7 +1,6 @@
 package com.mho.training.di
 
 import android.app.Application
-import com.example.android.frameworkretrofit.data.requests.BaseRequest
 import com.mho.training.R
 import dagger.Module
 import dagger.Provides
@@ -88,9 +87,4 @@ class ResourcesModule {
     @Named("formatVoteAverage")
     fun formatVoteAverageProvider(app: Application): String =
         app.getString(R.string.text_movie_detail_vote_average)
-
-    @Provides
-    @Singleton
-    @Named("baseUrl")
-    fun baseUrlProvider(): String = BaseRequest.BASE_MOVIE_DB_URL
 }

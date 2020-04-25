@@ -15,12 +15,8 @@ import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.features.main.MainViewModel.Navigation
 import com.mho.training.features.moviedetail.MovieDetailActivity
 import com.mho.training.permissions.PermissionRequester
-import com.mho.training.utils.Constants
-import com.mho.training.utils.logD
-import com.mho.training.utils.startActivity
+import com.mho.training.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.scope.currentScope
-import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +25,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var movieGridAdapter: MovieGridAdapter
 
-    private val viewModel: MainViewModel by currentScope.viewModel(this)
+    private lateinit var component: MainActivityComponent
+
+    private val viewModel: MainViewModel by lazy {
+        getViewModel { component.mainViewModel }
+    }
 
     private val coarsePermissionRequester = PermissionRequester(this)
 
@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        component = app.component.plus(MainActivityModule())
 
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.apply {
