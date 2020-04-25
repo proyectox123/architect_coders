@@ -4,9 +4,8 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.mho.training.di.DaggerMyMoviesComponent
 import com.mho.training.di.MyMoviesComponent
-import com.mho.training.di.initDI
 
-class MoviesApp : Application() {
+open class MoviesApp : Application() {
 
     lateinit var component: MyMoviesComponent
         private set
@@ -16,10 +15,8 @@ class MoviesApp : Application() {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
-        component = DaggerMyMoviesComponent
-            .factory()
-            .create(this)
-
-        initDI()
+        component = initMoviesComponent()
     }
+
+    open fun initMoviesComponent() = DaggerMyMoviesComponent.factory().create(this)
 }

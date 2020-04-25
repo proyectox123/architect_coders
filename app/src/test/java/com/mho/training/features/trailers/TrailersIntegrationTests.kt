@@ -5,25 +5,25 @@ import androidx.lifecycle.Observer
 import com.example.android.domain.Trailer
 import com.example.android.testshared.defaultFakeTrailers
 import com.example.android.testshared.mockedMovie
-import com.example.android.usecases.GetTrailerListUseCase
-import com.mho.training.initMockedDi
+import com.mho.training.di.DaggerTestComponent
+import com.mho.training.di.TestComponent
+import com.mho.training.rules.CoroutinesTestRule
 import com.nhaarman.mockitokotlin2.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module
-import org.koin.test.AutoCloseKoinTest
-import org.koin.test.get
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class TrailersIntegrationTests: AutoCloseKoinTest() {
+class TrailersIntegrationTests {
 
+    @ExperimentalCoroutinesApi
+    @get:Rule var coroutinesTestRule = CoroutinesTestRule()
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
 
@@ -32,15 +32,11 @@ class TrailersIntegrationTests: AutoCloseKoinTest() {
 
     private lateinit var viewModel: TrailersViewModel
 
+    private val component: TestComponent = DaggerTestComponent.factory().create()
+
     @Before
     fun setUp() {
-        val vmModule = module {
-            factory { (id: Int) -> TrailersViewModel(id, get(), get()) }
-            factory { GetTrailerListUseCase(get()) }
-        }
-
-        initMockedDi(vmModule)
-        viewModel = get { parametersOf(mockedMovie.copy(id = 1).id) }
+        viewModel = component.plus(TrailersFragmentModule(mockedMovie.id)).trailersViewModel
     }
 
     @Test

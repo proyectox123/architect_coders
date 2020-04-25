@@ -6,24 +6,25 @@ import com.example.android.domain.Movie
 import com.example.android.domain.MovieDetail
 import com.example.android.testshared.defaultFakeMovieDetail
 import com.example.android.testshared.mockedMovie
-import com.example.android.usecases.GetMovieDetailByIdUseCase
-import com.mho.training.initMockedDi
+import com.mho.training.di.DaggerTestComponent
+import com.mho.training.di.TestComponent
+import com.mho.training.rules.CoroutinesTestRule
 import com.nhaarman.mockitokotlin2.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module
-import org.koin.test.AutoCloseKoinTest
-import org.koin.test.get
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class MovieInfoIntegrationTests: AutoCloseKoinTest() {
+class MovieInfoIntegrationTests {
+
+    @ExperimentalCoroutinesApi
+    @get:Rule var coroutinesTestRule = CoroutinesTestRule()
 
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
@@ -33,15 +34,11 @@ class MovieInfoIntegrationTests: AutoCloseKoinTest() {
 
     private lateinit var viewModel: MovieInfoViewModel
 
+    private val component: TestComponent = DaggerTestComponent.factory().create()
+
     @Before
     fun setUp() {
-        val vmModule = module {
-            factory { (movie: Movie) -> MovieInfoViewModel(movie, get(), get()) }
-            factory { GetMovieDetailByIdUseCase(get()) }
-        }
-
-        initMockedDi(vmModule)
-        viewModel = get { parametersOf(mockedMovie) }
+        viewModel = component.plus(MovieInfoFragmentModule(mockedMovie)).movieInfoViewModel
     }
 
     @Test

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+                name="viewmodel"
+                type="com.mho.training.features.login.LogInViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:fitsSystemWindows="true"
+            android:padding="@dimen/activity_padding">
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:scrollbars="none">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/log_in_header_margin"
+                            android:layout_marginStart="@dimen/log_in_header_margin"
+                            android:layout_marginTop="@dimen/log_in_header_margin"
+                            android:contentDescription="@string/content_description_log_in_logo"
+                            app:srcCompat="@drawable/baseline_movie_white" />
+
+                    <TextView
+                            style="@style/LogInTitleStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/log_in_header_margin"
+                            android:layout_marginEnd="@dimen/log_in_header_margin"
+                            android:layout_marginStart="@dimen/log_in_header_margin"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/app_name" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/EditTextWhite">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/username"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/hint_log_in_username"
+                                android:text="@={viewmodel.username}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:theme="@style/EditTextWhite"
+                            app:passwordToggleContentDescription="@string/content_description_password_toggle_icon"
+                            app:passwordToggleEnabled="true"
+                            app:passwordToggleTint="@android:color/white">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/password"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/hint_log_in_password"
+                                android:inputType="textPassword"
+                                android:text="@={viewmodel.password}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                            android:id="@+id/login"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:onClick="@{() -> viewmodel.onLogIn()}"
+                            android:text="@string/text_button_login"
+                            android:theme="@style/RaisedButtonDark" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

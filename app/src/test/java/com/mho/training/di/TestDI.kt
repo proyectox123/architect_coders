@@ -1,47 +1,27 @@
-package com.mho.training
+package com.mho.training.di
 
-import com.example.android.data.repositories.*
+import com.example.android.data.repositories.PermissionChecker
 import com.example.android.data.sources.*
 import com.example.android.domain.*
 import com.example.android.domain.result.DataResult
+import com.example.android.domain.user.LogInParams
 import com.example.android.testshared.*
-import kotlinx.coroutines.Dispatchers
+import dagger.Component
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import org.koin.core.context.startKoin
-import org.koin.core.module.Module
-import org.koin.dsl.module
+import javax.inject.Singleton
 
-fun initMockedDi(vararg modules: Module) {
-    startKoin {
-        modules(listOf(mockedAppModule, mockedDataSourceModule, mockedDataModule) + modules)
+@Singleton
+@Component(modules = [
+    TestAppModule::class,
+    DataModule::class
+])
+interface TestComponent: MyMoviesComponent {
+
+    @Component.Factory
+    interface FactoryTest {
+        fun create(): TestComponent
     }
-}
-
-private val mockedAppModule = module {
-    single<PermissionChecker> { FakePermissionChecker() }
-    single { Dispatchers.Unconfined }
-}
-
-private val mockedDataSourceModule = module {
-    single<LocalMovieDataSource> { FakeLocalMovieDataSource() }
-    single<RemoteMovieDataSource> { FakeRemoteMovieDataSource() }
-    single<RemoteCreditDataSource> { FakeRemoteCreditDataSource() }
-    single<RemoteKeywordDataSource> { FakeRemoteKeywordDataSource() }
-    single<RemotePersonDataSource> { FakeRemotePersonDataSource() }
-    single<RemoteReviewDataSource> { FakeRemoteReviewDataSource() }
-    single<RemoteTrailerDataSource> { FakeRemoteTrailerDataSource() }
-    single<LocationDataSource> { FakeLocationDataSource() }
-}
-
-private val mockedDataModule = module {
-    factory { CreditRepository(get()) }
-    factory { KeywordRepository(get()) }
-    factory { MovieRepository(get(), get(), get()) }
-    factory { PersonRepository(get()) }
-    factory { RegionRepository(get(), get()) }
-    factory { ReviewRepository(get()) }
-    factory { TrailerRepository(get()) }
 }
 
 class FakeLocalMovieDataSource : LocalMovieDataSource {
@@ -58,8 +38,10 @@ class FakeLocalMovieDataSource : LocalMovieDataSource {
 }
 
 class FakeRemoteMovieDataSource : RemoteMovieDataSource {
+
     override suspend fun getTopRatedMovieList(region: String): DataResult<List<Movie>> =
         DataResult.Success(defaultFakeMovies)
+
 
     override suspend fun getPopularMovieList(region: String): DataResult<List<Movie>> =
         DataResult.Success(defaultFakeMovies)
@@ -76,6 +58,7 @@ class FakeRemoteMovieDataSource : RemoteMovieDataSource {
 }
 
 class FakeRemoteCreditDataSource : RemoteCreditDataSource {
+
     override suspend fun getCreditList(movieId: Int): DataResult<List<Credit>> =
         DataResult.Success(defaultFakeCredits)
 }
@@ -112,4 +95,17 @@ class FakePermissionChecker : PermissionChecker {
 
     override suspend fun check(permission: PermissionChecker.Permission): Boolean =
         permissionGranted
+}
+
+class FakeLogInServerDataSource : RemoteLogInDataSource {
+    override fun logIn(logInParams: LogInParams, success: (String) -> Unit, error: () -> Unit) {
+        with(logInParams){
+            if(username == "coders" && password == "architect"){
+                success("token")
+            }else{
+                error()
+            }
+        }
+    }
+
 }

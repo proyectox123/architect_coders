@@ -5,6 +5,8 @@ import com.mho.training.features.credits.CreditsFragmentComponent
 import com.mho.training.features.credits.CreditsFragmentModule
 import com.mho.training.features.keywords.KeywordsFragmentComponent
 import com.mho.training.features.keywords.KeywordsFragmentModule
+import com.mho.training.features.login.LogInActivityComponent
+import com.mho.training.features.login.LogInActivityModule
 import com.mho.training.features.main.MainActivityComponent
 import com.mho.training.features.main.MainActivityModule
 import com.mho.training.features.moviedetail.MovieDetailActivityComponent
@@ -24,11 +26,13 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, DataModule::class, RequestModule::class, ResourcesModule::class])
+@Component(modules = [AppModule::class, DataModule::class,
+    MovieRequestModule::class, RequestModule::class, ResourcesModule::class])
 interface MyMoviesComponent {
 
     fun plus(module: CreditsFragmentModule): CreditsFragmentComponent
     fun plus(module: KeywordsFragmentModule): KeywordsFragmentComponent
+    fun plus(module: LogInActivityModule): LogInActivityComponent
     fun plus(module: MainActivityModule): MainActivityComponent
     fun plus(module: MovieDetailActivityModule): MovieDetailActivityComponent
     fun plus(module: MovieInfoFragmentModule): MovieInfoFragmentComponent
