@@ -2,28 +2,27 @@ package com.mho.training.features.moviedetail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.example.android.domain.Movie
 import com.example.android.testshared.defaultFakeFavoriteMovieStatus
 import com.example.android.testshared.mockedMovie
-import com.example.android.usecases.GetFavoriteMovieStatus
-import com.example.android.usecases.UpdateFavoriteMovieStatusUseCase
-import com.mho.training.initMockedDi
+import com.mho.training.di.DaggerTestComponent
+import com.mho.training.di.TestComponent
+import com.mho.training.rules.CoroutinesTestRule
 import com.nhaarman.mockitokotlin2.verify
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module
-import org.koin.test.AutoCloseKoinTest
-import org.koin.test.get
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class MovieDetailIntegrationTests: AutoCloseKoinTest() {
+class MovieDetailIntegrationTests {
+
+    @ExperimentalCoroutinesApi
+    @get:Rule var coroutinesTestRule = CoroutinesTestRule()
 
     @get:Rule
     val rule: TestRule = InstantTaskExecutorRule()
@@ -32,16 +31,11 @@ class MovieDetailIntegrationTests: AutoCloseKoinTest() {
 
     private lateinit var viewModel: MovieDetailViewModel
 
+    private val component: TestComponent = DaggerTestComponent.factory().create()
+
     @Before
     fun setUp() {
-        val vmModule = module {
-            factory { (movie: Movie) -> MovieDetailViewModel(movie, get(), get(), get()) }
-            factory { GetFavoriteMovieStatus(get()) }
-            factory { UpdateFavoriteMovieStatusUseCase(get()) }
-        }
-
-        initMockedDi(vmModule)
-        viewModel = get { parametersOf(mockedMovie)}
+        viewModel = component.plus(MovieDetailActivityModule(mockedMovie)).movieDetailViewModel
     }
 
     @Test
