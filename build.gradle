@@ -3,8 +3,8 @@
 buildscript {
     ext.gradleVersion = '3.6.2'
     ext.jacocoVersion = '0.2'
-    ext.kotlin_jdk7_version = 'jdk7-1.5.0'
-    ext.kotlin_version = '1.5.0'
+    ext.kotlin_jdk7_version = 'jdk7-1.6.10'
+    ext.kotlin_version = '1.6.10'
     ext.sonarqubeGradleVersion = '2.7.1'
     repositories {
         google()
