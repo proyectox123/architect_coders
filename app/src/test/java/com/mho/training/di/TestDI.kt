@@ -87,7 +87,7 @@ class FakeRemoteTrailerDataSource : RemoteTrailerDataSource {
 class FakeLocationDataSource : LocationDataSource {
     private var location = "US"
 
-    override suspend fun findLastRegion(): String? = location
+    override suspend fun findLastRegion(): String = location
 }
 
 class FakePermissionChecker : PermissionChecker {

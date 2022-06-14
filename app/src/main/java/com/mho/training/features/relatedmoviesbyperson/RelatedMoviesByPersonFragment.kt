@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.example.android.domain.Movie
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
@@ -54,7 +53,7 @@ class RelatedMoviesByPersonFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         return DataBindingUtil.inflate<FragmentRelatedMoviesByPersonBinding>(
             inflater,
@@ -74,11 +73,11 @@ class RelatedMoviesByPersonFragment : Fragment() {
 
         rvMovieList.adapter = movieListAdapter
 
-        viewModel.events.observe(this, Observer{ event ->
+        viewModel.events.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
                 validateEvents(it)
             }
-        })
+        }
 
         viewModel.onRelatedMoviesByPerson()
     }

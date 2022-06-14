@@ -53,7 +53,7 @@ class KeywordsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         return DataBindingUtil.inflate<FragmentKeywordsBinding>(
             inflater,

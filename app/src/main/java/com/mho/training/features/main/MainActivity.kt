@@ -55,12 +55,12 @@ class MainActivity : AppCompatActivity() {
         srwMovieList.setOnRefreshListener { viewModel.onMovieListRefresh() }
 
         viewModel.movieCategory.observe(this, Observer(::updateMovieCategory))
-        viewModel.favoriteMovies.observe(this, Observer { viewModel.onMovieFavoriteListUpdate(it) })
-        viewModel.events.observe(this, Observer{ event ->
+        viewModel.favoriteMovies.observe(this) { viewModel.onMovieFavoriteListUpdate(it) }
+        viewModel.events.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
                 validateEvents(it)
             }
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

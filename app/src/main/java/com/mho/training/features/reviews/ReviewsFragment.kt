@@ -53,7 +53,7 @@ class ReviewsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         return DataBindingUtil.inflate<FragmentReviewsBinding>(
             inflater,

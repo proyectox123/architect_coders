@@ -53,7 +53,7 @@ class TrailersFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         return DataBindingUtil.inflate<FragmentTrailersBinding>(
             inflater,

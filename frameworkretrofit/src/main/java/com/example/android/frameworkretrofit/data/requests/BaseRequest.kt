@@ -10,7 +10,7 @@ abstract class BaseRequest<T: Any>(
     private val baseUrl: String
 ) {
 
-    val okHttpClient: OkHttpClient = HttpLoggingInterceptor().run {
+    private val okHttpClient: OkHttpClient = HttpLoggingInterceptor().run {
         level = HttpLoggingInterceptor.Level.BODY
         OkHttpClient.Builder().addInterceptor(this).build()
     }

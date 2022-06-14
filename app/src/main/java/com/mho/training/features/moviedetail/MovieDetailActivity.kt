@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.example.android.domain.*
 import com.mho.training.R
 import com.mho.training.data.translators.toDomainMovie
@@ -55,11 +54,11 @@ class MovieDetailActivity : AppCompatActivity(),
             lifecycleOwner = this@MovieDetailActivity
         }
 
-        viewModel.events.observe(this, Observer{ event ->
+        viewModel.events.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
                 validateEvents(it)
             }
-        })
+        }
 
         viewModel.onMovieValidation()
     }

@@ -40,7 +40,7 @@ class MovieInfoFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         return DataBindingUtil.inflate<FragmentMovieInfoBinding>(
             inflater,

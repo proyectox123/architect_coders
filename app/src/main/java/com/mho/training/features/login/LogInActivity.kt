@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.mho.training.R
 import com.mho.training.databinding.ActivityLogInBinding
 import com.mho.training.features.login.LogInViewModel.Navigation
 import com.mho.training.features.main.MainActivity
-import com.mho.training.utils.*
+import com.mho.training.utils.app
+import com.mho.training.utils.getViewModel
+import com.mho.training.utils.startActivity
 
 class LogInActivity: AppCompatActivity() {
 
@@ -36,11 +37,11 @@ class LogInActivity: AppCompatActivity() {
             lifecycleOwner = this@LogInActivity
         }
 
-        viewModel.events.observe(this, Observer{ event ->
+        viewModel.events.observe(this) { event ->
             event.getContentIfNotHandled()?.let {
                 validateEvents(it)
             }
-        })
+        }
     }
 
     //endregion

@@ -36,10 +36,10 @@ class TestServerModule {
     @Singleton
     fun mockWebServerProvider(): MockWebServer {
         var mockWebServer:MockWebServer? = null
-        val thread = Thread(Runnable {
+        val thread = Thread {
             mockWebServer = MockWebServer()
             mockWebServer?.start(8080)
-        })
+        }
         thread.start()
         thread.join()
         return mockWebServer ?: throw NullPointerException()

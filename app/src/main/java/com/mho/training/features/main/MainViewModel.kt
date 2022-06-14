@@ -95,7 +95,7 @@ class MainViewModel(
         Log.d(TAG, "onMovieFavoriteListUpdate movieCategory -> ${_movieCategory.value}")
         Log.d(TAG, "onMovieFavoriteListUpdate favoriteMovieList -> ${favoriteMovieList.size}")
         if(_movieCategory.value == MovieCategoryEnum.FAVORITE){
-            _error.value = favoriteMovieList.isNullOrEmpty()
+            _error.value = favoriteMovieList.isEmpty()
             _movies.value = favoriteMovieList
         }
     }

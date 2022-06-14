@@ -61,7 +61,7 @@ class MovieRoomMovieDataSource(
     private fun requestFavoriteMovieList(): DataResult<List<Movie>> {
         val results = movieDao.getAll()
 
-        if (!results.isNullOrEmpty()) {
+        if (results.isNotEmpty()) {
             return DataResult.Success(results.map { it.toDomainMovie(formatVoteAverage) })
         }
 

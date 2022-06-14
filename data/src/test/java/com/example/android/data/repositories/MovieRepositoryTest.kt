@@ -32,7 +32,7 @@ class MovieRepositoryTest {
     @Mock
     lateinit var regionRepository: RegionRepository
 
-    lateinit var movieRepository: MovieRepository
+    private lateinit var movieRepository: MovieRepository
 
     @Before
     fun setUp(){

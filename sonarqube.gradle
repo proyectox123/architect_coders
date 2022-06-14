@@ -29,10 +29,10 @@ sonarqube {
         property "sonar.projectName", sonarProjectName
         property "sonar.projectKey", sonarProjectKey
 
-        def unit = fileTree(dir: project.projectDir, includes: ['**/*.exec']).files;
-        def ui = fileTree(dir: project.projectDir, includes: ['**/*.ec']).files;
-        unit.addAll(ui);
-        def files = unit.join(", ");
+        def unit = fileTree(dir: project.projectDir, includes: ['**/*.exec']).files
+        def ui = fileTree(dir: project.projectDir, includes: ['**/*.ec']).files
+        unit.addAll(ui)
+        def files = unit.join(", ")
 
         property "sonar.jacoco.reportPaths", files
         property "sonar.java.coveragePlugin", "jacoco"
