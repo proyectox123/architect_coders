@@ -38,6 +38,11 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     dataBinding {
         enabled true
     }
@@ -113,6 +118,9 @@ dependencies {
 
     //Location
     implementation "com.google.android.gms:play-services-location:$playServicesLocationVersion"
+
+    //Metadata
+    kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:$kotlinxMetadataJVMVersion"
 
     //Permission
     implementation "com.karumi:dexter:$dexterVersion"
