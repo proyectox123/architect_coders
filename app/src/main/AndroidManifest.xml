@@ -18,7 +18,8 @@
             tools:targetApi="n">
         <activity
                 android:name="com.mho.training.features.splash.SplashActivity"
-                android:theme="@style/SplashTheme">
+                android:theme="@style/SplashTheme"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,7 +28,8 @@
         <activity android:name=".features.login.LogInActivity"
                 android:label="@string/title_log_in_activity"
                 android:theme="@style/Theme.AppCompat.NoActionBar"/>
-        <activity android:name="com.mho.training.features.main.MainActivity">
+        <activity android:name="com.mho.training.features.main.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>

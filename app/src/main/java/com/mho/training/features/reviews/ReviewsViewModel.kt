@@ -1,12 +1,12 @@
 package com.mho.training.features.reviews
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.android.domain.Review
 import com.example.android.domain.result.DataResult
 import com.example.android.usecases.GetReviewListUseCase
 import com.mho.training.bases.BaseViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ReviewsViewModel(
@@ -25,14 +25,14 @@ class ReviewsViewModel(
 
     //region Fields
 
-    private val _reviews = MutableLiveData<List<Review>>()
-    val reviews: LiveData<List<Review>> get() = _reviews
+    private val _reviews = MutableStateFlow(emptyList<Review>())
+    val reviews: StateFlow<List<Review>> get() = _reviews
 
-    private val _loadingReviews = MutableLiveData<Boolean>()
-    val loadingReviews: LiveData<Boolean> get() = _loadingReviews
+    private val _loadingReviews = MutableStateFlow(false)
+    val loadingReviews: StateFlow<Boolean> get() = _loadingReviews
 
-    private val _hasNotReviews = MutableLiveData<Boolean>()
-    val hasNotReviews: LiveData<Boolean> get() = _hasNotReviews
+    private val _hasNotReviews = MutableStateFlow(true)
+    val hasNotReviews: StateFlow<Boolean> get() = _hasNotReviews
 
     //endregion
 
