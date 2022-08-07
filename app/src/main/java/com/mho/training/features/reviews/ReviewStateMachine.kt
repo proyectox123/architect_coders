@@ -7,9 +7,11 @@ import kotlinx.coroutines.FlowPreview
 @ExperimentalCoroutinesApi
 class ReviewStateMachine(
     intentProcessor: IntentProcessorForReview,
+    actionInterpreter: ActionInterpreterForReview,
     reducer: ViewStateReducerForReview,
 ) : StateMachineForReview(
     intentProcessor,
+    actionInterpreter,
     reducer,
     ReviewIntent.LoadAllReviewIntent,
     ReviewViewState.idle()

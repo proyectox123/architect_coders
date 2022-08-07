@@ -17,9 +17,14 @@ class ReviewsFragmentModule(
 ) {
 
     @Provides
-    fun intentProcessorForReviewProvider(
+    fun intentProcessorForReviewProvider(): IntentProcessorForReview =
+        ReviewIntentProcessor(movieId)
+
+    @Provides
+    fun actionInterpreterForReviewProvider(
         getReviewListUseCase: GetReviewListUseCase
-    ) : IntentProcessorForReview = ReviewIntentProcessor(movieId, getReviewListUseCase)
+    ): ActionInterpreterForReview =
+        ReviewActionInterpreter(getReviewListUseCase)
 
     @Provides
     fun viewStateReducerForReviewProvider(): ViewStateReducerForReview = ReviewViewStateReducer()
@@ -27,9 +32,10 @@ class ReviewsFragmentModule(
     @Provides
     fun stateMachineForReviewProvider(
         intentProcessor: IntentProcessorForReview,
+        actionInterpreter: ActionInterpreterForReview,
         reducer: ViewStateReducerForReview
     ): StateMachineForReview =
-        ReviewStateMachine(intentProcessor, reducer)
+        ReviewStateMachine(intentProcessor, actionInterpreter, reducer)
 
     @Provides
     fun reviewsViewModelProvider(

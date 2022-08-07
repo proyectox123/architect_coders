@@ -6,8 +6,9 @@ import kotlinx.coroutines.flow.*
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-abstract class MviStateMachine<I : MviIntent, S : MviViewState, out R : MviResult>(
-    private val intentProcessor: MviIntentProcessor<I, R>,
+abstract class MviStateMachine<I : MviIntent, A : MviAction, S : MviViewState, out R : MviResult>(
+    private val intentProcessor: MviIntentProcessor<I, A>,
+    private val actionInterpreter: MviActionInterpreter<A, R>,
     private val reducer: MviViewStateReducer<S, R>,
     initialIntent: I,
     initialState: S
@@ -23,7 +24,8 @@ abstract class MviStateMachine<I : MviIntent, S : MviViewState, out R : MviResul
         get() = viewStateFlow
 
     val processor: Flow<S> = intentsChannel
-        .flatMapMerge { action -> intentProcessor.intentToResult(action) }
+        .map { intent -> intentProcessor.intentToAction(intent) }
+        .flatMapMerge { action -> actionInterpreter.actionToResult(action) }
         .scan(initialState) { previous, result -> reducer.reduce(previous, result) }
         .onEach { state -> viewStateFlow.value = state }
 

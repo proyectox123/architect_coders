@@ -3,6 +3,7 @@
 
 package com.mho.training.features.reviews
 
+import com.mho.training.mvi.MviActionInterpreter
 import com.mho.training.mvi.MviIntentProcessor
 import com.mho.training.mvi.MviStateMachine
 import com.mho.training.mvi.MviViewStateReducer
@@ -10,13 +11,17 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
 @FlowPreview
-typealias StateMachineForReview =
-        @JvmSuppressWildcards MviStateMachine<ReviewIntent, ReviewViewState, ReviewResult>
+typealias IntentProcessorForReview =
+        @JvmSuppressWildcards MviIntentProcessor<ReviewIntent, ReviewAction>
+
+@FlowPreview
+typealias ActionInterpreterForReview =
+        @JvmSuppressWildcards MviActionInterpreter<ReviewAction, ReviewResult>
 
 @FlowPreview
 typealias ViewStateReducerForReview =
         @JvmSuppressWildcards MviViewStateReducer<ReviewViewState, ReviewResult>
 
 @FlowPreview
-typealias IntentProcessorForReview =
-        @JvmSuppressWildcards MviIntentProcessor<ReviewIntent, ReviewResult>
+typealias StateMachineForReview =
+        @JvmSuppressWildcards MviStateMachine<ReviewIntent, ReviewAction, ReviewViewState, ReviewResult>
