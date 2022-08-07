@@ -3,6 +3,11 @@ apply plugin: 'kotlin'
 apply plugin: 'org.sonarqube'
 apply from: '../sonarqube.gradle'
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

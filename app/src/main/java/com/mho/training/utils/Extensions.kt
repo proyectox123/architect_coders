@@ -12,12 +12,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mho.training.MoviesApp
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.properties.Delegates
@@ -121,4 +126,13 @@ fun FragmentActivity.addFragment(containerViewId: Int, fragment: Fragment){
 @Suppress("unused")
 inline fun <reified T> T.logD(message: String){
     Log.d(T::class.java.simpleName, message)
+}
+
+inline fun <reified R> Flow<R>.observe(
+    lifecycleOwner: LifecycleOwner,
+    crossinline action: (R) -> Unit
+) {
+    onEach {
+        action(it)
+    }.launchIn(lifecycleOwner.lifecycleScope)
 }

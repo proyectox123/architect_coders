@@ -1,38 +1,28 @@
 package com.mho.training.features.reviews
 
-import com.example.android.domain.Review
-import com.example.android.domain.result.DataResult
-import com.example.android.usecases.GetReviewListUseCase
+import androidx.lifecycle.viewModelScope
 import com.mho.training.bases.BaseViewModel
+import com.mho.training.mvi.MviViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.launchIn
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class ReviewsViewModel(
-    private val movieId: Int,
-    private val getReviewListUseCase: GetReviewListUseCase,
+    private val reviewStateMachine: StateMachineForReview,
     uiDispatcher: CoroutineDispatcher
-) : BaseViewModel(uiDispatcher) {
+) : BaseViewModel(uiDispatcher), MviViewModel<ReviewIntent, ReviewViewState> {
 
     //region Constructors
 
     init {
         initScope()
+
+        reviewStateMachine.processor.launchIn(viewModelScope)
     }
-
-    //endregion
-
-    //region Fields
-
-    private val _reviews = MutableStateFlow(emptyList<Review>())
-    val reviews: StateFlow<List<Review>> get() = _reviews
-
-    private val _loadingReviews = MutableStateFlow(false)
-    val loadingReviews: StateFlow<Boolean> get() = _loadingReviews
-
-    private val _hasNotReviews = MutableStateFlow(true)
-    val hasNotReviews: StateFlow<Boolean> get() = _hasNotReviews
 
     //endregion
 
@@ -43,35 +33,13 @@ class ReviewsViewModel(
         super.onCleared()
     }
 
-    //endregion
-
-    //region Public Methods
-
-    fun onReviewsFromMovie(){
-        launch {
-            _loadingReviews.value = true
-            validateReviewResult(getReviewListUseCase.invoke(movieId))
-            _loadingReviews.value = false
-        }
+    override fun processIntent(intents: Flow<ReviewIntent>) {
+        reviewStateMachine
+            .processIntents(intents)
+            .launchIn(viewModelScope)
     }
 
-    //endregion
-
-    //region Private Methods
-
-    private fun validateReviewResult(reviewListResult: DataResult<List<Review>>){
-        when(reviewListResult){
-            is DataResult.Success -> {
-                _reviews.value = reviewListResult.data
-                _hasNotReviews.value = false
-            }
-            is DataResult.Error -> {
-                _reviews.value = emptyList()
-                _hasNotReviews.value = true
-            }
-        }
-    }
+    override fun states(): Flow<ReviewViewState> = reviewStateMachine.viewState
 
     //endregion
-
 }

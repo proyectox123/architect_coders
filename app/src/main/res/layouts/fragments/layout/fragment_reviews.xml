@@ -34,26 +34,25 @@
                     android:text="@string/section_reviews" />
 
             <ProgressBar
+                    android:id="@+id/reviewProgressBar"
                     android:layout_width="@dimen/progress_bar_detail_width"
                     android:layout_height="@dimen/progress_bar_detail_height"
-                    android:layout_gravity="center"
-                    app:visible="@{viewmodel.loadingReviews}" />
+                    android:layout_gravity="center" />
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/reviewListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:items="@{viewmodel.reviews}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_review"
                     tools:itemCount="2" />
 
             <TextView
                     style="@style/MovieDetailInfoError"
+                    android:id="@+id/reviewErrorText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/error_not_available"
-                    app:visible="@{viewmodel.hasNotReviews}"
                     tools:visibility="visible" />
 
         </LinearLayout>

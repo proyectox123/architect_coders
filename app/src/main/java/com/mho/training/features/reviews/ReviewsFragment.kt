@@ -5,18 +5,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.android.domain.Review
 import com.mho.training.R
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.databinding.FragmentReviewsBinding
+import com.mho.training.mvi.MviView
 import com.mho.training.utils.Constants
 import com.mho.training.utils.app
 import com.mho.training.utils.getViewModel
+import com.mho.training.utils.observe
 import kotlinx.android.synthetic.main.fragment_reviews.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.merge
 
-class ReviewsFragment : Fragment() {
+@FlowPreview
+@ExperimentalCoroutinesApi
+class ReviewsFragment : Fragment(), MviView<ReviewIntent, ReviewViewState> {
 
     //region Fields
 
@@ -73,7 +83,20 @@ class ReviewsFragment : Fragment() {
 
         reviewListView.adapter = reviewListAdapter
 
-        viewModel.onReviewsFromMovie()
+        viewModel.processIntent(intents())
+        viewModel.states().observe(viewLifecycleOwner, ::render)
+    }
+
+    override fun intents(): Flow<ReviewIntent> =
+        merge(loadAllReviewIntent(), openReviewIntent())
+
+    override fun render(state: ReviewViewState) {
+        reviewProgressBar.isVisible = state.isLoading
+        reviewErrorText.isVisible = state.error != null
+
+        (reviewListView.adapter as? ReviewListAdapter)?.let {
+            it.reviews = state.reviews
+        }
     }
 
     //endregion
@@ -83,6 +106,16 @@ class ReviewsFragment : Fragment() {
     private fun openReview(review: Review){
         listener.openReview(review)
     }
+
+    private fun loadAllReviewIntent(): Flow<ReviewIntent> =
+        flow {
+            emit(ReviewIntent.LoadAllReviewIntent)
+        }
+
+    private fun openReviewIntent(): Flow<ReviewIntent> =
+        flow {
+
+        }
 
     //endregion
 
@@ -99,7 +132,5 @@ class ReviewsFragment : Fragment() {
         fun newInstance(bundle: Bundle) = ReviewsFragment().apply {
             arguments = bundle
         }
-
     }
-
 }

@@ -6,27 +6,46 @@ import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 @Module
 class ReviewsFragmentModule(
     private val movieId: Int
 ) {
 
     @Provides
-    fun reviewsViewModelProvider(
+    fun intentProcessorForReviewProvider(
         getReviewListUseCase: GetReviewListUseCase
+    ) : IntentProcessorForReview = ReviewIntentProcessor(movieId, getReviewListUseCase)
+
+    @Provides
+    fun viewStateReducerForReviewProvider(): ViewStateReducerForReview = ReviewViewStateReducer()
+
+    @Provides
+    fun stateMachineForReviewProvider(
+        intentProcessor: IntentProcessorForReview,
+        reducer: ViewStateReducerForReview
+    ): StateMachineForReview =
+        ReviewStateMachine(intentProcessor, reducer)
+
+    @Provides
+    fun reviewsViewModelProvider(
+        reviewStateMachine: StateMachineForReview
     ) = ReviewsViewModel(
-        movieId,
-        getReviewListUseCase,
+        reviewStateMachine,
         Dispatchers.Main
     )
 
     @Provides
     fun getReviewListUseCaseProvider(reviewRepository: ReviewRepository) =
         GetReviewListUseCase(reviewRepository)
-
 }
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 @Subcomponent(modules = [(ReviewsFragmentModule::class)])
 interface ReviewsFragmentComponent {
     val reviewsViewModel: ReviewsViewModel
