@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.*
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-abstract class MviStateMachine<I : MviIntent, A : MviAction, S : MviViewState, out R : MviResult>(
+abstract class MviStateMachine<I : Mvi.Intent, A : Mvi.Action, S : Mvi.ViewState, out R : Mvi.Result>(
     private val intentInterpreter: MviIntentInterpreter<I, A>,
     private val actionProcessor: MviActionProcessor<A, R>,
     private val reducer: MviViewStateReducer<S, R>,

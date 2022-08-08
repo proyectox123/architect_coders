@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.launchIn
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-abstract class MviViewModel<I: MviIntent, A: MviAction, S: MviViewState, R: MviResult>(
+abstract class MviViewModel<I: Mvi.Intent, A: Mvi.Action, S: Mvi.ViewState, R: Mvi.Result>(
     private val stateMachine: MviStateMachine<I, A, S, R>,
     uiDispatcher: CoroutineDispatcher,
 ) : BaseViewModel(uiDispatcher) {

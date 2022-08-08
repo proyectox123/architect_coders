@@ -1,9 +1,9 @@
 package com.mho.training.features.reviews.mvi
 
 import com.example.android.domain.Review
-import com.mho.training.mvi.MviResult
+import com.mho.training.mvi.Mvi
 
-sealed class ReviewResult : MviResult {
+sealed class ReviewResult : Mvi.Result {
 
     sealed class LoadAllReviewResult: ReviewResult() {
         object Loading : LoadAllReviewResult()

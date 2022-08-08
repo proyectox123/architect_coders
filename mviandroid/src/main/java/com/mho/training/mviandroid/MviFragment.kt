@@ -9,10 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.mho.training.mvi.MviAction
-import com.mho.training.mvi.MviIntent
-import com.mho.training.mvi.MviResult
-import com.mho.training.mvi.MviViewState
+import com.mho.training.mvi.Mvi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -22,12 +19,12 @@ import kotlinx.coroutines.flow.onEach
 @ExperimentalCoroutinesApi
 @FlowPreview
 abstract class MviFragment<
-        I: MviIntent,
-        A: MviAction,
-        S: MviViewState,
-        R: MviResult,
+        I: Mvi.Intent,
+        A: Mvi.Action,
+        S: Mvi.ViewState,
+        R: Mvi.Result,
         VM: MviViewModel<I, A, S, R>,
-        B: ViewDataBinding
+        DB: ViewDataBinding
 > : Fragment() {
 
     @get:LayoutRes
@@ -35,7 +32,7 @@ abstract class MviFragment<
 
     abstract val viewModel: VM
 
-    abstract fun B.initializeDataBinding()
+    abstract fun DB.initializeDataBinding()
 
     abstract fun intents(): Flow<I>
 
@@ -45,23 +42,19 @@ abstract class MviFragment<
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return DataBindingUtil.inflate<B>(
-            inflater,
-            fragmentLayout,
-            container,
-            false
-        ).apply {
+    ): View = DataBindingUtil.inflate<DB>(inflater, fragmentLayout, container, false)
+        .apply {
             initializeDataBinding()
         }.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.processIntent(intents())
-        viewModel.states()
-            .onEach { render(it) }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+        with(viewModel) {
+            processIntent(intents())
+            states()
+                .onEach { viewState: S -> render(viewState) }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+        }
     }
 }
