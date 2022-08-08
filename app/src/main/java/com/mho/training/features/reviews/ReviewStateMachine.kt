@@ -6,12 +6,12 @@ import kotlinx.coroutines.FlowPreview
 @FlowPreview
 @ExperimentalCoroutinesApi
 class ReviewStateMachine(
-    intentProcessor: IntentProcessorForReview,
-    actionInterpreter: ActionInterpreterForReview,
+    intentInterpreter: IntentInterpreterForReview,
+    actionProcessor: ActionProcessorForReview,
     reducer: ViewStateReducerForReview,
 ) : StateMachineForReview(
-    intentProcessor,
-    actionInterpreter,
+    intentInterpreter,
+    actionProcessor,
     reducer,
     ReviewIntent.LoadAllReviewIntent,
     ReviewViewState.idle()

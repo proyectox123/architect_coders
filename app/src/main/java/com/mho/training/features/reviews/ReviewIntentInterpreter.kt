@@ -7,9 +7,9 @@ import com.mho.training.features.reviews.ReviewIntent.OpenReviewIntent
 import kotlinx.coroutines.FlowPreview
 
 @FlowPreview
-class ReviewIntentProcessor(
+class ReviewIntentInterpreter(
     private val movieId: Int,
-) : IntentProcessorForReview {
+) : IntentInterpreterForReview {
 
     override fun intentToAction(intent: ReviewIntent): ReviewAction =
         when (intent) {

@@ -14,9 +14,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 
 @FlowPreview
-class ReviewActionInterpreter(
+class ReviewActionProcessor(
     private val getReviewListUseCase: GetReviewListUseCase,
-) : ActionInterpreterForReview {
+) : ActionProcessorForReview {
 
     override fun actionToResult(action: ReviewAction): Flow<ReviewResult> =
         when (action) {
