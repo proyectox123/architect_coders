@@ -1,7 +1,8 @@
-package com.mho.training.features.reviews
+package com.mho.training.features.reviews.mvi
 
-import com.mho.training.features.reviews.ReviewResult.LoadAllReviewResult
-import com.mho.training.features.reviews.ReviewResult.OpenReviewResult
+import com.mho.training.features.reviews.alias.ViewStateReducerForReview
+import com.mho.training.features.reviews.mvi.ReviewResult.LoadAllReviewResult
+import com.mho.training.features.reviews.mvi.ReviewResult.OpenReviewResult
 import kotlinx.coroutines.FlowPreview
 
 @FlowPreview

@@ -1,12 +1,13 @@
-package com.mho.training.features.reviews
+package com.mho.training.features.reviews.mvi
 
 import com.example.android.domain.Review
 import com.example.android.domain.result.DataResult
 import com.example.android.usecases.GetReviewListUseCase
-import com.mho.training.features.reviews.ReviewAction.LoadAllReviewAction
-import com.mho.training.features.reviews.ReviewAction.OpenReviewAction
-import com.mho.training.features.reviews.ReviewResult.LoadAllReviewResult
-import com.mho.training.features.reviews.ReviewResult.OpenReviewResult
+import com.mho.training.features.reviews.alias.ActionProcessorForReview
+import com.mho.training.features.reviews.mvi.ReviewAction.LoadAllReviewAction
+import com.mho.training.features.reviews.mvi.ReviewAction.OpenReviewAction
+import com.mho.training.features.reviews.mvi.ReviewResult.LoadAllReviewResult
+import com.mho.training.features.reviews.mvi.ReviewResult.OpenReviewResult
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

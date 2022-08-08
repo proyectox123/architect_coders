@@ -1,6 +1,9 @@
-package com.mho.training.utils
+package com.mho.training.mviandroid.utils
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlin.coroutines.CoroutineContext
 
 interface Scope : CoroutineScope {

@@ -6,3 +6,4 @@ include ':app',
         ':frameworkroom',
         ':mvi',
         ':testShared'
+include ':mviandroid'

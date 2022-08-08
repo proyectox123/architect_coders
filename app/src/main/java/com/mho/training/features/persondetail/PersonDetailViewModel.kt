@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.android.domain.Person
 import com.example.android.domain.result.DataResult
 import com.example.android.usecases.GetPersonInformationUseCase
-import com.mho.training.bases.BaseViewModel
+import com.mho.training.mviandroid.bases.BaseViewModel
 import com.mho.training.utils.Constants.LESS_LINES_BIOGRAPHY
 import com.mho.training.utils.Constants.MAX_LINES_BIOGRAPHY
 import com.mho.training.utils.Event

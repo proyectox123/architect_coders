@@ -17,8 +17,8 @@ import com.mho.training.features.persondetail.PersonDetailActivityComponent
 import com.mho.training.features.persondetail.PersonDetailActivityModule
 import com.mho.training.features.relatedmoviesbyperson.RelatedMoviesByPersonFragmentComponent
 import com.mho.training.features.relatedmoviesbyperson.RelatedMoviesByPersonFragmentModule
-import com.mho.training.features.reviews.ReviewsFragmentComponent
-import com.mho.training.features.reviews.ReviewsFragmentModule
+import com.mho.training.features.reviews.di.ReviewsFragmentComponent
+import com.mho.training.features.reviews.di.ReviewsFragmentModule
 import com.mho.training.features.trailers.TrailersFragmentComponent
 import com.mho.training.features.trailers.TrailersFragmentModule
 import dagger.BindsInstance

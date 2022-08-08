@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.android.domain.Credit
 import com.example.android.domain.result.DataResult
 import com.example.android.usecases.GetCreditListUseCase
-import com.mho.training.bases.BaseViewModel
+import com.mho.training.mviandroid.bases.BaseViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 

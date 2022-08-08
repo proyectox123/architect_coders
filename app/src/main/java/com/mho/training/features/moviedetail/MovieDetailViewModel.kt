@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.android.domain.Movie
 import com.example.android.usecases.GetFavoriteMovieStatus
 import com.example.android.usecases.UpdateFavoriteMovieStatusUseCase
-import com.mho.training.bases.BaseViewModel
+import com.mho.training.mviandroid.bases.BaseViewModel
 import com.mho.training.utils.Event
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch

@@ -12,6 +12,10 @@ import com.example.android.domain.Review
 import com.mho.training.R
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.databinding.FragmentReviewsBinding
+import com.mho.training.features.reviews.di.ReviewsFragmentComponent
+import com.mho.training.features.reviews.di.ReviewsFragmentModule
+import com.mho.training.features.reviews.mvi.ReviewIntent
+import com.mho.training.features.reviews.mvi.ReviewViewState
 import com.mho.training.mvi.MviView
 import com.mho.training.utils.Constants
 import com.mho.training.utils.app
@@ -54,9 +58,11 @@ class ReviewsFragment : Fragment(), MviView<ReviewIntent, ReviewViewState> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        component = app.component.plus(ReviewsFragmentModule(
+        component = app.component.plus(
+            ReviewsFragmentModule(
             arguments?.getInt(Constants.EXTRA_MOVIE_ID, 0) ?: 0
-        ))
+            )
+        )
     }
 
     override fun onCreateView(

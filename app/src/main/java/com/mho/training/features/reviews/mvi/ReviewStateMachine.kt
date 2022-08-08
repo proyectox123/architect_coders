@@ -1,5 +1,9 @@
-package com.mho.training.features.reviews
+package com.mho.training.features.reviews.mvi
 
+import com.mho.training.features.reviews.alias.ActionProcessorForReview
+import com.mho.training.features.reviews.alias.IntentInterpreterForReview
+import com.mho.training.features.reviews.alias.StateMachineForReview
+import com.mho.training.features.reviews.alias.ViewStateReducerForReview
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
@@ -13,6 +17,5 @@ class ReviewStateMachine(
     intentInterpreter,
     actionProcessor,
     reducer,
-    ReviewIntent.LoadAllReviewIntent,
     ReviewViewState.idle()
 )

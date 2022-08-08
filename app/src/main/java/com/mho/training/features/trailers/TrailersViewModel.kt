@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.android.domain.Trailer
 import com.example.android.domain.result.DataResult
 import com.example.android.usecases.GetTrailerListUseCase
-import com.mho.training.bases.BaseViewModel
+import com.mho.training.mviandroid.bases.BaseViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 

@@ -87,7 +87,7 @@ dependencies {
     implementation project(":domain")
     implementation project(":frameworkretrofit")
     implementation project(":frameworkroom")
-    implementation project(":mvi")
+    implementation project(":mviandroid")
     implementation project(":usecases")
     testImplementation project(':testShared')
 

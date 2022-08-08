@@ -7,6 +7,7 @@ import com.example.android.testshared.defaultFakeReviews
 import com.example.android.testshared.mockedMovie
 import com.mho.training.di.DaggerTestComponent
 import com.mho.training.di.TestComponent
+import com.mho.training.features.reviews.di.ReviewsFragmentModule
 import com.mho.training.rules.CoroutinesTestRule
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi

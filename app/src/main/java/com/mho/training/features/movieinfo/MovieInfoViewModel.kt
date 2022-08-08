@@ -6,7 +6,7 @@ import com.example.android.domain.Movie
 import com.example.android.domain.MovieDetail
 import com.example.android.domain.result.DataResult
 import com.example.android.usecases.GetMovieDetailByIdUseCase
-import com.mho.training.bases.BaseViewModel
+import com.mho.training.mviandroid.bases.BaseViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 

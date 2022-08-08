@@ -1,4 +1,4 @@
-package com.mho.training.features.reviews
+package com.mho.training.features.reviews.mvi
 
 import com.mho.training.mvi.MviAction
 

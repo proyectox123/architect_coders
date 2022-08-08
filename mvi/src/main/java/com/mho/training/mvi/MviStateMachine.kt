@@ -10,15 +10,12 @@ abstract class MviStateMachine<I : MviIntent, A : MviAction, S : MviViewState, o
     private val intentInterpreter: MviIntentInterpreter<I, A>,
     private val actionProcessor: MviActionProcessor<A, R>,
     private val reducer: MviViewStateReducer<S, R>,
-    initialIntent: I,
     initialState: S
 ) {
 
     private val viewStateFlow: MutableStateFlow<S> = MutableStateFlow(initialState)
 
-    private val intentsChannel: MutableSharedFlow<I> = MutableSharedFlow<I>(1).apply {
-        tryEmit(initialIntent)
-    }
+    private val intentsChannel: MutableSharedFlow<I> = MutableSharedFlow(1)
 
     val viewState: Flow<S>
         get() = viewStateFlow

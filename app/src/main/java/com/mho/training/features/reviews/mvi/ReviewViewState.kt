@@ -1,4 +1,4 @@
-package com.mho.training.features.reviews
+package com.mho.training.features.reviews.mvi
 
 import com.example.android.domain.Review
 import com.mho.training.mvi.MviViewState

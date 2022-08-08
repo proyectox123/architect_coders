@@ -7,7 +7,7 @@ import androidx.lifecycle.asLiveData
 import com.example.android.domain.Movie
 import com.example.android.domain.result.DataResult
 import com.example.android.usecases.*
-import com.mho.training.bases.BaseViewModel
+import com.mho.training.mviandroid.bases.BaseViewModel
 import com.mho.training.enums.MovieCategoryEnum
 import com.mho.training.utils.Event
 import kotlinx.coroutines.CoroutineDispatcher
