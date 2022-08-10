@@ -3,14 +3,8 @@ package com.mho.training.features.reviews.di
 import com.example.android.data.repositories.ReviewRepository
 import com.example.android.usecases.GetReviewListUseCase
 import com.mho.training.features.reviews.ReviewsViewModel
-import com.mho.training.features.reviews.alias.ActionProcessorForReview
-import com.mho.training.features.reviews.alias.IntentInterpreterForReview
-import com.mho.training.features.reviews.alias.StateMachineForReview
-import com.mho.training.features.reviews.alias.ViewStateReducerForReview
-import com.mho.training.features.reviews.mvi.ReviewActionProcessor
-import com.mho.training.features.reviews.mvi.ReviewIntentInterpreter
-import com.mho.training.features.reviews.mvi.ReviewStateMachine
-import com.mho.training.features.reviews.mvi.ReviewViewStateReducer
+import com.mho.training.features.reviews.alias.*
+import com.mho.training.features.reviews.mvi.*
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
@@ -22,7 +16,7 @@ import kotlinx.coroutines.FlowPreview
 @ExperimentalCoroutinesApi
 @Module
 class ReviewsFragmentModule(
-    private val movieId: Int
+    private val movieId: Int,
 ) {
 
     @Provides
@@ -39,12 +33,22 @@ class ReviewsFragmentModule(
     fun viewStateReducerForReviewProvider(): ViewStateReducerForReview = ReviewViewStateReducer()
 
     @Provides
+    fun sideEffectFactoryForReviewProvider(): SideEffectFactoryForReview =
+        ReviewSideEffectFactory()
+
+    @Provides
     fun stateMachineForReviewProvider(
         intentInterpreter: IntentInterpreterForReview,
         actionProcessor: ActionProcessorForReview,
-        reducer: ViewStateReducerForReview
+        reducer: ViewStateReducerForReview,
+        sideEffectFactory: SideEffectFactoryForReview,
     ): StateMachineForReview =
-        ReviewStateMachine(intentInterpreter, actionProcessor, reducer)
+        ReviewStateMachine(
+            intentInterpreter,
+            actionProcessor,
+            reducer,
+            sideEffectFactory
+        )
 
     @Provides
     fun reviewsViewModelProvider(

@@ -17,6 +17,6 @@ class ReviewViewStateReducer : ViewStateReducerForReview {
             previous.copy(isLoading = false, error = result.error, reviews = emptyList())
         is LoadAllReviewResult.Success ->
             previous.copy(isLoading = false, error = null, reviews = result.reviews)
-        OpenReviewResult.Success -> previous.copy(isLoading = false)
+        is OpenReviewResult.Success -> previous
     }
 }

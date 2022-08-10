@@ -23,8 +23,12 @@ import com.mho.training.features.trailers.TrailersFragmentComponent
 import com.mho.training.features.trailers.TrailersFragmentModule
 import dagger.BindsInstance
 import dagger.Component
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import javax.inject.Singleton
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 @Singleton
 @Component(modules = [AppModule::class, DataModule::class,
     MovieRequestModule::class, RequestModule::class, ResourcesModule::class])

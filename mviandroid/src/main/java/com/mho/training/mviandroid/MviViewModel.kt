@@ -1,7 +1,8 @@
 package com.mho.training.mviandroid
 
 import androidx.lifecycle.viewModelScope
-import com.mho.training.mvi.*
+import com.mho.training.mvi.Mvi
+import com.mho.training.mvi.MviStateMachine
 import com.mho.training.mviandroid.bases.BaseViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -11,8 +12,14 @@ import kotlinx.coroutines.flow.launchIn
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-abstract class MviViewModel<I: Mvi.Intent, A: Mvi.Action, S: Mvi.ViewState, R: Mvi.Result>(
-    private val stateMachine: MviStateMachine<I, A, S, R>,
+abstract class MviViewModel<
+        I: Mvi.Intent,
+        A: Mvi.Action,
+        S: Mvi.ViewState,
+        R: Mvi.Result,
+        SE: Mvi.SideEffect,
+>(
+    private val stateMachine: MviStateMachine<I, A, S, R, SE>,
     uiDispatcher: CoroutineDispatcher,
 ) : BaseViewModel(uiDispatcher) {
 
@@ -21,7 +28,6 @@ abstract class MviViewModel<I: Mvi.Intent, A: Mvi.Action, S: Mvi.ViewState, R: M
     init {
         stateMachine.processor.launchIn(viewModelScope)
     }
-
     //endregion
 
     //region Public Methods
@@ -33,6 +39,8 @@ abstract class MviViewModel<I: Mvi.Intent, A: Mvi.Action, S: Mvi.ViewState, R: M
     }
 
     fun states(): Flow<S> = stateMachine.viewState
+
+    fun sideEffects() : Flow<SE> = stateMachine.sideEffect
 
     //endregion
 }

@@ -12,6 +12,6 @@ sealed class ReviewResult : Mvi.Result {
     }
 
     sealed class OpenReviewResult: ReviewResult() {
-        object Success : OpenReviewResult()
+        data class Success(val review: Review) : OpenReviewResult()
     }
 }

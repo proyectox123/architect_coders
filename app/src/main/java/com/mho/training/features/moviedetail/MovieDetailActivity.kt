@@ -7,7 +7,10 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.example.android.domain.*
+import com.example.android.domain.Credit
+import com.example.android.domain.Keyword
+import com.example.android.domain.Movie
+import com.example.android.domain.Trailer
 import com.mho.training.R
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.data.translators.toParcelableMovie
@@ -26,7 +29,6 @@ import com.mho.training.utils.*
 class MovieDetailActivity : AppCompatActivity(),
     CreditsFragment.OnCreditsFragmentListener,
     KeywordsFragment.OnKeywordsFragmentListener,
-    ReviewsFragment.OnReviewsFragmentListener,
     TrailersFragment.OnTrailersFragmentListener {
 
     //region Fields
@@ -82,15 +84,6 @@ class MovieDetailActivity : AppCompatActivity(),
 
     override fun openKeyword(keyword: Keyword){
         Log.d(TAG, "openKeyword -> $keyword")
-    }
-
-    override fun openReview(review: Review){
-        Log.d(TAG, "openReview -> $review")
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(review.url)
-        }
-
-        startActivity(intent)
     }
 
     override fun openTrailer(trailer: Trailer){

@@ -9,4 +9,6 @@ interface Mvi {
     interface Result
 
     interface ViewState
+
+    interface SideEffect
 }

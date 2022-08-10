@@ -2,13 +2,16 @@ package com.mho.training.adapters.review
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mho.training.R
 import com.example.android.domain.Review
+import com.mho.training.R
+import com.mho.training.features.reviews.mvi.ReviewIntent
 import com.mho.training.utils.basicDiffUtil
 import com.mho.training.utils.bindingInflate
+import kotlinx.coroutines.channels.SendChannel
 
-class ReviewListAdapter(private val listener: (Review) -> Unit) :
-    RecyclerView.Adapter<ReviewViewHolder>() {
+class ReviewListAdapter(
+    private val sendChannel: SendChannel<ReviewIntent.OpenReviewIntent>
+) : RecyclerView.Adapter<ReviewViewHolder>() {
 
     var reviews: List<Review> by basicDiffUtil(
         emptyList(),
@@ -16,7 +19,7 @@ class ReviewListAdapter(private val listener: (Review) -> Unit) :
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ReviewViewHolder(parent.bindingInflate(R.layout.item_review, false), listener)
+        ReviewViewHolder(parent.bindingInflate(R.layout.item_review, false), sendChannel)
 
     override fun getItemCount() = reviews.size
 

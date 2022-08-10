@@ -1,19 +1,16 @@
 package com.mho.training.features.reviews
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import com.example.android.domain.Review
 import com.mho.training.R
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.databinding.FragmentReviewsBinding
 import com.mho.training.features.reviews.di.ReviewsFragmentComponent
 import com.mho.training.features.reviews.di.ReviewsFragmentModule
-import com.mho.training.features.reviews.mvi.ReviewAction
-import com.mho.training.features.reviews.mvi.ReviewIntent
-import com.mho.training.features.reviews.mvi.ReviewResult
-import com.mho.training.features.reviews.mvi.ReviewViewState
+import com.mho.training.features.reviews.mvi.*
+import com.mho.training.features.reviews.router.ReviewRouter
+import com.mho.training.mvi.MviRouter
 import com.mho.training.mviandroid.MviFragment
 import com.mho.training.utils.Constants
 import com.mho.training.utils.app
@@ -21,7 +18,9 @@ import com.mho.training.utils.getViewModel
 import kotlinx.android.synthetic.main.fragment_reviews.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.merge
 
@@ -32,13 +31,15 @@ class ReviewsFragment : MviFragment<
         ReviewAction,
         ReviewViewState,
         ReviewResult,
+        ReviewSideEffect,
         ReviewsViewModel,
         FragmentReviewsBinding,
 >() {
 
     //region Fields
 
-    private lateinit var listener: OnReviewsFragmentListener
+    private val openReviewIntentChannel = Channel<ReviewIntent.OpenReviewIntent>()
+
     private lateinit var reviewListAdapter: ReviewListAdapter
     private lateinit var component: ReviewsFragmentComponent
 
@@ -53,13 +54,8 @@ class ReviewsFragment : MviFragment<
         getViewModel { component.reviewsViewModel }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try{
-            listener = context as OnReviewsFragmentListener
-        }catch (e: ClassCastException){
-            throw ClassCastException("$context must implement OnReviewsFragmentListener")
-        }
+    override val router: MviRouter<ReviewSideEffect> by lazy {
+        ReviewRouter(requireActivity())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +63,7 @@ class ReviewsFragment : MviFragment<
 
         component = app.component.plus(
             ReviewsFragmentModule(
-            arguments?.getInt(Constants.EXTRA_MOVIE_ID, 0) ?: 0
+                arguments?.getInt(Constants.EXTRA_MOVIE_ID, 0) ?: 0,
             )
         )
     }
@@ -75,7 +71,7 @@ class ReviewsFragment : MviFragment<
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        reviewListAdapter = ReviewListAdapter(::openReview)
+        reviewListAdapter = ReviewListAdapter(openReviewIntentChannel)
 
         reviewListView.adapter = reviewListAdapter
     }
@@ -101,27 +97,12 @@ class ReviewsFragment : MviFragment<
 
     //region Private Methods
 
-    private fun openReview(review: Review){
-        listener.openReview(review)
-    }
-
     private fun loadAllReviewIntent(): Flow<ReviewIntent> =
         flow {
             emit(ReviewIntent.LoadAllReviewIntent)
         }
 
-    private fun openReviewIntent(): Flow<ReviewIntent> =
-        flow {
-
-        }
-
-    //endregion
-
-    //region Inner Classes & Callbacks
-
-    interface OnReviewsFragmentListener {
-        fun openReview(review: Review)
-    }
+    private fun openReviewIntent(): Flow<ReviewIntent> = openReviewIntentChannel.consumeAsFlow()
 
     //endregion
 

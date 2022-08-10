@@ -10,6 +10,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.mho.training.mvi.Mvi
+import com.mho.training.mvi.MviRouter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -23,7 +24,8 @@ abstract class MviFragment<
         A: Mvi.Action,
         S: Mvi.ViewState,
         R: Mvi.Result,
-        VM: MviViewModel<I, A, S, R>,
+        SE: Mvi.SideEffect,
+        VM: MviViewModel<I, A, S, R, SE>,
         DB: ViewDataBinding
 > : Fragment() {
 
@@ -31,6 +33,8 @@ abstract class MviFragment<
     abstract val fragmentLayout: Int
 
     abstract val viewModel: VM
+
+    abstract val router: MviRouter<SE>
 
     abstract fun DB.initializeDataBinding()
 
@@ -53,7 +57,10 @@ abstract class MviFragment<
         with(viewModel) {
             processIntent(intents())
             states()
-                .onEach { viewState: S -> render(viewState) }
+                .onEach { viewState -> render(viewState) }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+            sideEffects()
+                .onEach { sideEffect -> router.route(sideEffect) }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
     }

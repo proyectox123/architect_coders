@@ -15,6 +15,6 @@ class ReviewIntentInterpreter(
     override fun intentToAction(intent: ReviewIntent): ReviewAction =
         when (intent) {
             LoadAllReviewIntent -> LoadAllReviewAction(movieId)
-            OpenReviewIntent -> OpenReviewAction(movieId)
+            is OpenReviewIntent -> OpenReviewAction(intent.review)
         }
 }

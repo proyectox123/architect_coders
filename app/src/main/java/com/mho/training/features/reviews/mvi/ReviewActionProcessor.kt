@@ -22,7 +22,7 @@ class ReviewActionProcessor(
     override fun actionToResult(action: ReviewAction): Flow<ReviewResult> =
         when (action) {
             is LoadAllReviewAction -> loadAllReview(action.movieId)
-            is OpenReviewAction -> openReview(action.movieId)
+            is OpenReviewAction -> openReview(action.review)
         }
 
     private fun loadAllReview(movieId: Int) : Flow<ReviewResult> =
@@ -34,8 +34,8 @@ class ReviewActionProcessor(
             emit(LoadAllReviewResult.Failure(error))
         }
 
-    private fun openReview(movieId: Int) : Flow<ReviewResult> = flow {
-        emit(OpenReviewResult.Success)
+    private fun openReview(review: Review) : Flow<ReviewResult> = flow {
+        emit(OpenReviewResult.Success(review))
     }
 
     private fun validateReviewListUseCase(

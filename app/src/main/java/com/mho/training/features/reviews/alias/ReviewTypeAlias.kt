@@ -3,14 +3,8 @@
 
 package com.mho.training.features.reviews.alias
 
-import com.mho.training.features.reviews.mvi.ReviewAction
-import com.mho.training.features.reviews.mvi.ReviewIntent
-import com.mho.training.features.reviews.mvi.ReviewResult
-import com.mho.training.features.reviews.mvi.ReviewViewState
-import com.mho.training.mvi.MviActionProcessor
-import com.mho.training.mvi.MviIntentInterpreter
-import com.mho.training.mvi.MviStateMachine
-import com.mho.training.mvi.MviViewStateReducer
+import com.mho.training.features.reviews.mvi.*
+import com.mho.training.mvi.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
@@ -27,5 +21,14 @@ typealias ViewStateReducerForReview =
         @JvmSuppressWildcards MviViewStateReducer<ReviewViewState, ReviewResult>
 
 @FlowPreview
-typealias StateMachineForReview =
-        @JvmSuppressWildcards MviStateMachine<ReviewIntent, ReviewAction, ReviewViewState, ReviewResult>
+typealias SideEffectFactoryForReview =
+        @JvmSuppressWildcards MviSideEffectFactory<ReviewResult, ReviewSideEffect>
+
+@FlowPreview
+typealias StateMachineForReview = @JvmSuppressWildcards MviStateMachine<
+        ReviewIntent,
+        ReviewAction,
+        ReviewViewState,
+        ReviewResult,
+        ReviewSideEffect
+        >
