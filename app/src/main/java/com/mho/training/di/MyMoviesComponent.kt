@@ -19,8 +19,8 @@ import com.mho.training.features.relatedmoviesbyperson.RelatedMoviesByPersonFrag
 import com.mho.training.features.relatedmoviesbyperson.RelatedMoviesByPersonFragmentModule
 import com.mho.training.features.reviews.di.ReviewsFragmentComponent
 import com.mho.training.features.reviews.di.ReviewsFragmentModule
-import com.mho.training.features.trailers.TrailersFragmentComponent
-import com.mho.training.features.trailers.TrailersFragmentModule
+import com.mho.training.features.trailers.di.TrailersFragmentComponent
+import com.mho.training.features.trailers.di.TrailersFragmentModule
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -33,27 +33,26 @@
                     android:text="@string/section_trailers" />
 
             <ProgressBar
+                    android:id="@+id/trailerProgressBar"
                     android:layout_width="@dimen/progress_bar_detail_width"
                     android:layout_height="@dimen/progress_bar_detail_height"
-                    android:layout_gravity="center"
-                    app:visible="@{viewmodel.loadingTrailers}" />
+                    android:layout_gravity="center" />
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/trailerListView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:items="@{viewmodel.trailers}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_trailer"
                     tools:itemCount="5" />
 
             <TextView
+                    android:id="@+id/trailerErrorText"
                     style="@style/MovieDetailInfoError"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/error_not_available"
-                    app:visible="@{viewmodel.hasNotTrailers}"
                     tools:visibility="visible" />
 
         </LinearLayout>

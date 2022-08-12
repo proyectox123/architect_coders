@@ -10,9 +10,9 @@ import kotlinx.coroutines.FlowPreview
 @FlowPreview
 @ExperimentalCoroutinesApi
 class ReviewsViewModel(
-    reviewStateMachine: StateMachineForReview,
+    stateMachine: StateMachineForReview,
     uiDispatcher: CoroutineDispatcher
 ) : MviViewModel<ReviewIntent, ReviewAction, ReviewViewState, ReviewResult, ReviewSideEffect>(
-    reviewStateMachine,
+    stateMachine,
     uiDispatcher,
 )

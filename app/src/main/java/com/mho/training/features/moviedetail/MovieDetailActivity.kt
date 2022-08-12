@@ -1,7 +1,5 @@
 package com.mho.training.features.moviedetail
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -10,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import com.example.android.domain.Credit
 import com.example.android.domain.Keyword
 import com.example.android.domain.Movie
-import com.example.android.domain.Trailer
 import com.mho.training.R
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.data.translators.toParcelableMovie
@@ -28,8 +25,7 @@ import com.mho.training.utils.*
 
 class MovieDetailActivity : AppCompatActivity(),
     CreditsFragment.OnCreditsFragmentListener,
-    KeywordsFragment.OnKeywordsFragmentListener,
-    TrailersFragment.OnTrailersFragmentListener {
+    KeywordsFragment.OnKeywordsFragmentListener {
 
     //region Fields
 
@@ -84,15 +80,6 @@ class MovieDetailActivity : AppCompatActivity(),
 
     override fun openKeyword(keyword: Keyword){
         Log.d(TAG, "openKeyword -> $keyword")
-    }
-
-    override fun openTrailer(trailer: Trailer){
-        Log.d(TAG, "openTrailer -> $trailer")
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            data = Uri.parse(trailer.videoPath)
-        }
-
-        startActivity(intent)
     }
 
     //endregion

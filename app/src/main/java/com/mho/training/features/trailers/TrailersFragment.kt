@@ -1,96 +1,108 @@
 package com.mho.training.features.trailers
 
-import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import com.example.android.domain.Trailer
+import androidx.core.view.isVisible
 import com.mho.training.R
 import com.mho.training.adapters.trailer.TrailerListAdapter
 import com.mho.training.databinding.FragmentTrailersBinding
+import com.mho.training.features.trailers.di.TrailersFragmentComponent
+import com.mho.training.features.trailers.di.TrailersFragmentModule
+import com.mho.training.features.trailers.mvi.*
+import com.mho.training.features.trailers.router.TrailerRouter
+import com.mho.training.mvi.MviRouter
+import com.mho.training.mviandroid.MviFragment
 import com.mho.training.utils.Constants
 import com.mho.training.utils.app
 import com.mho.training.utils.getViewModel
 import kotlinx.android.synthetic.main.fragment_trailers.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.merge
 
-class TrailersFragment : Fragment() {
+@FlowPreview
+@ExperimentalCoroutinesApi
+class TrailersFragment : MviFragment<
+        TrailerIntent,
+        TrailerAction,
+        TrailerViewState,
+        TrailerResult,
+        TrailerSideEffect,
+        TrailersViewModel,
+        FragmentTrailersBinding,
+        >() {
 
     //region Fields
 
-    private lateinit var listener: OnTrailersFragmentListener
+    private val openTrailerIntentChannel = Channel<TrailerIntent.OpenTrailerIntent>()
+
     private lateinit var trailerListAdapter: TrailerListAdapter
     private lateinit var component: TrailersFragmentComponent
-
-    private val viewModel: TrailersViewModel by lazy {
-        getViewModel { component.trailersViewModel }
-    }
 
     //endregion
 
     //region Override Methods & Callbacks
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        try{
-            listener = context as OnTrailersFragmentListener
-        }catch (e: ClassCastException){
-            throw ClassCastException("$context must implement OnTrailersFragmentListener")
-        }
+    override val fragmentLayout: Int
+        get() = R.layout.fragment_trailers
+
+    override val viewModel: TrailersViewModel by lazy {
+        getViewModel { component.trailersViewModel }
+    }
+
+    override val router: MviRouter<TrailerSideEffect> by lazy {
+        TrailerRouter(requireActivity())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        component = app.component.plus(TrailersFragmentModule(
+        component = app.component.plus(
+            TrailersFragmentModule(
             arguments?.getInt(Constants.EXTRA_MOVIE_ID, 0) ?: 0
-        ))
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        return DataBindingUtil.inflate<FragmentTrailersBinding>(
-            inflater,
-            R.layout.fragment_trailers,
-            container,
-            false
-        ).apply {
-            viewmodel = viewModel
-            lifecycleOwner = this@TrailersFragment
-        }.root
+        )
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        trailerListAdapter = TrailerListAdapter(::openTrailer)
+        trailerListAdapter = TrailerListAdapter(openTrailerIntentChannel)
 
         trailerListView.adapter = trailerListAdapter
+    }
 
-        viewModel.onTrailersFromMovie()
+    override fun FragmentTrailersBinding.initializeDataBinding() {
+        viewmodel = viewModel
+        lifecycleOwner = this@TrailersFragment
+    }
+
+    override fun intents(): Flow<TrailerIntent> =
+        merge(loadAllReviewIntent(), openTrailerIntent())
+
+    override fun render(state: TrailerViewState) {
+        trailerProgressBar.isVisible = state.isLoading
+        trailerErrorText.isVisible = state.error != null
+
+        (trailerListView.adapter as? TrailerListAdapter)?.let {
+            it.trailers = state.trailers
+        }
     }
 
     //endregion
 
     //region Private Methods
 
-    private fun openTrailer(trailer: Trailer){
-        listener.openTrailer(trailer)
-    }
+    private fun loadAllReviewIntent(): Flow<TrailerIntent> =
+        flow {
+            emit(TrailerIntent.LoadAllTrailerIntent)
+        }
 
-    //endregion
-
-    //region Inner Classes & Callbacks
-
-    interface OnTrailersFragmentListener {
-        fun openTrailer(trailer: Trailer)
-    }
+    private fun openTrailerIntent(): Flow<TrailerIntent> = openTrailerIntentChannel.consumeAsFlow()
 
     //endregion
 
