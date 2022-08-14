@@ -9,10 +9,10 @@ import com.mho.training.mvi.MviRouter
 
 class TrailerRouter(
     private val activity: Activity,
-): MviRouter<TrailerSideEffect> {
+) : MviRouter<TrailerSideEffect> {
 
     override fun route(sideEffect: TrailerSideEffect) {
-        when(sideEffect) {
+        when (sideEffect) {
             is TrailerSideEffect.OpenTrailer -> openTrailer(sideEffect.trailer)
             TrailerSideEffect.NoOp -> { }
         }

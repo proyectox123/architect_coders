@@ -1,11 +1,12 @@
 include ':app',
+        ':coreAndroid',
         ':data',
-        ':usecases',
         ':domain',
+        ':features:trailer',
         ':frameworkretrofit',
         ':frameworkroom',
         ':mvi',
-        ':testShared'
-include ':mviandroid'
-include ':features:trailer'
-include ':coreAndroid'
+        ':mviandroid',
+        ':testShared',
+        ':usecases'
+

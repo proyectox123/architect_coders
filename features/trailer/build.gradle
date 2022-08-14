@@ -5,6 +5,8 @@ plugins {
     id 'kotlin-android-extensions'
 }
 
+apply from: '../../code_quality_tools/ktlint.gradle'
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
 
@@ -37,16 +39,6 @@ android {
 
     lintOptions {
         checkDependencies true
-    }
-
-    testOptions {
-        animationsDisabled true
-
-        unitTests.all {
-            jacoco {
-                includeNoLocationClasses = true
-            }
-        }
     }
 
     androidExtensions {

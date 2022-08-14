@@ -23,7 +23,7 @@ class TrailerActionProcessor(
             is TrailerAction.OpenTrailerAction -> openTrailer(action.trailer)
         }
 
-    private fun loadAllTrailer(movieId: Int) : Flow<TrailerResult> =
+    private fun loadAllTrailer(movieId: Int): Flow<TrailerResult> =
         flow {
             emit(validateTrailerListUseCase(getTrailerListUseCase.invoke(movieId)))
         }.onStart {
@@ -32,7 +32,7 @@ class TrailerActionProcessor(
             emit(TrailerResult.LoadAllTrailerResult.Failure(error))
         }
 
-    private fun openTrailer(trailer: Trailer) : Flow<TrailerResult> = flow {
+    private fun openTrailer(trailer: Trailer): Flow<TrailerResult> = flow {
         emit(TrailerResult.OpenTrailerResult.Success(trailer))
     }
 

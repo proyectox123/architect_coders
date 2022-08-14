@@ -11,7 +11,7 @@ class TrailerViewStateReducer : ViewStateReducerForTrailer {
     override fun reduce(
         previous: TrailerViewState,
         result: TrailerResult
-    ): TrailerViewState = when(result) {
+    ): TrailerViewState = when (result) {
         TrailerResult.LoadAllTrailerResult.Loading -> previous.copy(isLoading = true)
         is TrailerResult.LoadAllTrailerResult.Failure ->
             previous.copy(isLoading = false, error = result.error, trailers = emptyList())

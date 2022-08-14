@@ -9,7 +9,7 @@ data class TrailerViewState(
     val error: Throwable?
 ) : Mvi.ViewState {
     companion object {
-        fun idle() : TrailerViewState = TrailerViewState(
+        fun idle(): TrailerViewState = TrailerViewState(
             isLoading = false,
             trailers = emptyList(),
             error = null

@@ -13,9 +13,9 @@ class TrailerViewHolder(
     private val dataBinding: ItemTrailerBinding,
     private val sendChannel: SendChannel<TrailerIntent.OpenTrailerIntent>,
 ) :
-    RecyclerView.ViewHolder(dataBinding.root){
+    RecyclerView.ViewHolder(dataBinding.root) {
 
-    fun bind(trailer: Trailer){
+    fun bind(trailer: Trailer) {
         dataBinding.trailer = trailer
         itemView.setOnClickListener {
             sendChannel.safeOffer(TrailerIntent.OpenTrailerIntent(trailer))

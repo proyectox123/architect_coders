@@ -35,16 +35,6 @@ android {
         checkDependencies true
     }
 
-    testOptions {
-        animationsDisabled true
-
-        unitTests.all {
-            jacoco {
-                includeNoLocationClasses = true
-            }
-        }
-    }
-
     androidExtensions {
         experimental = true
     }

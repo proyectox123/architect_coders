@@ -18,25 +18,25 @@ import kotlinx.coroutines.FlowPreview
 
 @FlowPreview
 typealias IntentInterpreterForTrailer =
-        @JvmSuppressWildcards MviIntentInterpreter<TrailerIntent, TrailerAction>
+    @JvmSuppressWildcards MviIntentInterpreter<TrailerIntent, TrailerAction>
 
 @FlowPreview
 typealias ActionProcessorForTrailer =
-        @JvmSuppressWildcards MviActionProcessor<TrailerAction, TrailerResult>
+    @JvmSuppressWildcards MviActionProcessor<TrailerAction, TrailerResult>
 
 @FlowPreview
 typealias ViewStateReducerForTrailer =
-        @JvmSuppressWildcards MviViewStateReducer<TrailerViewState, TrailerResult>
+    @JvmSuppressWildcards MviViewStateReducer<TrailerViewState, TrailerResult>
 
 @FlowPreview
 typealias SideEffectFactoryForTrailer =
-        @JvmSuppressWildcards MviSideEffectFactory<TrailerResult, TrailerSideEffect>
+    @JvmSuppressWildcards MviSideEffectFactory<TrailerResult, TrailerSideEffect>
 
 @FlowPreview
 typealias StateMachineForTrailer = @JvmSuppressWildcards MviStateMachine<
-        TrailerIntent,
-        TrailerAction,
-        TrailerViewState,
-        TrailerResult,
-        TrailerSideEffect
-        >
+    TrailerIntent,
+    TrailerAction,
+    TrailerViewState,
+    TrailerResult,
+    TrailerSideEffect
+    >
