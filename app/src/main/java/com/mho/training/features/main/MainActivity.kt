@@ -9,6 +9,9 @@ import androidx.lifecycle.Observer
 import com.example.android.domain.Movie
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieGridAdapter
+import com.mho.training.coreandroid.extensions.getViewModel
+import com.mho.training.coreandroid.extensions.logD
+import com.mho.training.coreandroid.extensions.startActivity
 import com.mho.training.data.translators.toParcelableMovie
 import com.mho.training.databinding.ActivityMainBinding
 import com.mho.training.enums.MovieCategoryEnum

@@ -7,3 +7,5 @@ include ':app',
         ':mvi',
         ':testShared'
 include ':mviandroid'
+include ':features:trailer'
+include ':coreAndroid'

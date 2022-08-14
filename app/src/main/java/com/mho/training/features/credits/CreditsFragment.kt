@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import com.example.android.domain.Credit
 import com.mho.training.R
 import com.mho.training.adapters.credit.CreditListAdapter
+import com.mho.training.coreandroid.extensions.getViewModel
 import com.mho.training.databinding.FragmentCreditsBinding
 import com.mho.training.utils.Constants
 import com.mho.training.utils.app
-import com.mho.training.utils.getViewModel
 import kotlinx.android.synthetic.main.fragment_credits.*
 
 class CreditsFragment : Fragment() {

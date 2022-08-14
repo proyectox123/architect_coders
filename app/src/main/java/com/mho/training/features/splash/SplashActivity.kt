@@ -3,7 +3,7 @@ package com.mho.training.features.splash
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mho.training.features.login.LogInActivity
-import com.mho.training.utils.startActivity
+import com.mho.training.coreandroid.extensions.startActivity
 
 class SplashActivity : AppCompatActivity() {
 

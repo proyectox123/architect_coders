@@ -9,6 +9,9 @@ import com.example.android.domain.Credit
 import com.example.android.domain.Keyword
 import com.example.android.domain.Movie
 import com.mho.training.R
+import com.mho.training.coreandroid.extensions.addFragment
+import com.mho.training.coreandroid.extensions.getViewModel
+import com.mho.training.coreandroid.extensions.startActivity
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.data.translators.toParcelableMovie
 import com.mho.training.databinding.ActivityMovieDetailBinding

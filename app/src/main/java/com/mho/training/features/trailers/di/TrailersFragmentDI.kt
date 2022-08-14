@@ -2,9 +2,17 @@ package com.mho.training.features.trailers.di
 
 import com.example.android.data.repositories.TrailerRepository
 import com.example.android.usecases.GetTrailerListUseCase
-import com.mho.training.features.trailers.TrailersViewModel
-import com.mho.training.features.trailers.alias.*
-import com.mho.training.features.trailers.mvi.*
+import com.mho.training.features.trailer.mvi.alias.ActionProcessorForTrailer
+import com.mho.training.features.trailer.mvi.alias.IntentInterpreterForTrailer
+import com.mho.training.features.trailer.mvi.alias.SideEffectFactoryForTrailer
+import com.mho.training.features.trailer.mvi.alias.StateMachineForTrailer
+import com.mho.training.features.trailer.mvi.alias.ViewStateReducerForTrailer
+import com.mho.training.features.trailer.mvi.viewmodel.TrailerActionProcessor
+import com.mho.training.features.trailer.mvi.viewmodel.TrailerIntentInterpreter
+import com.mho.training.features.trailer.mvi.viewmodel.TrailerSideEffectFactory
+import com.mho.training.features.trailer.mvi.viewmodel.TrailerStateMachine
+import com.mho.training.features.trailer.mvi.viewmodel.TrailerViewModel
+import com.mho.training.features.trailer.mvi.viewmodel.TrailerViewStateReducer
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
@@ -53,7 +61,7 @@ class TrailersFragmentModule(
     @Provides
     fun reviewsViewModelProvider(
         reviewStateMachine: StateMachineForTrailer
-    ) = TrailersViewModel(
+    ) = TrailerViewModel(
         reviewStateMachine,
         Dispatchers.Main
     )
@@ -68,5 +76,5 @@ class TrailersFragmentModule(
 @FlowPreview
 @Subcomponent(modules = [(TrailersFragmentModule::class)])
 interface TrailersFragmentComponent {
-    val trailersViewModel: TrailersViewModel
+    val trailersViewModel: TrailerViewModel
 }

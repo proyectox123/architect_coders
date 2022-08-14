@@ -4,8 +4,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.domain.Keyword
 import com.mho.training.R
-import com.mho.training.utils.basicDiffUtil
-import com.mho.training.utils.bindingInflate
+import com.mho.training.coreandroid.extensions.basicDiffUtil
+import com.mho.training.coreandroid.extensions.bindingInflate
 
 class KeywordListAdapter(private val listener: (Keyword) -> Unit) :
     RecyclerView.Adapter<KeywordViewHolder>() {

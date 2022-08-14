@@ -5,7 +5,7 @@ import com.example.android.frameworkretrofit.data.models.person.ServerPerson
 import com.mho.training.utils.Constants
 import com.mho.training.utils.Constants.DATE_FORMAT_PATTERN_INPUT
 import com.mho.training.utils.Constants.DATE_FORMAT_PATTERN_OUTPUT
-import com.mho.training.utils.generateDateFormat
+import com.mho.training.coreandroid.extensions.generateDateFormat
 
 
 fun ServerPerson.toDomainPerson(): Person =

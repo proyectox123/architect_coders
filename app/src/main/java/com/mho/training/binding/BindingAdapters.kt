@@ -5,7 +5,11 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.android.domain.*
+import com.example.android.domain.Credit
+import com.example.android.domain.Keyword
+import com.example.android.domain.Movie
+import com.example.android.domain.Review
+import com.example.android.domain.Trailer
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mho.training.R
 import com.mho.training.adapters.credit.CreditListAdapter
@@ -14,26 +18,8 @@ import com.mho.training.adapters.movie.MovieGridAdapter
 import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.adapters.review.ReviewListAdapter
 import com.mho.training.adapters.trailer.TrailerListAdapter
-import com.mho.training.utils.loadUrl
-import com.mho.training.utils.loadUrlCircular
-
-@BindingAdapter("url")
-fun ImageView.bindUrl(url: String?) {
-    if (url.isNullOrBlank()){
-        setImageResource(R.drawable.ic_camera)
-    }else{
-        loadUrl(url, R.drawable.ic_camera, R.drawable.ic_broken_image)
-    }
-}
-
-@BindingAdapter("circularPhoto")
-fun ImageView.bindCircularPhotoUrl(url: String?) {
-    if (url.isNullOrBlank()) {
-        setImageResource(R.drawable.ic_camera)
-    } else {
-        loadUrlCircular(url, R.drawable.ic_camera, R.drawable.ic_broken_image)
-    }
-}
+import com.mho.training.coreandroid.extensions.loadUrl
+import com.mho.training.coreandroid.extensions.loadUrlCircular
 
 @BindingAdapter("itemsGrid")
 fun RecyclerView.setMovieItemsToGrid(movies: List<Movie>?) {

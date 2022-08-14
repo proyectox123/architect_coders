@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.mho.training.R
+import com.mho.training.coreandroid.extensions.getViewModel
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.databinding.FragmentMovieInfoBinding
 import com.mho.training.models.ParcelableMovie
 import com.mho.training.utils.Constants
 import com.mho.training.utils.app
-import com.mho.training.utils.getViewModel
 
 class MovieInfoFragment : Fragment() {
 

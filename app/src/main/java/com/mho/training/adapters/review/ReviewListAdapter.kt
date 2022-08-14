@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.domain.Review
 import com.mho.training.R
 import com.mho.training.features.reviews.mvi.ReviewIntent
-import com.mho.training.utils.basicDiffUtil
-import com.mho.training.utils.bindingInflate
+import com.mho.training.coreandroid.extensions.basicDiffUtil
+import com.mho.training.coreandroid.extensions.bindingInflate
 import kotlinx.coroutines.channels.SendChannel
 
 class ReviewListAdapter(

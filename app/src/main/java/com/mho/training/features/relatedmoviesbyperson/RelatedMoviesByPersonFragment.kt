@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import com.example.android.domain.Movie
 import com.mho.training.R
 import com.mho.training.adapters.movie.MovieListAdapter
+import com.mho.training.coreandroid.extensions.getViewModel
 import com.mho.training.databinding.FragmentRelatedMoviesByPersonBinding
 import com.mho.training.utils.Constants
 import com.mho.training.utils.app
-import com.mho.training.utils.getViewModel
 import kotlinx.android.synthetic.main.fragment_related_movies_by_person.*
 
 class RelatedMoviesByPersonFragment : Fragment() {

@@ -5,12 +5,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.mho.training.R
+import com.mho.training.coreandroid.extensions.getViewModel
+import com.mho.training.coreandroid.extensions.startActivity
 import com.mho.training.databinding.ActivityLogInBinding
 import com.mho.training.features.login.LogInViewModel.Navigation
 import com.mho.training.features.main.MainActivity
 import com.mho.training.utils.app
-import com.mho.training.utils.getViewModel
-import com.mho.training.utils.startActivity
 
 class LogInActivity: AppCompatActivity() {
 

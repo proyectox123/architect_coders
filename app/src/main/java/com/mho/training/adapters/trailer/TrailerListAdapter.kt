@@ -4,11 +4,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.domain.Trailer
 import com.mho.training.R
-import com.mho.training.features.trailers.mvi.TrailerIntent
-import com.mho.training.utils.basicDiffUtil
-import com.mho.training.utils.bindingInflate
+import com.mho.training.coreandroid.extensions.basicDiffUtil
+import com.mho.training.coreandroid.extensions.bindingInflate
+import com.mho.training.features.trailer.mvi.adapter.TrailerViewHolder
+import com.mho.training.features.trailer.mvi.states.TrailerIntent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
 
+@ExperimentalCoroutinesApi
 class TrailerListAdapter(
     private val sendChannel: SendChannel<TrailerIntent.OpenTrailerIntent>,
 ) :
