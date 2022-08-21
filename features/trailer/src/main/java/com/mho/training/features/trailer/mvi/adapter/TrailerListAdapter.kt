@@ -1,12 +1,11 @@
-package com.mho.training.adapters.trailer
+package com.mho.training.features.trailer.mvi.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.domain.Trailer
-import com.mho.training.R
 import com.mho.training.coreandroid.extensions.basicDiffUtil
 import com.mho.training.coreandroid.extensions.bindingInflate
-import com.mho.training.features.trailer.mvi.adapter.TrailerViewHolder
+import com.mho.training.features.trailer.R
 import com.mho.training.features.trailer.mvi.states.TrailerIntent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
@@ -19,7 +18,7 @@ class TrailerListAdapter(
 
     var trailers: List<Trailer> by basicDiffUtil(
         emptyList(),
-        areItemsTheSame = {old, new -> old.id == new.id}
+        areItemsTheSame = { old, new -> old.id == new.id }
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

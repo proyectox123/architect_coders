@@ -19,8 +19,8 @@ import com.mho.training.features.relatedmoviesbyperson.RelatedMoviesByPersonFrag
 import com.mho.training.features.relatedmoviesbyperson.RelatedMoviesByPersonFragmentModule
 import com.mho.training.features.reviews.di.ReviewsFragmentComponent
 import com.mho.training.features.reviews.di.ReviewsFragmentModule
-import com.mho.training.features.trailers.di.TrailersFragmentComponent
-import com.mho.training.features.trailers.di.TrailersFragmentModule
+import com.mho.training.features.trailer.mvi.di.TrailersFragmentComponent
+import com.mho.training.features.trailer.mvi.di.TrailersFragmentModule
 import dagger.BindsInstance
 import dagger.Component
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -30,8 +30,15 @@ import javax.inject.Singleton
 @ExperimentalCoroutinesApi
 @FlowPreview
 @Singleton
-@Component(modules = [AppModule::class, DataModule::class,
-    MovieRequestModule::class, RequestModule::class, ResourcesModule::class])
+@Component(
+    modules = [
+        AppModule::class,
+        DataModule::class,
+        MovieRequestModule::class,
+        RequestModule::class,
+        ResourcesModule::class
+    ]
+)
 interface MyMoviesComponent {
 
     fun plus(module: CreditsFragmentModule): CreditsFragmentComponent

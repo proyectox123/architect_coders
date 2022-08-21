@@ -1,6 +1,7 @@
 package com.mho.training.di
 
 import android.app.Application
+import com.mho.training.BuildConfig
 import com.mho.training.R
 import dagger.Module
 import dagger.Provides
@@ -87,4 +88,9 @@ class ResourcesModule {
     @Named("formatVoteAverage")
     fun formatVoteAverageProvider(app: Application): String =
         app.getString(R.string.text_movie_detail_vote_average)
+
+    @Provides
+    @Singleton
+    @Named("apiKey")
+    fun apiKeyProvider(): String = BuildConfig.MOVIE_DB_API_KEY
 }

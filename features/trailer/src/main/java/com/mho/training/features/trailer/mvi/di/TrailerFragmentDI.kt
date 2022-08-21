@@ -1,4 +1,4 @@
-package com.mho.training.features.trailers.di
+package com.mho.training.features.trailer.mvi.di
 
 import com.example.android.data.repositories.TrailerRepository
 import com.example.android.usecases.GetTrailerListUseCase
@@ -69,7 +69,6 @@ class TrailersFragmentModule(
     @Provides
     fun getTrailerListUseCaseProvider(trailerRepository: TrailerRepository) =
         GetTrailerListUseCase(trailerRepository)
-
 }
 
 @ExperimentalCoroutinesApi

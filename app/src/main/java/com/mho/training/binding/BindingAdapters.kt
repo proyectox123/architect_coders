@@ -1,7 +1,8 @@
+@file:Suppress("EXPERIMENTAL_IS_NOT_ENABLED")
+
 package com.mho.training.binding
 
 import android.view.View
-import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -17,9 +18,8 @@ import com.mho.training.adapters.keyword.KeywordListAdapter
 import com.mho.training.adapters.movie.MovieGridAdapter
 import com.mho.training.adapters.movie.MovieListAdapter
 import com.mho.training.adapters.review.ReviewListAdapter
-import com.mho.training.adapters.trailer.TrailerListAdapter
-import com.mho.training.coreandroid.extensions.loadUrl
-import com.mho.training.coreandroid.extensions.loadUrlCircular
+import com.mho.training.features.trailer.mvi.adapter.TrailerListAdapter
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @BindingAdapter("itemsGrid")
 fun RecyclerView.setMovieItemsToGrid(movies: List<Movie>?) {
@@ -56,6 +56,7 @@ fun RecyclerView.setReviews(reviews: List<Review>?) {
     }
 }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @BindingAdapter("items")
 fun RecyclerView.setTrailers(trailers: List<Trailer>?) {
     (adapter as? TrailerListAdapter)?.let {

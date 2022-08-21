@@ -43,7 +43,6 @@
     <string name="section_release_date">Release Date</string>
     <string name="section_keywords">Keywords</string>
     <string name="section_credits">Credits</string>
-    <string name="section_trailers">Trailers</string>
     <string name="section_reviews">Reviews</string>
     <string name="section_related_movies_by_credit">Related movies</string>
 
@@ -55,7 +54,6 @@
     <string name="error_during_fetching_reviews">Error occurred during fetching reviews!</string>
     <string name="error_during_fetching_trailers">Error occurred during fetching trailers!</string>
     <string name="error_log_in">Error occurred during log in!</string>
-    <string name="error_not_available">Not available</string>
     <string name="error_unable_to_fetch_credits">Unable to fetch credits!</string>
     <string name="error_unable_to_fetch_keywords">Unable to fetch keywords!</string>
     <string name="error_unable_to_fetch_movies">Unable to fetch movies!</string>

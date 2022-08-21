@@ -1,3 +1,6 @@
+@file:OptIn(FlowPreview::class)
+@file:Suppress("EXPERIMENTAL_IS_NOT_ENABLED")
+
 package com.mho.training.features.moviedetail
 
 import android.os.Bundle
@@ -15,17 +18,21 @@ import com.mho.training.coreandroid.extensions.startActivity
 import com.mho.training.data.translators.toDomainMovie
 import com.mho.training.data.translators.toParcelableMovie
 import com.mho.training.databinding.ActivityMovieDetailBinding
+import com.mho.training.features.TrailersFragment
 import com.mho.training.features.credits.CreditsFragment
 import com.mho.training.features.keywords.KeywordsFragment
 import com.mho.training.features.moviedetail.MovieDetailViewModel.Navigation
 import com.mho.training.features.movieinfo.MovieInfoFragment
 import com.mho.training.features.persondetail.PersonDetailActivity
 import com.mho.training.features.reviews.ReviewsFragment
-import com.mho.training.features.trailers.TrailersFragment
 import com.mho.training.models.ParcelableMovie
-import com.mho.training.utils.*
+import com.mho.training.utils.Constants
+import com.mho.training.utils.app
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 
 
+@ExperimentalCoroutinesApi
 class MovieDetailActivity : AppCompatActivity(),
     CreditsFragment.OnCreditsFragmentListener,
     KeywordsFragment.OnKeywordsFragmentListener {
