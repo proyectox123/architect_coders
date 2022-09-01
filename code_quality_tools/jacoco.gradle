@@ -1,0 +1,80 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion rootProject.jacocoVersion
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*'] // https://stackoverflow.com/questions/68065743/cannot-run-gradle-test-tasks-because-of-java-lang-noclassdeffounderror-jdk-inte
+}
+
+project.afterEvaluate {
+
+    tasks.create(name: "debugCoverage", type: JacocoReport, dependsOn: "testDebugUnitTest") {
+
+        group = "Reporting"
+        description = "Generate Jacoco coverage reports for the debug build."
+
+        reports {
+            html.getRequired().set(true)
+            xml.getRequired().set(true)
+        }
+
+        classDirectories.from = generateClassDirectoriesPaths()
+        sourceDirectories.from = generateSourceDirectoriesPaths()
+        executionData.from = generateExecutionDataPaths()
+    }
+}
+
+def generateClassDirectoriesPaths() {
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            'androidx/**/*.*',
+            '**/*$ViewInjector*.*',
+            '**/*Dagger*.*',
+            '**/*MembersInjector*.*',
+            '**/*_Factory.*',
+            '**/*_Provide*Factory*.*',
+            '**/*_ViewBinding*.*',
+            '**/AutoValue_*.*',
+            '**/R2.class',
+            '**/R2$*.class',
+            '**/*Directions$*',
+            '**/*Directions.*',
+            '**/*Binding.*'
+    ]
+
+    files(
+            [
+                    fileTree(
+                            dir: "${project.buildDir}/intermediates/javac/debug/classes",
+                            excludes: excludes,
+                    ),
+                    fileTree(
+                            dir: "${project.buildDir}/tmp/kotlin-classes/debug",
+                            excludes: excludes,
+                    ),
+            ]
+    )
+}
+
+def generateSourceDirectoriesPaths() {
+    def sourceDirs = [
+            "${project.projectDir}/src/main/java",
+            "${project.projectDir}/src/main/kotlin",
+            "${project.projectDir}/src/debug/java",
+            "${project.projectDir}/src/debug/kotlin"
+    ]
+
+    files(sourceDirs)
+}
+
+def generateExecutionDataPaths() {
+    files(["${project.buildDir}/jacoco/testDebugUnitTest.exec"])
+}

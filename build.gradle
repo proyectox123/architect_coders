@@ -2,7 +2,7 @@
 
 buildscript {
     ext.gradleVersion = '7.2.1'
-    ext.jacocoVersion = '0.2'
+    ext.jacocoVersion = '0.8.7'
     ext.kotlin_jdk7_version = 'jdk7-1.6.10'
     ext.kotlin_version = '1.6.21'
     ext.sonarqubeGradleVersion = '2.7.1'
@@ -19,11 +19,12 @@ buildscript {
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:$sonarqubeGradleVersion"
-        classpath "com.hiya:jacoco-android:$jacocoVersion"
+        classpath "org.jacoco:org.jacoco.core:$jacocoVersion"
     }
 }
 
 allprojects {
+//    apply plugin: 'jacoco'
     repositories {
         google()
         mavenCentral()

@@ -2,4 +2,5 @@
 <resources>
     <dimen name="trailer_thumbnail_height">90dp</dimen>
     <dimen name="trailer_thumbnail_width">120dp</dimen>
+    <dimen name="edit_text_text_size_login">22sp</dimen>
 </resources>
